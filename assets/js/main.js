@@ -49,17 +49,18 @@
   var BASE = resolveBase();
   window.__BO_BASE__ = BASE;
 
-  // Build a link target that works both locally (file://) and on web servers.
-  // For directory-style paths (ending in /), append index.html so file:// browsers resolve correctly.
-  // The empty path '' resolves to BASE itself + 'index.html' (the homepage relative to current page).
+  // Build a link target. Production servers (Vercel) auto-serve index.html for
+  // directory paths, so we leave directory paths trailing-slash and skip the
+  // explicit index.html. The redirect rule in vercel.json handles legacy
+  // /index.html URLs.
   function url(p) {
     p = p.replace(/^\//, '');
     var full = BASE + p;
-    // If the path is empty or ends with '/', append index.html
-    if (full === '' || full === BASE || /\/$/.test(full)) {
-      full = full + 'index.html';
+    // Empty path resolves to BASE (homepage). Trailing slash directory
+    // paths are served by Vercel's auto-index.
+    if (full === '' || full === BASE) {
+      full = BASE; // homepage
     }
-    // If the path looks like a file (has an extension), leave it
     return full;
   }
 
