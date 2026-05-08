@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parlay Calculator — Free Sports Betting Tool | BettingOnline.org</title>
+  <meta name="description" content="Free parlay calculator. Add up to 12 legs in any odds format and get instant payout, profit and combined American line. Built for sharp bettors.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/tools/parlay/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Parlay Calculator — Free Sports Betting Tool | BettingOnline.org">
+  <meta property="og:description" content="Free parlay calculator. Add up to 12 legs in any odds format and get instant payout, profit and combined American line. Built for sharp bettors.">
+  <meta property="og:url" content="https://www.bettingonline.org/tools/parlay/">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Parlay Calculator — Free Sports Betting Tool | BettingOnline.org">
+  <meta name="twitter:description" content="Free parlay calculator. Add up to 12 legs in any odds format and get instant payout, profit and combined American line. Built for sharp bettors.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://www.bettingonline.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Parlay", "item": "https://www.bettingonline.org/tools/parlay/"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "How to Calculate a Parlay Payout", "description": "Combine multiple sports bet odds into a single parlay and calculate your potential payout.", "step": [{"@type": "HowToStep", "name": "Enter each leg's odds", "text": "Type the American odds for each parlay leg into the calculator. You can add up to 12 legs.", "position": 1}, {"@type": "HowToStep", "name": "Set your stake", "text": "Enter the dollar amount you plan to wager on the parlay.", "position": 2}, {"@type": "HowToStep", "name": "Read the results", "text": "The calculator instantly shows total payout, profit, and combined American line.", "position": 3}], "totalTime": "PT1M", "supply": [{"@type": "HowToSupply", "name": "Sports betting odds and stake amount"}], "tool": [{"@type": "HowToTool", "name": "BettingOnline.org calculator"}]}</script>
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <link rel="alternate icon" href="../../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="../../index.html">Home</a><span class="sep">/</span><a href="../../tools/index.html">Tools</a><span class="sep">/</span><span>Parlay</span></div>
+      <span class="eyebrow">Calculator</span>
+      <h1>Parlay Calculator</h1>
+      <p class="lede">Combine up to 12 legs of any sport at any odds. Get the exact payout, profit, and combined American line. Works in American, Decimal or Fractional inputs.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="calc">
+        <div class="flex-between mb-3" style="flex-wrap:wrap; gap:12px">
+          <h3 class="mt-0 mb-0">Build your parlay</h3>
+          <div class="tabs" id="format-tabs">
+            <button class="tab active" type="button" data-fmt="american">American</button>
+            <button class="tab" type="button" data-fmt="decimal">Decimal</button>
+            <button class="tab" type="button" data-fmt="fractional">Fractional</button>
+          </div>
+        </div>
+        <div id="legs"></div>
+        <div class="flex" style="margin-top:12px">
+          <button class="btn btn-ghost" type="button" id="add-leg">+ Add leg</button>
+          <button class="btn btn-ghost" type="button" id="clear-legs">Clear all</button>
+        </div>
+        <div class="calc-grid mt-3">
+          <div class="field">
+            <label for="stake">Stake ($)</label>
+            <input id="stake" class="input" type="number" min="0" step="0.01" value="100">
+          </div>
+        </div>
+        <div class="calc-result mt-3">
+          <div class="calc-result-grid">
+            <div><div class="label">Total payout</div><div class="value" id="r-payout">—</div></div>
+            <div><div class="label">Profit</div><div class="value" id="r-profit">—</div></div>
+            <div><div class="label">Combined odds (Decimal)</div><div class="value" id="r-decimal">—</div></div>
+            <div><div class="label">Combined odds (American)</div><div class="value" id="r-american">—</div></div>
+          </div>
+        </div>
+        <p class="muted mt-3" style="font-size:.88rem">Each new leg multiplies your potential payout — and your risk. A 5-leg parlay at -110 each (52.4% implied per leg) has only a 4.0% chance to hit. Use the <a href="../ev/index.html">EV calculator</a> to check if a parlay is +EV before placing.</p>
+      </div>
+
+      <div class="card mt-4">
+        <h3 class="mt-0">When to bet a parlay (and when not to)</h3>
+        <p>Parlays look like high-upside bets — and they are. They're also priced with a built-in commission, so your long-run expected value is negative on most parlays. That said, certain parlay types are worth betting:</p>
+        <p><strong>Same Game Parlays for entertainment.</strong> They carry double-digit holds. Bet small, treat them as lottery tickets, don't expect to grind profit.</p>
+        <p><strong>2-3 leg parlays of independent +EV bets.</strong> If you've identified two genuinely +EV singles, parlaying them maintains the +EV — provided the legs are uncorrelated.</p>
+        <p><strong>Round robins for hedging.</strong> A round robin breaks a list of teams into smaller parlays. You sacrifice some upside but survive a single-leg loss.</p>
+        <p><strong>Avoid:</strong> 6+ leg parlays, parlays with heavily correlated legs, "boost" parlays priced 30-50% off true value.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    let format = 'american';
+    let legs = [{ value: '-110' }, { value: '-110' }];
+
+    function renderLegs() {
+      const c = document.getElementById('legs');
+      c.innerHTML = legs.map((leg, i) => `
+        <div class="flex" style="gap:8px; align-items:center; margin-bottom:8px">
+          <div style="width:40px; color:var(--text-muted); font-weight:700">${i+1}.</div>
+          <input class="input" type="text" data-i="${i}" value="${leg.value}" placeholder="${format==='american'?'-110, +200':format==='decimal'?'1.91, 3.00':'10/11, 5/2'}">
+          <button class="icon-btn" type="button" data-rm="${i}" aria-label="Remove leg" ${legs.length<=2?'disabled':''}>×</button>
+        </div>`).join('');
+      c.querySelectorAll('input').forEach(inp => inp.addEventListener('input', e => { legs[+e.target.dataset.i].value = e.target.value; compute(); }));
+      c.querySelectorAll('[data-rm]').forEach(btn => btn.addEventListener('click', e => { legs.splice(+e.target.dataset.rm, 1); renderLegs(); compute(); }));
+    }
+
+    function toDecimal(v) {
+      v = (v || '').toString().trim();
+      if (!v) return NaN;
+      if (format === 'american') return BO_CALC.americanToDecimal(parseFloat(v));
+      if (format === 'decimal')  return parseFloat(v);
+      if (format === 'fractional') return BO_CALC.fractionalToDecimal(v);
+    }
+
+    function compute() {
+      const stake = parseFloat(document.getElementById('stake').value || '0');
+      let combined = 1;
+      let valid = true;
+      for (const leg of legs) {
+        const d = toDecimal(leg.value);
+        if (!isFinite(d) || d <= 1) { valid = false; break; }
+        combined *= d;
+      }
+      const $ = id => document.getElementById(id);
+      if (!valid || stake <= 0) {
+        $('r-payout').textContent = '—'; $('r-profit').textContent='—'; $('r-decimal').textContent='—'; $('r-american').textContent='—';
+        return;
+      }
+      const payout = combined * stake;
+      const profit = payout - stake;
+      $('r-payout').textContent = '$' + payout.toFixed(2);
+      $('r-profit').textContent = '$' + profit.toFixed(2);
+      $('r-decimal').textContent = combined.toFixed(3);
+      const am = BO_CALC.decimalToAmerican(combined);
+      $('r-american').textContent = (am > 0 ? '+' : '') + am;
+    }
+
+    document.getElementById('add-leg').addEventListener('click', () => { if (legs.length >= 12) return; legs.push({ value: format === 'american' ? '-110' : format === 'decimal' ? '1.91' : '10/11' }); renderLegs(); compute(); });
+    document.getElementById('clear-legs').addEventListener('click', () => { legs = [{value:''},{value:''}]; renderLegs(); compute(); });
+    document.getElementById('stake').addEventListener('input', compute);
+    document.querySelectorAll('#format-tabs .tab').forEach(t => t.addEventListener('click', () => {
+      document.querySelectorAll('#format-tabs .tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      format = t.dataset.fmt;
+      // convert existing values to new format
+      legs = legs.map(l => {
+        const d = toDecimalAny(l.value);
+        if (!isFinite(d) || d <= 1) return { value: '' };
+        if (format === 'american') return { value: String(BO_CALC.decimalToAmerican(d)) };
+        if (format === 'decimal') return { value: d.toFixed(3) };
+        return { value: BO_CALC.decimalToFractional(d) };
+      });
+      renderLegs(); compute();
+    }));
+
+    function toDecimalAny(v) {
+      // try to figure out current format
+      if (typeof v !== 'string') v = String(v);
+      v = v.trim();
+      if (v.indexOf('/') > 0) return BO_CALC.fractionalToDecimal(v);
+      const n = parseFloat(v);
+      if (!isFinite(n)) return NaN;
+      if (n > 0 && n < 30 && (v.indexOf('.') > -1 || (n >= 1 && n < 100))) {
+        // ambiguous; if integer >= 100 or has +/-, treat as american
+        if (Math.abs(n) >= 100 && v.indexOf('.') === -1) return BO_CALC.americanToDecimal(n);
+        return n;
+      }
+      return BO_CALC.americanToDecimal(n);
+    }
+
+    renderLegs(); compute();
+  </script>
+
+  <div data-site-footer></div>
+  <script defer src="../../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kelly Criterion Calculator | BettingOnline.org</title>
+  <meta name="description" content="Free Kelly Criterion calculator. Optimal bet sizing for long-term bankroll growth. Full Kelly and fractional Kelly supported.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/tools/kelly/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Kelly Criterion Calculator | BettingOnline.org">
+  <meta property="og:description" content="Free Kelly Criterion calculator. Optimal bet sizing for long-term bankroll growth. Full Kelly and fractional Kelly supported.">
+  <meta property="og:url" content="https://www.bettingonline.org/tools/kelly/">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kelly Criterion Calculator | BettingOnline.org">
+  <meta name="twitter:description" content="Free Kelly Criterion calculator. Optimal bet sizing for long-term bankroll growth. Full Kelly and fractional Kelly supported.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://www.bettingonline.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Kelly Criterion", "item": "https://www.bettingonline.org/tools/kelly/"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "How to Calculate Kelly Criterion Bet Size", "description": "Calculate the mathematically optimal bet size for long-run bankroll growth.", "step": [{"@type": "HowToStep", "name": "Enter your bankroll", "text": "Type your total betting bankroll in dollars.", "position": 1}, {"@type": "HowToStep", "name": "Estimate win probability", "text": "Enter your honest win probability for the bet.", "position": 2}, {"@type": "HowToStep", "name": "Enter the offered odds", "text": "Type the American odds.", "position": 3}, {"@type": "HowToStep", "name": "Choose Kelly fraction", "text": "Half Kelly is recommended \u2014 it produces 75% of full Kelly's growth at half the variance.", "position": 4}, {"@type": "HowToStep", "name": "Read the optimal stake", "text": "The calculator shows your recommended stake amount.", "position": 5}], "totalTime": "PT1M", "supply": [{"@type": "HowToSupply", "name": "Sports betting odds and stake amount"}], "tool": [{"@type": "HowToTool", "name": "BettingOnline.org calculator"}]}</script>
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <link rel="alternate icon" href="../../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="../../index.html">Home</a><span class="sep">/</span><a href="../../tools/index.html">Tools</a><span class="sep">/</span><span>Kelly Criterion</span></div>
+      <span class="eyebrow">Calculator</span>
+      <h1>Kelly Criterion Calculator</h1>
+      <p class="lede">The mathematically optimal way to size bets for long-run bankroll growth. Most pros run quarter or half Kelly to soften the variance.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="calc">
+        <div class="calc-grid">
+          <div class="field"><label for="prob">Win probability (%)</label><input id="prob" class="input" type="number" min="0" max="100" step="0.01" value="55"></div>
+          <div class="field"><label for="odds">Offered odds (American)</label><input id="odds" class="input" type="text" value="-110"></div>
+          <div class="field"><label for="bankroll">Bankroll ($)</label><input id="bankroll" class="input" type="number" min="0" step="1" value="1000"></div>
+          <div class="field"><label for="fraction">Kelly fraction</label>
+            <select id="fraction" class="select">
+              <option value="1">Full Kelly (1.0×)</option>
+              <option value="0.5" selected>Half Kelly (0.5×) — recommended</option>
+              <option value="0.25">Quarter Kelly (0.25×)</option>
+              <option value="0.1">Tenth Kelly (0.1×) — conservative</option>
+            </select>
+          </div>
+        </div>
+        <div class="calc-result mt-3">
+          <div class="calc-result-grid">
+            <div><div class="label">Optimal stake</div><div class="value" id="r-stake">—</div></div>
+            <div><div class="label">Bet size (% of roll)</div><div class="value" id="r-pct">—</div></div>
+            <div><div class="label">Edge</div><div class="value" id="r-edge">—</div></div>
+            <div><div class="label">Full Kelly</div><div class="value" id="r-full">—</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <h3 class="mt-0">Why most pros run fractional Kelly</h3>
+        <p>Full Kelly maximizes long-run bankroll growth — but the variance is brutal. A 55% bettor running full Kelly on -110 will see drawdowns of 30%+ regularly, even in winning years. That kind of swing is psychologically damaging and frequently leads bettors to abandon the system at the worst time.</p>
+        <p><strong>Half Kelly</strong> sacrifices about 25% of long-run growth for roughly 50% lower variance. <strong>Quarter Kelly</strong> sacrifices about 44% of growth for 75% lower variance. For most bettors, half Kelly is the sweet spot — meaningful growth without bankroll-destroying swings.</p>
+        <p>Note: if your edge estimate is wrong (and it usually is, at least a bit), full Kelly can be catastrophic. Fractional Kelly provides a buffer against your own overestimation of edge.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    function compute() {
+      const p = parseFloat($('prob').value) / 100;
+      const o = parseFloat($('odds').value);
+      const b = parseFloat($('bankroll').value || 0);
+      const f = parseFloat($('fraction').value);
+      const r = BO_CALC.kelly(p, o, b, f);
+      if (!r || b <= 0) { ['r-stake','r-pct','r-edge','r-full'].forEach(i => $(i).textContent = '—'); return; }
+      $('r-stake').textContent = '$' + r.betAmount.toFixed(2);
+      $('r-pct').textContent = (r.fractionalKelly * 100).toFixed(2) + '%';
+      $('r-edge').textContent = (r.edge>=0?'+':'') + (r.edge*100).toFixed(2) + '%';
+      $('r-full').textContent = (r.fullKelly * 100).toFixed(2) + '%';
+    }
+    ['prob','odds','bankroll','fraction'].forEach(i => $(i).addEventListener('input', compute));
+    compute();
+  </script>
+
+  <div data-site-footer></div>
+  <script defer src="../../assets/js/main.js"></script>
+</body>
+</html>

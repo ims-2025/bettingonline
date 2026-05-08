@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.bettingonline.org/sitemap.xml

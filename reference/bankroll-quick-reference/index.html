@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bankroll Quick Reference: Unit Sizing, Stop-Loss, Drawdown Survival | BettingOnline.org</title>
+  <meta name="description" content="Bankroll management quick reference: unit sizing tables, stop-loss rules, drawdown survival math, and Kelly Criterion shortcuts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/reference/bankroll-quick-reference/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Bankroll Quick Reference: Unit Sizing, Stop-Loss, Drawdown Survival">
+  <meta property="og:description" content="Bankroll management quick reference: unit sizing tables, stop-loss rules, drawdown survival math, and Kelly Criterion shortcuts.">
+  <meta property="og:url" content="https://www.bettingonline.org/reference/bankroll-quick-reference/">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bankroll Quick Reference: Unit Sizing, Stop-Loss, Drawdown Survival">
+  <meta name="twitter:description" content="Bankroll management quick reference: unit sizing tables, stop-loss rules, drawdown survival math, and Kelly Criterion shortcuts.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Reference", "item": "https://www.bettingonline.org/reference/"}, {"@type": "ListItem", "position": 3, "name": "Bankroll Quick Reference", "item": "https://www.bettingonline.org/reference/bankroll-quick-reference/"}]}</script>
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <link rel="alternate icon" href="../../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../../index.html">Home</a><span class="sep">/</span><a href="../index.html">Reference</a><span class="sep">/</span><span>Bankroll Quick Reference</span></div>
+      <span class="eyebrow">Quick reference</span>
+      <h1 style="margin-top:14px">Bankroll Quick Reference</h1>
+      <p class="lede">Unit sizing, stop-loss rules, drawdown survival math — for the bettor who wants the numbers, not the lecture.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <article class="article">
+        <h2>Unit sizing by bankroll</h2>
+        <p>A 'unit' is your standard bet size. Most professional bettors size at <strong>1% of bankroll</strong> per typical bet, with a 2-3% allowance for higher-conviction plays.</p>
+        <table>
+          <thead><tr><th>Bankroll</th><th>0.5% (cautious)</th><th>1% (standard)</th><th>2% (high conviction)</th><th>3% (max)</th><th>5% (red flag)</th></tr></thead>
+          <tbody><tr><td>$500</td><td>$2</td><td>$5</td><td>$10</td><td>$15</td><td>$25</td></tr>
+<tr><td>$1,000</td><td>$5</td><td>$10</td><td>$20</td><td>$30</td><td>$50</td></tr>
+<tr><td>$2,500</td><td>$12</td><td>$25</td><td>$50</td><td>$75</td><td>$125</td></tr>
+<tr><td>$5,000</td><td>$25</td><td>$50</td><td>$100</td><td>$150</td><td>$250</td></tr>
+<tr><td>$10,000</td><td>$50</td><td>$100</td><td>$200</td><td>$300</td><td>$500</td></tr>
+<tr><td>$25,000</td><td>$125</td><td>$250</td><td>$500</td><td>$750</td><td>$1250</td></tr></tbody>
+        </table>
+        <p class="muted" style="font-size:.9rem">5% of bankroll per bet is excessive for any sustained strategy. Avoid.</p>
+
+        <h2>Stop-loss rules</h2>
+        <ul>
+          <li><strong>Daily stop:</strong> 5-7% of bankroll. Lose this much in a day, walk away.</li>
+          <li><strong>Weekly stop:</strong> 12-15% of bankroll. Re-evaluate strategy.</li>
+          <li><strong>Monthly stop:</strong> 25% of bankroll. Take a hard look at process.</li>
+          <li><strong>Tilt rule:</strong> after two consecutive losses, halve your unit size for the next 5 bets.</li>
+        </ul>
+
+        <h2>Drawdown survival</h2>
+        <p>Even +EV strategies experience long losing streaks. Plan for them.</p>
+        <table>
+          <thead><tr><th>Win rate (-110)</th><th>Probability of 5-bet losing streak</th><th>10-bet streak</th><th>15-bet streak</th></tr></thead>
+          <tbody>
+            <tr><td>52.4% (break-even)</td><td>2.4%</td><td>0.06%</td><td>0.001%</td></tr>
+            <tr><td>54%</td><td>2.0%</td><td>0.04%</td><td>0.0008%</td></tr>
+            <tr><td>56%</td><td>1.6%</td><td>0.02%</td><td>0.0004%</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="font-size:.9rem">Single-streak probabilities. Across a 500-bet season, you'll see at least one 5-loss streak with very high probability — this is variance, not edge failure.</p>
+
+        <h2>Kelly Criterion shortcut</h2>
+        <p>Full Kelly is mathematically optimal for compounding but emotionally brutal because of the variance. Most pros use <strong>fractional Kelly</strong> (¼ to ½). Quick rule:</p>
+        <ul>
+          <li>Edge of 1-2%: bet 0.5% of bankroll.</li>
+          <li>Edge of 3-5%: bet 1% of bankroll.</li>
+          <li>Edge of 5-8%: bet 1.5-2% of bankroll.</li>
+          <li>Edge of 8%+: bet 2-3% — but check your model carefully; double-digit edges are rare and usually wrong.</li>
+        </ul>
+        <p>For exact sizing: <a href='../../tools/kelly/index.html'>Kelly calculator</a>.</p>
+
+        <h2>The four rules</h2>
+        <ol>
+          <li><strong>Never bet money you can't afford to lose.</strong></li>
+          <li><strong>Cap unit size at 2-3% of bankroll.</strong></li>
+          <li><strong>Track every bet. Track CLV.</strong></li>
+          <li><strong>Never chase. The math hates you for it.</strong></li>
+        </ol>
+
+        <h2>Related</h2>
+        <ul>
+          <li><a href='../../guides/bankroll.html'>Full bankroll guide</a></li>
+          <li><a href='../../guides/closing-line-value.html'>CLV explained</a></li>
+          <li><a href='../glossary/index.html'>Glossary</a></li>
+          <li><a href='../cheat-sheet/index.html'>Bet type cheat sheet</a></li>
+          <li><a href='../common-mistakes/index.html'>Common mistakes &amp; fixes</a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../../assets/js/main.js"></script>
+</body>
+</html>

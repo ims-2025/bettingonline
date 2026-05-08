@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Variance vs Skill: How to Tell What&#x27;s Real and What&#x27;s Luck | BettingOnline.org</title>
+  <meta name="description" content="Variance vs skill in sports betting: sample-size requirements, standard deviation math, and how to know whether your bottom line reflects real edge or random walk.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/guides/variance-vs-skill.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Variance vs Skill: How to Tell What&#x27;s Real and What&#x27;s Luck">
+  <meta property="og:description" content="Variance vs skill in sports betting: sample-size requirements, standard deviation math, and how to know whether your bottom line reflects real edge or random walk.">
+  <meta property="og:url" content="https://www.bettingonline.org/guides/variance-vs-skill.html">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Variance vs Skill: How to Tell What&#x27;s Real and What&#x27;s Luck">
+  <meta name="twitter:description" content="Variance vs skill in sports betting: sample-size requirements, standard deviation math, and how to know whether your bottom line reflects real edge or random walk.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.bettingonline.org/guides/"}, {"@type": "ListItem", "position": 3, "name": "Variance vs Skill: How to Tell What's Real and What's Luck", "item": "https://www.bettingonline.org/guides/variance-vs-skill.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Variance vs Skill: How to Tell What's Real and What's Luck", "description": "Variance vs skill in sports betting: sample-size requirements, standard deviation math, and how to know whether your bottom line reflects real edge or random walk.", "url": "https://www.bettingonline.org/guides/variance-vs-skill.html", "publisher": {"@type": "Organization", "name": "BettingOnline.org", "logo": {"@type": "ImageObject", "url": "https://www.bettingonline.org/assets/img/logo.png"}}, "author": {"@type": "Person", "name": "Jordan Reyes", "url": "https://www.bettingonline.org/authors/jordan-reyes/"}, "datePublished": "2026-04-30", "dateModified": "2026-04-30", "mainEntityOfPage": "https://www.bettingonline.org/guides/variance-vs-skill.html"}</script>
+  <link rel="alternate icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../index.html">Home</a><span class="sep">/</span><a href="../guides/index.html">Guides</a><span class="sep">/</span><span>Variance vs Skill: How to Tell What&#x27;s Real and What&#x27;s Luck</span></div>
+      <span class="eyebrow">Advanced · 11 min read</span>
+      <h1 style="margin-top:14px">Variance vs Skill: How to Tell What&#x27;s Real and What&#x27;s Luck</h1>
+      <p class="lede">A 60% week tells you nothing about your skill. A 200-bet sample tells you a little. A 1,000-bet sample tells you most of what you need.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 40px">
+        <article class="article" style="margin:0">
+          <p>Sports betting variance is enormous. A break-even bettor (52.4% win rate at -110, the math floor) will see weeks where they're 8-2 and weeks where they're 2-8 — and neither result tells them anything about their actual skill. Most retail bettors confuse variance for signal in both directions: assuming hot streaks are skill and cold streaks are bad luck. Both can be true. Both are usually neither.</p>
+
+<h2>The math of variance</h2>
+<p>For a binary bet at -110 (52.4% break-even), the standard deviation per bet is approximately 1 unit. Across N bets, the total standard deviation scales with √N. So:</p>
+<ul>
+  <li>10 bets: stdev ~3.2 units. A 4-unit profit is within one standard deviation — variance, not signal.</li>
+  <li>100 bets: stdev ~10 units. A 12-unit profit is within one stdev.</li>
+  <li>1,000 bets: stdev ~32 units. A 50-unit profit is meaningful but not conclusive.</li>
+  <li>10,000 bets: stdev ~100 units. A 200-unit profit is a strong signal.</li>
+</ul>
+<p>The key takeaway: short-sample results are mostly variance. You need 1,000+ bets before you can confidently say your edge (or lack of edge) is real.</p>
+
+<h2>What 'real edge' means</h2>
+<p>A bettor with a 'real' 2% edge over the long run will see this distribution at -110:</p>
+<table>
+  <thead><tr><th>Sample</th><th>Expected profit (units)</th><th>1-stdev range</th></tr></thead>
+  <tbody>
+    <tr><td>100 bets</td><td>+2</td><td>-8 to +12</td></tr>
+    <tr><td>500 bets</td><td>+10</td><td>-12 to +32</td></tr>
+    <tr><td>1,000 bets</td><td>+20</td><td>-12 to +52</td></tr>
+    <tr><td>5,000 bets</td><td>+100</td><td>+30 to +170</td></tr>
+  </tbody>
+</table>
+<p>That's a real-edge bettor. They can lose money over 100, 500, even 1,000 bet samples — and still have edge. Conversely: a break-even bettor can win 30 units over 1,000 bets purely from variance.</p>
+
+<h2>The sample-size question for any specific decision</h2>
+<p>If you're trying to decide whether your NBA player props edge is real:</p>
+<ul>
+  <li>20 bets: completely uninterpretable. Variance dominates.</li>
+  <li>50 bets: barely informative. ±5 units of variance per typical bet level.</li>
+  <li>100 bets: weakly informative. Look at CLV alongside W/L.</li>
+  <li>200 bets: meaningfully informative. CLV trend reliable.</li>
+  <li>500+ bets: high signal. W/L starting to converge to true edge.</li>
+</ul>
+<p>The accelerated signal: closing line value. CLV converges much faster than W/L. A 200-bet sample with consistent +1.5% CLV is a stronger signal of edge than 200 bets with 56% win rate.</p>
+
+<h2>Standard deviation in practice</h2>
+<p>Three formulas every serious bettor should internalize:</p>
+<ol>
+  <li><strong>Single-bet stdev:</strong> approximately 1 unit at -110. (Computed: √(p×(1-p)×payoff_squared))</li>
+  <li><strong>N-bet stdev:</strong> single-bet stdev × √N.</li>
+  <li><strong>Z-score:</strong> (observed result - expected result) / stdev. A z-score of 2 means the result is at the 97.5th percentile or beyond — strong but not conclusive evidence.</li>
+</ol>
+<p>For the math averse: any result within ±2 standard deviations of expected is consistent with variance, not edge. ±3 stdev is strong evidence of either edge or bad luck.</p>
+
+<h2>The illusion of momentum</h2>
+<p>A common mental error: 'I've been hitting lately, my reads are sharp, I should size up.' That feeling is almost always variance, not skill change. Skill changes slowly. Variance changes constantly. Sizing up after a hot streak is the textbook way to lose money — you're betting bigger right when reverse-variance is most likely.</p>
+<p>Discipline: keep stake size constant unless your bankroll has changed materially. Hot streak ≠ size up. Cold streak ≠ size down (that's just chasing in disguise).</p>
+
+<h2>How to evaluate any 'edge' claim</h2>
+<p>When someone (you, a tout, a Twitter account) claims to have edge, ask:</p>
+<ol>
+  <li>What's the sample size? (less than 200 bets = weak)</li>
+  <li>What's the win rate AND the CLV? (W/L without CLV is incomplete)</li>
+  <li>What's the variance profile? (10-bet streaks at break-even are normal)</li>
+  <li>Is the edge concentrated in one market or distributed? (concentrated = higher chance of luck)</li>
+  <li>How was it tracked? (post-hoc results curation = unreliable)</li>
+</ol>
+<p>If the answers are weak on any dimension, the 'edge' is probably variance.</p>
+
+<h2>The bigger frame</h2>
+<p>Most retail bettors who think they have edge don't. Most who think they're unlucky are actually playing slightly -EV. Honest tracking and CLV analysis are the only way to know which category you're in. The good news: if you genuinely have edge, even a small one, the math works in your favor over thousands of bets. The bad news: variance can hide edge for hundreds of bets, both ways.</p>
+
+<h2>Discipline rules</h2>
+<ol>
+  <li><strong>Don't size up on hot streaks.</strong></li>
+  <li><strong>Don't size down on cold streaks.</strong></li>
+  <li><strong>Track CLV alongside W/L.</strong> The fast signal.</li>
+  <li><strong>Compute z-scores on your samples periodically.</strong> See where you are statistically.</li>
+  <li><strong>Plan bankroll for 10-bet losing streaks.</strong> They will happen.</li>
+</ol>
+
+<h2>Related</h2>
+<ul>
+  <li><a href="closing-line-value.html">Closing Line Value</a></li>
+  <li><a href="bankroll.html">Bankroll management</a></li>
+  <li><a href="evaluate-betting-model.html">How to evaluate a betting model</a></li>
+  <li><a href="why-retail-bettors-lose.html">Why retail bettors lose</a></li>
+</ul>
+          <hr>
+          <p class="byline muted" style="font-size:.9rem">By <a href="../authors/jordan-reyes/index.html"><strong>Jordan Reyes</strong></a> · Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span></p>
+        </article>
+        
+        <aside>
+          <div class="card mb-3" style="position:sticky; top:88px">
+            <h4 class="mt-0">Top sportsbooks</h4>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <a href="../reviews/draftkings/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>DraftKings</strong><br><small class="muted">$150 bonus bets</small></div><span class="tag primary">#1</span></a>
+              <a href="../reviews/fanduel/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>FanDuel</strong><br><small class="muted">$1,000 first-bet</small></div><span class="tag">Best UX</span></a>
+              <a href="../reviews/betmgm/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>BetMGM</strong><br><small class="muted">$1,500 first-bet</small></div><span class="tag">Loyalty</span></a>
+              <a href="../reviews/caesars/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>Caesars</strong><br><small class="muted">$300 bonus bets</small></div><span class="tag">Rewards</span></a>
+            </div>
+            <a href="../reviews/index.html" class="btn btn-primary btn-block mt-2">All reviews</a>
+          </div>
+          <div class="card mb-3">
+            <h4 class="mt-0">Free tools</h4>
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <a href="../tools/odds-converter/index.html" class="btn btn-ghost btn-sm">Odds converter →</a>
+              <a href="../tools/parlay/index.html" class="btn btn-ghost btn-sm">Parlay calc →</a>
+              <a href="../tools/ev/index.html" class="btn btn-ghost btn-sm">Expected value →</a>
+              <a href="../tools/kelly/index.html" class="btn btn-ghost btn-sm">Kelly criterion →</a>
+              <a href="../tools/hedge/index.html" class="btn btn-ghost btn-sm">Hedge →</a>
+              <a href="../tools/arbitrage/index.html" class="btn btn-ghost btn-sm">Arbitrage →</a>
+            </div>
+          </div>
+          <div class="card">
+            <h4 class="mt-0">Featured report</h4>
+            <p class="muted">2026 US Sports Betting State of the Industry — handle, share, forecasts.</p>
+            <a href="../reports/2026-state-of-the-industry/index.html" class="btn btn-primary btn-block">Read the report</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../assets/js/main.js"></script>
+</body>
+</html>

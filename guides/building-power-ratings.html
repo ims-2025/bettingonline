@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Building Power Ratings: From Spreadsheet to Real Edge | BettingOnline.org</title>
+  <meta name="description" content="Building power ratings guide: from your first basic team-strength model through realistic application, calibration, and the trap of over-engineering.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/guides/building-power-ratings.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Building Power Ratings: From Spreadsheet to Real Edge">
+  <meta property="og:description" content="Building power ratings guide: from your first basic team-strength model through realistic application, calibration, and the trap of over-engineering.">
+  <meta property="og:url" content="https://www.bettingonline.org/guides/building-power-ratings.html">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Building Power Ratings: From Spreadsheet to Real Edge">
+  <meta name="twitter:description" content="Building power ratings guide: from your first basic team-strength model through realistic application, calibration, and the trap of over-engineering.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.bettingonline.org/guides/"}, {"@type": "ListItem", "position": 3, "name": "Building Power Ratings: From Spreadsheet to Real Edge", "item": "https://www.bettingonline.org/guides/building-power-ratings.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Building Power Ratings: From Spreadsheet to Real Edge", "description": "Building power ratings guide: from your first basic team-strength model through realistic application, calibration, and the trap of over-engineering.", "url": "https://www.bettingonline.org/guides/building-power-ratings.html", "publisher": {"@type": "Organization", "name": "BettingOnline.org", "logo": {"@type": "ImageObject", "url": "https://www.bettingonline.org/assets/img/logo.png"}}, "author": {"@type": "Person", "name": "Alex Park", "url": "https://www.bettingonline.org/authors/alex-park/"}, "datePublished": "2026-04-30", "dateModified": "2026-04-30", "mainEntityOfPage": "https://www.bettingonline.org/guides/building-power-ratings.html"}</script>
+  <link rel="alternate icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../index.html">Home</a><span class="sep">/</span><a href="../guides/index.html">Guides</a><span class="sep">/</span><span>Building Power Ratings: From Spreadsheet to Real Edge</span></div>
+      <span class="eyebrow">Advanced · 13 min read</span>
+      <h1 style="margin-top:14px">Building Power Ratings: From Spreadsheet to Real Edge</h1>
+      <p class="lede">Power ratings are the foundation of any custom model. The math is approachable. The discipline is harder.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 40px">
+        <article class="article" style="margin:0">
+          <p>A power rating is a single-number estimate of a team's strength. The market produces implicit power ratings every time it sets a spread. Building your own gives you a fair-line estimate that's independent of the market — which is the prerequisite for measuring your edge against it. The math is straightforward; the discipline is in not over-engineering.</p>
+
+<h2>What a power rating is</h2>
+<p>A power rating expresses team quality on a points-per-game scale. If the Patriots have a power rating of +7 and the Bills have +3, the model expects the Patriots to win by 4 points on a neutral field. Add home-field advantage (+2-3 in NFL), get the spread.</p>
+
+<h2>The simplest model: margin-of-victory averaging</h2>
+<p>Start with a 5-line model:</p>
+<ol>
+  <li>For each team, compute average point margin per game season-to-date.</li>
+  <li>Adjust for opponent strength (subtract opponent's average margin).</li>
+  <li>Apply a regression-to-mean factor (multiply by 0.7 in early season, 0.85 in mid-season).</li>
+  <li>Add home-field advantage where applicable.</li>
+  <li>Compare to market spread.</li>
+</ol>
+<p>This is the entry-level model. It will be wrong in many ways. It's also surprisingly competitive against the market in mid-tier conferences and lower-volume sports.</p>
+
+<h2>The inputs that matter</h2>
+<p>Different sports weight inputs differently:</p>
+<ul>
+  <li><strong>NFL:</strong> Margin of victory + opponent adjustment + recency weighting + home/away. Sample size: 17 games (small).</li>
+  <li><strong>NBA:</strong> Net rating (offensive efficiency - defensive efficiency) + opponent adjustment + injury status + back-to-backs. Sample size: 82 games (medium).</li>
+  <li><strong>MLB:</strong> Pitcher-specific (xFIP, K%, BB%) + lineup wOBA + park factor. Sample size: 162 (large) but per-game pitching variance is huge.</li>
+  <li><strong>College football:</strong> Margin + opponent + offensive/defensive efficiency separately + transfer portal status. Lots of variance from rosters changing year-over-year.</li>
+</ul>
+
+<h2>The calibration problem</h2>
+<p>A power rating that produces 'right' answers on average isn't enough. You need <em>calibration</em>: when your model says the spread should be -4 and the market says -7, the model needs to be right enough times to justify the bet. Calibration tells you whether your model's probability estimates are reliable.</p>
+<p>Test calibration with a back-test: for every bet recommended by your model in the last 2 seasons, check whether the realized result matched the model's expected probability. A well-calibrated model that says 'this bet has 55% probability of winning' should win 55% of those bets.</p>
+
+<h2>The over-engineering trap</h2>
+<p>Most retail-built models suffer from over-engineering. Adding 30 inputs, 50 weights, and 10 layers of regression typically produces a model that <em>looks impressive</em>, fits historical data perfectly, and fails out-of-sample. The reason: with enough parameters, you can fit anything; you've fit the noise, not the signal.</p>
+<p>Two rules of thumb:</p>
+<ol>
+  <li>Start with 5-7 inputs. Add a new one only when you can articulate a specific reason it should improve the model and the back-test confirms.</li>
+  <li>Walk-forward test: train on 2022-2023 seasons, test on 2024. Train on 2022-2024, test on 2025. If the model works only with all-data training, it's overfit.</li>
+</ol>
+
+<h2>Beating the market vs being correlated with it</h2>
+<p>Most retail power ratings end up correlated with market spreads — meaning the bettor and the market agree on most games. That's not a bug; the market is informed. But correlation isn't edge. Edge is in the games where you and the market <em>disagree</em>, and you're right disproportionately.</p>
+<p>For your model to have edge, you need a specific reason to disagree with the market on specific games. 'My model has Bills +1 and the market has Bills -3' is informative only if you can articulate why your model is right (e.g., 'my model weights opponent-adjusted EPA more heavily than the market does, and the Bills have played a soft schedule that the market hasn't fully discounted').</p>
+
+<h2>Where retail-built models compete</h2>
+<ul>
+  <li><strong>Mid-tier college football and basketball.</strong> Lower trader attention; retail-built models can find spots where the market is just wrong.</li>
+  <li><strong>Lower-volume props.</strong> Pace-driven NBA player props, MLB strikeout props in obscure pitcher matchups.</li>
+  <li><strong>F5 baseball.</strong> See our <a href="mlb-first-five-innings.html">F5 guide</a>.</li>
+  <li><strong>WNBA, MLS, lesser-watched leagues.</strong> Lower hold percentage at sharp books.</li>
+</ul>
+
+<h2>Where retail-built models lose</h2>
+<ul>
+  <li><strong>NFL game lines.</strong> Most-bet, most-modeled, most-efficient market. Building a model that beats NFL game lines from retail is unrealistic absent specialized info.</li>
+  <li><strong>NBA top-stars markets.</strong> LeBron points, Curry threes, Tatum scoring — too many sharp models compete here.</li>
+  <li><strong>Top-level European soccer.</strong> Premier League, La Liga, Bundesliga top markets.</li>
+</ul>
+
+<h2>The 'just enough' model</h2>
+<p>The most efficient retail strategy is a 'just enough' model: simple, well-calibrated, and applied selectively to inefficient markets. Beat the market by 1.5% on 200 bets a year and you've added significant value to the bankroll. Don't try to build the perfect model; build the model that's good enough to justify a bet.</p>
+
+<h2>Tools and stack</h2>
+<ul>
+  <li><strong>Spreadsheet (Excel, Google Sheets):</strong> entry-level, fine for &lt;500 bets/year. Auto-pull historical data via Sheets imports.</li>
+  <li><strong>Python + Pandas + scikit-learn:</strong> medium-complexity. Most retail-built models live here.</li>
+  <li><strong>R + tidymodels:</strong> alternative; statistically more rigorous out of the box.</li>
+  <li><strong>Custom databases (PostgreSQL):</strong> for high-volume bettors with multiple models.</li>
+</ul>
+
+<h2>Discipline rules</h2>
+<ol>
+  <li><strong>Walk-forward test before betting.</strong> No exceptions.</li>
+  <li><strong>Bet small at first.</strong> 0.5% of bankroll until 100+ bets prove the model works in production.</li>
+  <li><strong>Track CLV per bet.</strong> CLV is a faster signal than W/L.</li>
+  <li><strong>Re-train regularly.</strong> A model trained on 2023 data may decay by 2026.</li>
+  <li><strong>Don't keep adding inputs.</strong> Most additions hurt out-of-sample performance.</li>
+</ol>
+
+<h2>Related</h2>
+<ul>
+  <li><a href="evaluate-betting-model.html">How to evaluate a betting model</a></li>
+  <li><a href="closing-line-value.html">Closing Line Value</a></li>
+  <li><a href="variance-vs-skill.html">Variance vs skill</a></li>
+  <li><a href="bet-tracking-workflow.html">Bet tracking workflow</a></li>
+</ul>
+          <hr>
+          <p class="byline muted" style="font-size:.9rem">By <a href="../authors/alex-park/index.html"><strong>Alex Park</strong></a> · Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span></p>
+        </article>
+        
+        <aside>
+          <div class="card mb-3" style="position:sticky; top:88px">
+            <h4 class="mt-0">Top sportsbooks</h4>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <a href="../reviews/draftkings/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>DraftKings</strong><br><small class="muted">$150 bonus bets</small></div><span class="tag primary">#1</span></a>
+              <a href="../reviews/fanduel/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>FanDuel</strong><br><small class="muted">$1,000 first-bet</small></div><span class="tag">Best UX</span></a>
+              <a href="../reviews/betmgm/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>BetMGM</strong><br><small class="muted">$1,500 first-bet</small></div><span class="tag">Loyalty</span></a>
+              <a href="../reviews/caesars/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>Caesars</strong><br><small class="muted">$300 bonus bets</small></div><span class="tag">Rewards</span></a>
+            </div>
+            <a href="../reviews/index.html" class="btn btn-primary btn-block mt-2">All reviews</a>
+          </div>
+          <div class="card mb-3">
+            <h4 class="mt-0">Free tools</h4>
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <a href="../tools/odds-converter/index.html" class="btn btn-ghost btn-sm">Odds converter →</a>
+              <a href="../tools/parlay/index.html" class="btn btn-ghost btn-sm">Parlay calc →</a>
+              <a href="../tools/ev/index.html" class="btn btn-ghost btn-sm">Expected value →</a>
+              <a href="../tools/kelly/index.html" class="btn btn-ghost btn-sm">Kelly criterion →</a>
+              <a href="../tools/hedge/index.html" class="btn btn-ghost btn-sm">Hedge →</a>
+              <a href="../tools/arbitrage/index.html" class="btn btn-ghost btn-sm">Arbitrage →</a>
+            </div>
+          </div>
+          <div class="card">
+            <h4 class="mt-0">Featured report</h4>
+            <p class="muted">2026 US Sports Betting State of the Industry — handle, share, forecasts.</p>
+            <a href="../reports/2026-state-of-the-industry/index.html" class="btn btn-primary btn-block">Read the report</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../assets/js/main.js"></script>
+</body>
+</html>

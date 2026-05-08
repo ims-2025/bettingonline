@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Same Game Parlay Strategy: When SGPs Make Sense (and When They Don&#x27;t) | BettingOnline.org</title>
+  <meta name="description" content="Same Game Parlay strategy guide: how SGP correlation pricing works, when SGPs are +EV, common traps, and the math you need before tapping the button.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/guides/same-game-parlay-strategy.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Same Game Parlay Strategy: When SGPs Make Sense (and When They Don&#x27;t) | BettingOnline.org">
+  <meta property="og:description" content="Same Game Parlay strategy guide: how SGP correlation pricing works, when SGPs are +EV, common traps, and the math you need before tapping the button.">
+  <meta property="og:url" content="https://www.bettingonline.org/guides/same-game-parlay-strategy.html">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Same Game Parlay Strategy: When SGPs Make Sense (and When They Don&#x27;t) | BettingOnline.org">
+  <meta name="twitter:description" content="Same Game Parlay strategy guide: how SGP correlation pricing works, when SGPs are +EV, common traps, and the math you need before tapping the button.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.bettingonline.org/guides/"}, {"@type": "ListItem", "position": 3, "name": "Same Game Parlay Strategy: When SGPs Make Sense (and When Th", "item": "https://www.bettingonline.org/guides/same-game-parlay-strategy.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Same Game Parlay Strategy: When SGPs Make Sense (and When They Don't)", "description": "Same Game Parlay strategy guide: how SGP correlation pricing works, when SGPs are +EV, common traps, and the math you need before tapping the button.", "url": "https://www.bettingonline.org/guides/same-game-parlay-strategy.html", "publisher": {"@type": "Organization", "name": "BettingOnline.org", "logo": {"@type": "ImageObject", "url": "https://www.bettingonline.org/assets/img/logo.png"}}, "author": {"@type": "Person", "name": "Mike Cole", "url": "https://www.bettingonline.org/authors/mike-cole/"}, "datePublished": "2026-04-22", "dateModified": "2026-04-28", "mainEntityOfPage": "https://www.bettingonline.org/guides/same-game-parlay-strategy.html"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Are Same Game Parlays profitable long-term?", "acceptedAnswer": {"@type": "Answer", "text": "On average, no. Operator hold on SGPs is 14-22%, meaning the average SGP returns about 78-86 cents on the dollar over a long sample. SGPs can be profitable in specific situations where the book has mispriced correlation, or where you have a strong correlated game-state opinion."}}, {"@type": "Question", "name": "How many legs should a Same Game Parlay have?", "acceptedAnswer": {"@type": "Answer", "text": "Two legs is the most defensible structure \u2014 you can verify correlation easily and the price is interpretable. Three legs can work if all three are clearly correlated. Four or more legs is almost always a high-juice format that benefits the operator more than the bettor."}}, {"@type": "Question", "name": "Are SGP boosts worth it?", "acceptedAnswer": {"@type": "Answer", "text": "Sometimes. A boost is worth it only when the boosted price is better than the naive-parlay product of the leg odds. Many sportsbook boosts on retail-friendly SGPs still leave the boosted price behind fair value."}}]}</script>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <link rel="alternate icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../index.html">Home</a><span class="sep">/</span><a href="../guides/index.html">Guides</a><span class="sep">/</span><span>Same Game Parlay Strategy: When SGPs Make Sense (and When They Don&#x27;t)</span></div>
+      <span class="eyebrow">Betting strategy · 12 min read</span>
+      <h1 style="margin-top:14px">Same Game Parlay Strategy: When SGPs Make Sense (and When They Don&#x27;t)</h1>
+      <p class="lede">The Same Game Parlay is the highest-margin product the sportsbook sells. Here&#x27;s how to use it without giving away the edge.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 40px">
+        <article class="article" style="margin:0">
+          <p>The Same Game Parlay (SGP) is the most-marketed sports bet on every major US app. It is also, on average, the highest-margin product the operator sells. Industry data shows operator hold on Same Game Parlay handle at 14-22%, compared to 4-7% on straight bets. That gap is not a mystery — it's structural. The question is when SGPs are still worth playing, and how to play them without surrendering the entire edge.</p>
+
+<h2>What an SGP actually is</h2>
+<p>An SGP is a parlay where every leg comes from the same game. Two-leg SGP example: Patrick Mahomes over 2.5 passing TDs + Travis Kelce over 65.5 receiving yards. Because the legs are <em>correlated</em> (Mahomes throwing more TDs makes Kelce yards more likely), the sportsbook can't simply multiply the leg odds — it has to model the joint probability. The book's correlation model is the key to its margin.</p>
+
+<h2>How SGP pricing works</h2>
+<p>The naive parlay price multiplies the leg probabilities. With two legs at -110 (52.4% implied probability each), the naive parlay price is +264 (decimal 3.64). But if Mahomes-over-2.5-TDs is positively correlated with Kelce-over-65.5 (as it clearly is), the joint probability is higher than the product — say 32% instead of 27%. Fair price for that joint probability is about +213.</p>
+<p>The book typically prices the SGP between the naive parlay (+264) and the correlated fair (+213). A typical posted SGP price might be +245 — which sits 8-10% behind fair. That 8-10% is the operator's structural margin on that specific SGP.</p>
+
+<h2>When SGPs make sense</h2>
+<ol>
+  <li><strong>You have a strong opinion on a game-state outcome that requires multiple legs to express.</strong> If your thesis is "the Chiefs will throw all over the Broncos in this matchup," that thesis is naturally a multi-leg correlated bet. The SGP is a more efficient way to express the thesis than a single market.</li>
+  <li><strong>The book has clearly mispriced the correlation.</strong> If the SGP price is meaningfully better than the naive product (i.e., the book is over-correcting for negative correlation that doesn't exist), there's a +EV opening.</li>
+  <li><strong>You're using a small portion of your bankroll for entertainment-tilt.</strong> SGPs are the most fun way to follow a game. As long as you size them as entertainment (not as your edge product), the engagement value is real.</li>
+</ol>
+
+<h2>When SGPs are a trap</h2>
+<ol>
+  <li><strong>3+ legs of independent player props.</strong> Once you stack 3+ uncorrelated legs, the SGP price is just a high-juice parlay. Don't bet 3+ uncorrelated player props as an SGP.</li>
+  <li><strong>SGP boosts on retail-friendly legs.</strong> The book offers boosts where the boost still leaves the SGP behind fair value. The boost makes the SGP feel cheap; it isn't.</li>
+  <li><strong>Mixing positively-correlated and negatively-correlated legs in the same SGP.</strong> The book's model handles this; your intuition probably doesn't.</li>
+</ol>
+
+<h2>The math you need</h2>
+<p>Before tapping the SGP button, do this two-step check:</p>
+<ol>
+  <li>Compute the naive parlay price using our <a href="../tools/parlay/index.html">parlay calculator</a> — multiply the leg probabilities.</li>
+  <li>Compare the posted SGP price to the naive parlay. If the SGP price is meaningfully better than naive parlay, the correlation is being priced; check whether you agree with the direction. If the SGP price is worse than naive parlay, you're being charged for negative correlation that may or may not exist.</li>
+</ol>
+<p>Use the <a href="../tools/odds-converter/index.html">odds converter</a> to translate American odds into implied probability when running these checks.</p>
+
+<h2>A worked example</h2>
+<p>Game: Eagles at Cowboys. Posted lines:</p>
+<ul>
+  <li>Eagles -3.5 (-110) — implied 52.4%</li>
+  <li>Game total over 47.5 (-110) — implied 52.4%</li>
+</ul>
+<p>Naive parlay: 0.524 × 0.524 = 0.275, or +264.</p>
+<p>Book's posted SGP: +220, implied 31.3%. The book is saying: the joint probability of "Eagles cover and the game goes over" is 31.3% — about 4 points higher than the naive product. That sounds plausible (an Eagles win-and-cover scenario tends to correlate with offensive output and a higher total).</p>
+<p>Question: do <em>you</em> think the joint probability is meaningfully higher than 31.3%? If you think the joint is 33%+, the SGP is +EV at +220. If you think it's at-or-below 31.3%, the book has fair-or-better pricing. The decision is now structured.</p>
+
+<h2>SGP discipline rules</h2>
+<ul>
+  <li>Cap SGP exposure at 5-10% of total handle.</li>
+  <li>Never SGP more than 3 legs.</li>
+  <li>Always run the naive-parlay check before tapping bet.</li>
+  <li>Track SGP results separately from straight bets — don't let SGP variance pollute your CLV signal.</li>
+  <li>Use SGP boosts only when the boosted price beats naive parlay.</li>
+</ul>
+
+<h2>Related reading</h2>
+<ul>
+  <li><a href="parlay-strategy.html">Parlay strategy: when parlays make sense</a></li>
+  <li><a href="closing-line-value.html">Closing Line Value (CLV)</a></li>
+  <li><a href="value-line-shopping.html">Line shopping</a></li>
+  <li><a href="bankroll.html">Bankroll management</a></li>
+</ul>
+          <hr>
+          <p class="byline muted" style="font-size:.9rem; margin-top:14px">By <a href="../authors/mike-cole/index.html"><strong>Mike Cole</strong></a> · Updated April 28, 2026 · <span class="tag">Reviewed by editorial team</span></p>
+        </article>
+        <aside>
+          <div class="card mb-3" style="position:sticky; top:88px">
+            <h4 class="mt-0">Top sportsbooks</h4>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <a href="../reviews/draftkings/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>DraftKings</strong><br><small class="muted">$150 bonus bets</small></div><span class="tag primary">#1</span></a>
+              <a href="../reviews/fanduel/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>FanDuel</strong><br><small class="muted">$1,000 first-bet</small></div><span class="tag">Best UX</span></a>
+              <a href="../reviews/betmgm/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>BetMGM</strong><br><small class="muted">$1,500 first-bet</small></div><span class="tag">Loyalty</span></a>
+              <a href="../reviews/caesars/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>Caesars</strong><br><small class="muted">$300 bonus bets</small></div><span class="tag">Rewards</span></a>
+            </div>
+            <a href="../reviews/index.html" class="btn btn-primary btn-block mt-2">All reviews</a>
+          </div>
+          <div class="card mb-3">
+            <h4 class="mt-0">Free tools</h4>
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <a href="../tools/odds-converter/index.html" class="btn btn-ghost btn-sm">Odds converter →</a>
+              <a href="../tools/parlay/index.html" class="btn btn-ghost btn-sm">Parlay calc →</a>
+              <a href="../tools/ev/index.html" class="btn btn-ghost btn-sm">Expected value →</a>
+              <a href="../tools/kelly/index.html" class="btn btn-ghost btn-sm">Kelly criterion →</a>
+              <a href="../tools/hedge/index.html" class="btn btn-ghost btn-sm">Hedge →</a>
+              <a href="../tools/arbitrage/index.html" class="btn btn-ghost btn-sm">Arbitrage →</a>
+            </div>
+          </div>
+          <div class="card">
+            <h4 class="mt-0">Featured report</h4>
+            <p class="muted">2026 US Sports Betting: State of the Industry — analysis, forecasts, original data.</p>
+            <a href="../reports/2026-state-of-the-industry/index.html" class="btn btn-primary btn-block">Read the report</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../assets/js/main.js"></script>
+</body>
+</html>

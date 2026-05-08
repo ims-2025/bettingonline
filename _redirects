@@ -1,0 +1,8 @@
+# Force www (canonical host)
+https://bettingonline.org/*  https://www.bettingonline.org/:splat  301!
+
+# Strip trailing /index.html if anyone hits it directly
+/index.html  /  301
+
+# Add specific redirects below if URLs ever change
+# /old-path  /new-path  301

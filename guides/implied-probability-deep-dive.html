@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Implied Probability: The Single Most Useful Number in Sports Betting | BettingOnline.org</title>
+  <meta name="description" content="Implied probability deep dive: how to compute it from any odds format, why it matters, no-vig adjustments, and the practical applications for every bet.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/guides/implied-probability-deep-dive.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Implied Probability: The Single Most Useful Number in Sports Betting">
+  <meta property="og:description" content="Implied probability deep dive: how to compute it from any odds format, why it matters, no-vig adjustments, and the practical applications for every bet.">
+  <meta property="og:url" content="https://www.bettingonline.org/guides/implied-probability-deep-dive.html">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Implied Probability: The Single Most Useful Number in Sports Betting">
+  <meta name="twitter:description" content="Implied probability deep dive: how to compute it from any odds format, why it matters, no-vig adjustments, and the practical applications for every bet.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.bettingonline.org/guides/"}, {"@type": "ListItem", "position": 3, "name": "Implied Probability: The Single Most Useful Number in Sports", "item": "https://www.bettingonline.org/guides/implied-probability-deep-dive.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Implied Probability: The Single Most Useful Number in Sports Betting", "description": "Implied probability deep dive: how to compute it from any odds format, why it matters, no-vig adjustments, and the practical applications for every bet.", "url": "https://www.bettingonline.org/guides/implied-probability-deep-dive.html", "publisher": {"@type": "Organization", "name": "BettingOnline.org", "logo": {"@type": "ImageObject", "url": "https://www.bettingonline.org/assets/img/logo.png"}}, "author": {"@type": "Person", "name": "Alex Park", "url": "https://www.bettingonline.org/authors/alex-park/"}, "datePublished": "2026-04-30", "dateModified": "2026-04-30", "mainEntityOfPage": "https://www.bettingonline.org/guides/implied-probability-deep-dive.html"}</script>
+  <link rel="alternate icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../index.html">Home</a><span class="sep">/</span><a href="../guides/index.html">Guides</a><span class="sep">/</span><span>Implied Probability: The Single Most Useful Number in Sports Betting</span></div>
+      <span class="eyebrow">Math · 11 min read</span>
+      <h1 style="margin-top:14px">Implied Probability: The Single Most Useful Number in Sports Betting</h1>
+      <p class="lede">Master one number — implied probability — and you can evaluate any market the sportsbook sells.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 40px">
+        <article class="article" style="margin:0">
+          <p>If you take one mathematical tool away from this site, take implied probability. It's the universal currency of sports betting analysis. Every odds format converts to it. Every bet evaluation depends on it. Every shortcut that claims to bypass it ends up reinventing it incompletely.</p>
+
+<h2>What implied probability is</h2>
+<p>Implied probability is the win probability that the odds <em>imply</em> — i.e., the probability the market is pricing into that outcome. Odds of -110 imply a 52.4% probability. Odds of +200 imply a 33.3% probability. Odds of -300 imply a 75% probability. These numbers tell you what the market thinks needs to happen for the bet to be break-even.</p>
+
+<h2>The math</h2>
+<p>Three formulas — one per odds format. All return implied probability as a percentage:</p>
+<table>
+  <thead><tr><th>Odds format</th><th>Formula</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td>American (negative)</td><td>|odds| / (|odds| + 100) × 100</td><td>-110 → 110/210 = 52.4%</td></tr>
+    <tr><td>American (positive)</td><td>100 / (odds + 100) × 100</td><td>+200 → 100/300 = 33.3%</td></tr>
+    <tr><td>Decimal</td><td>1 / decimal × 100</td><td>2.50 → 1/2.50 = 40%</td></tr>
+    <tr><td>Fractional</td><td>denom / (numer + denom) × 100</td><td>5/2 → 2/7 = 28.6%</td></tr>
+  </tbody>
+</table>
+<p>For practical use, you almost never compute by hand. Use our <a href="../tools/odds-converter/index.html">odds converter</a>.</p>
+
+<h2>Why it matters</h2>
+<p>Implied probability is the bridge between price (odds) and decision (bet or pass). The decision rule:</p>
+<ul>
+  <li>If your estimate of the outcome's probability is <strong>higher</strong> than implied → +EV bet.</li>
+  <li>If your estimate is <strong>equal</strong> → break-even (no edge, no bet).</li>
+  <li>If your estimate is <strong>lower</strong> → -EV (avoid).</li>
+</ul>
+<p>That's it. That's the framework. Everything else is variations on this comparison.</p>
+
+<h2>No-vig (true) probability</h2>
+<p>Implied probabilities at sportsbooks always sum to >100% on a market because of the operator's hold (vig/juice). On a -110/-110 spread, the two sides imply 52.4% + 52.4% = 104.8%. The extra 4.8% is the vig — the sportsbook's structural margin.</p>
+<p>To get the no-vig (true) implied probability, normalize:</p>
+<ul>
+  <li>Side A no-vig prob = side A implied / (sum of both sides' implied)</li>
+  <li>For -110/-110: 52.4 / (52.4 + 52.4) = 50% per side</li>
+</ul>
+<p>The no-vig probability is the cleanest representation of what the market thinks. When evaluating EV, compare your estimate to the no-vig probability — that's the fairest comparison.</p>
+
+<h2>Worked example: same market, different books</h2>
+<p>Suppose you think the Lakers have a 56% chance to cover the spread. You see three books:</p>
+<table>
+  <thead><tr><th>Book</th><th>Lakers price</th><th>Implied %</th><th>EV at 56%</th></tr></thead>
+  <tbody>
+    <tr><td>Book A</td><td>-115</td><td>53.5%</td><td>Tiny edge — borderline pass</td></tr>
+    <tr><td>Book B</td><td>-110</td><td>52.4%</td><td>+3.4% EV — bet</td></tr>
+    <tr><td>Book C</td><td>-105</td><td>51.2%</td><td>+4.6% EV — best price, bet here</td></tr>
+  </tbody>
+</table>
+<p>The decision rule: bet at the book that gives you the largest gap between your estimate and implied probability. <a href="value-line-shopping.html">Line shopping</a> exists to capture exactly this.</p>
+
+<h2>Practical applications</h2>
+<ul>
+  <li><strong>Evaluating any bet.</strong> Build a probability estimate; compare to implied; bet if the gap justifies it.</li>
+  <li><strong>Building parlays.</strong> Multiply leg probabilities (assuming independence) to get parlay probability. Compare to parlay-implied probability. <a href="parlay-strategy.html">Parlay guide</a>.</li>
+  <li><strong>Same Game Parlays.</strong> Compare correlated joint probability to SGP implied. <a href="same-game-parlay-strategy.html">SGP guide</a>.</li>
+  <li><strong>Hedging.</strong> Compute the implied probability of both sides and pick the hedge stake that makes the math work. <a href="hedging-strategy.html">Hedging guide</a>.</li>
+  <li><strong>Arbitrage.</strong> If two books' implied probabilities sum to less than 100%, you have an arb. <a href="arbitrage-betting.html">Arbitrage guide</a>.</li>
+</ul>
+
+<h2>Common errors</h2>
+<ol>
+  <li><strong>Treating implied probability as actual probability.</strong> The market's estimate is informed but not infallible. Your estimate may be better in specific spots.</li>
+  <li><strong>Ignoring vig.</strong> Comparing your estimate to the raw implied probability without removing vig overstates what the market 'thinks.'</li>
+  <li><strong>Mixing odds formats.</strong> If you're shopping across American and decimal books, convert everything to implied probability before comparing.</li>
+  <li><strong>Treating a single market in isolation.</strong> Cross-market comparison (e.g., spread vs total vs moneyline) uses implied probability to test consistency.</li>
+</ol>
+
+<h2>Related</h2>
+<ul>
+  <li><a href="odds-explained.html">How to read sports betting odds</a></li>
+  <li><a href="vig-and-no-vig-pricing.html">Vig and no-vig pricing</a></li>
+  <li><a href="../tools/odds-converter/index.html">Odds converter</a></li>
+  <li><a href="../tools/ev/index.html">Expected value calculator</a></li>
+  <li><a href="../reference/odds-conversion/index.html">Odds conversion table</a></li>
+</ul>
+          <hr>
+          <p class="byline muted" style="font-size:.9rem">By <a href="../authors/alex-park/index.html"><strong>Alex Park</strong></a> · Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span></p>
+        </article>
+        
+        <aside>
+          <div class="card mb-3" style="position:sticky; top:88px">
+            <h4 class="mt-0">Top sportsbooks</h4>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <a href="../reviews/draftkings/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>DraftKings</strong><br><small class="muted">$150 bonus bets</small></div><span class="tag primary">#1</span></a>
+              <a href="../reviews/fanduel/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>FanDuel</strong><br><small class="muted">$1,000 first-bet</small></div><span class="tag">Best UX</span></a>
+              <a href="../reviews/betmgm/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>BetMGM</strong><br><small class="muted">$1,500 first-bet</small></div><span class="tag">Loyalty</span></a>
+              <a href="../reviews/caesars/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>Caesars</strong><br><small class="muted">$300 bonus bets</small></div><span class="tag">Rewards</span></a>
+            </div>
+            <a href="../reviews/index.html" class="btn btn-primary btn-block mt-2">All reviews</a>
+          </div>
+          <div class="card mb-3">
+            <h4 class="mt-0">Free tools</h4>
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <a href="../tools/odds-converter/index.html" class="btn btn-ghost btn-sm">Odds converter →</a>
+              <a href="../tools/parlay/index.html" class="btn btn-ghost btn-sm">Parlay calc →</a>
+              <a href="../tools/ev/index.html" class="btn btn-ghost btn-sm">Expected value →</a>
+              <a href="../tools/kelly/index.html" class="btn btn-ghost btn-sm">Kelly criterion →</a>
+              <a href="../tools/hedge/index.html" class="btn btn-ghost btn-sm">Hedge →</a>
+              <a href="../tools/arbitrage/index.html" class="btn btn-ghost btn-sm">Arbitrage →</a>
+            </div>
+          </div>
+          <div class="card">
+            <h4 class="mt-0">Featured report</h4>
+            <p class="muted">2026 US Sports Betting State of the Industry — handle, share, forecasts.</p>
+            <a href="../reports/2026-state-of-the-industry/index.html" class="btn btn-primary btn-block">Read the report</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../assets/js/main.js"></script>
+</body>
+</html>

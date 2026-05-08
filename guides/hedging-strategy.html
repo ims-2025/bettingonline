@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hedging Strategy: When Locking In Profit Makes Sense | BettingOnline.org</title>
+  <meta name="description" content="Hedging strategy guide: when hedging makes mathematical sense, how to compute the optimal hedge stake, and the most common scenarios where retail bettors should and shouldn&#x27;t hedge.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/guides/hedging-strategy.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Hedging Strategy: When Locking In Profit Makes Sense">
+  <meta property="og:description" content="Hedging strategy guide: when hedging makes mathematical sense, how to compute the optimal hedge stake, and the most common scenarios where retail bettors should and shouldn&#x27;t hedge.">
+  <meta property="og:url" content="https://www.bettingonline.org/guides/hedging-strategy.html">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hedging Strategy: When Locking In Profit Makes Sense">
+  <meta name="twitter:description" content="Hedging strategy guide: when hedging makes mathematical sense, how to compute the optimal hedge stake, and the most common scenarios where retail bettors should and shouldn&#x27;t hedge.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.bettingonline.org/guides/"}, {"@type": "ListItem", "position": 3, "name": "Hedging Strategy: When Locking In Profit Makes Sense", "item": "https://www.bettingonline.org/guides/hedging-strategy.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Hedging Strategy: When Locking In Profit Makes Sense", "description": "Hedging strategy guide: when hedging makes mathematical sense, how to compute the optimal hedge stake, and the most common scenarios where retail bettors should and shouldn't hedge.", "url": "https://www.bettingonline.org/guides/hedging-strategy.html", "publisher": {"@type": "Organization", "name": "BettingOnline.org", "logo": {"@type": "ImageObject", "url": "https://www.bettingonline.org/assets/img/logo.png"}}, "author": {"@type": "Person", "name": "Mike Cole", "url": "https://www.bettingonline.org/authors/mike-cole/"}, "datePublished": "2026-04-30", "dateModified": "2026-04-30", "mainEntityOfPage": "https://www.bettingonline.org/guides/hedging-strategy.html"}</script>
+  <link rel="alternate icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../index.html">Home</a><span class="sep">/</span><a href="../guides/index.html">Guides</a><span class="sep">/</span><span>Hedging Strategy: When Locking In Profit Makes Sense</span></div>
+      <span class="eyebrow">Math · 9 min read</span>
+      <h1 style="margin-top:14px">Hedging Strategy: When Locking In Profit Makes Sense</h1>
+      <p class="lede">Hedging is a tool, not a default. Knowing when to use it — and when to ride — is what separates disciplined bettors from anxious ones.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 40px">
+        <article class="article" style="margin:0">
+          <p>Hedging is the act of placing an opposing bet to lock in some level of guaranteed profit (or limit loss) on a previously winning ticket. It's a tool every serious bettor needs in the toolkit — but it's also a tool retail bettors over-use, often guided by anxiety rather than math.</p>
+
+<h2>The basic mechanic</h2>
+<p>You bet $100 on the Bills to win the Super Bowl at +1500 in September. By February, the Bills are in the Super Bowl. You'd win $1,500 if they cover the +3 spread vs the Eagles. The Eagles are -3 (-110).</p>
+<p>You can hedge by betting the Eagles. The math: how much do you need to wager on the Eagles to lock in profit regardless of outcome?</p>
+
+<h2>The math</h2>
+<p>Your existing position pays $1,600 ($1,500 profit + $100 stake) if Bills cover. To lock in equal profit on both outcomes, solve:</p>
+<ul>
+  <li>If Bills cover: $1,600 - hedge_stake</li>
+  <li>If Eagles cover: hedge_stake × (1 + payout_decimal) - 100 (your original stake is lost)</li>
+</ul>
+<p>For Eagles -3 at -110 (decimal 1.91), set the two equal:</p>
+<p style="font-family:monospace; background:var(--surface-2); padding:12px; border-radius:8px">1600 - x = 1.91x - 100<br>1700 = 2.91x<br>x ≈ $584</p>
+<p>Bet $584 on Eagles. Outcome:</p>
+<ul>
+  <li>Bills cover: $1,600 winnings - $584 hedge = $1,016 profit</li>
+  <li>Eagles cover: $584 × 0.91 = $531 hedge winnings - $100 original stake = $431 profit. Wait — that doesn't match. Let me recompute.</li>
+</ul>
+<p>Recheck: Eagles cover means Bills lose your futures bet ($100 lost). Eagles hedge wins $584 × 0.91 = $531.40. Net: $531.40 - $100 = $431.40. Hmm, that's not equal to $1,016.</p>
+<p>The issue: equal-profit hedging assumes the original bet is treated as a stake-included payout. Let me redo with cleaner notation.</p>
+
+<h3>Cleaner formulation</h3>
+<p>Original bet: $100 on Bills at +1500. Total return if Bills win = $1,600 ($100 stake + $1,500 profit). If Bills lose: -$100.</p>
+<p>Hedge bet: $H on Eagles at -110 (decimal 1.91). Total return if Eagles win = $H × 1.91. If Eagles lose: -$H.</p>
+<p>For equal profit on both outcomes:</p>
+<ul>
+  <li>Bills win: $1,600 - $H</li>
+  <li>Eagles win: $H × 1.91 - $100</li>
+</ul>
+<p>Set equal: 1600 - H = 1.91H - 100 → 1700 = 2.91H → H ≈ $584.</p>
+<p>Verify:</p>
+<ul>
+  <li>Bills win: $1,600 - $584 = $1,016 profit</li>
+  <li>Eagles win: $584 × 1.91 - $100 = $1,115 - $100 = $1,015 profit</li>
+</ul>
+<p>Within rounding, equal profit ~$1,015 either way. (For exact: use our <a href="../tools/hedge/index.html">hedge calculator</a>.)</p>
+
+<h2>When hedging makes sense</h2>
+<ol>
+  <li><strong>Big futures payouts.</strong> A small futures stake that's mooned. Hedging locks in a substantial sum vs gambling on the final outcome.</li>
+  <li><strong>Large parlays at the last leg.</strong> An 8-team parlay with 7 legs already won. Hedge the last leg to capture realized value.</li>
+  <li><strong>Live in-game scenarios.</strong> A pre-game wager whose outcome flipped probability mid-game. Hedge to lock value before further variance.</li>
+  <li><strong>Significant life events.</strong> If the win matters financially, hedging is rational. The math is sub-optimal vs riding, but the variance reduction may be worth it.</li>
+</ol>
+
+<h2>When hedging doesn't make sense</h2>
+<ol>
+  <li><strong>Small bet sizes.</strong> Hedging $5 to lock in $200 profit on a long-shot parlay leg adds variance complexity without meaningful absolute gain.</li>
+  <li><strong>Routine bets.</strong> Don't hedge your $50 spread bets. Variance is a feature, not a bug.</li>
+  <li><strong>You believe your original bet is still +EV.</strong> Hedging gives up expected value. If you still think the bet is correctly priced, riding is mathematically optimal.</li>
+  <li><strong>Hedge price is junked up.</strong> Sometimes the hedge market carries 8-10% juice. Compare hedge vig to your original price's edge.</li>
+</ol>
+
+<h2>The math vs the psychology</h2>
+<p>Mathematically, hedging gives up expected value (you're paying the book vig on the hedge). Psychologically, hedging captures realized value and reduces stress on big tickets. The trade-off is real — pure math says ride; sustainability says sometimes lock it in.</p>
+<p>Rule of thumb: if locking the win has meaningful life impact (down payment, debt payoff, real money), hedge. If it's just a number, ride.</p>
+
+<h2>Cash-out: the lazy hedge</h2>
+<p>Sportsbook 'cash out' offers are the operator's pre-computed hedge price. The cash-out price typically carries 5-15% additional juice vs a self-built hedge using the live market. Cash-out is the convenient but expensive option. Self-built hedges (placing the opposing bet at the live market price) are typically 3-7% better.</p>
+
+<h2>Discipline rules</h2>
+<ol>
+  <li><strong>Compute the hedge before placing.</strong> Use our <a href="../tools/hedge/index.html">hedge calculator</a>.</li>
+  <li><strong>Compare cash-out price to self-built hedge.</strong> Take the better number.</li>
+  <li><strong>Pre-decide your hedge thresholds.</strong> Decide ahead of time at what payout you'd hedge (e.g., 'if futures hits $5,000+, I hedge'). Pre-deciding removes emotion.</li>
+  <li><strong>Don't hedge to feel safe.</strong> Hedging out of anxiety on routine bets bleeds vig. Variance is the bettor's friend on small stakes.</li>
+</ol>
+
+<h2>Related</h2>
+<ul>
+  <li><a href="../tools/hedge/index.html">Hedge calculator</a></li>
+  <li><a href="implied-probability-deep-dive.html">Implied probability</a></li>
+  <li><a href="vig-and-no-vig-pricing.html">Vig and no-vig pricing</a></li>
+  <li><a href="arbitrage-betting.html">Arbitrage betting</a></li>
+  <li><a href="../bet-types/hedge-bet/index.html">Hedge bet type</a></li>
+</ul>
+          <hr>
+          <p class="byline muted" style="font-size:.9rem">By <a href="../authors/mike-cole/index.html"><strong>Mike Cole</strong></a> · Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span></p>
+        </article>
+        
+        <aside>
+          <div class="card mb-3" style="position:sticky; top:88px">
+            <h4 class="mt-0">Top sportsbooks</h4>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <a href="../reviews/draftkings/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>DraftKings</strong><br><small class="muted">$150 bonus bets</small></div><span class="tag primary">#1</span></a>
+              <a href="../reviews/fanduel/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>FanDuel</strong><br><small class="muted">$1,000 first-bet</small></div><span class="tag">Best UX</span></a>
+              <a href="../reviews/betmgm/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>BetMGM</strong><br><small class="muted">$1,500 first-bet</small></div><span class="tag">Loyalty</span></a>
+              <a href="../reviews/caesars/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>Caesars</strong><br><small class="muted">$300 bonus bets</small></div><span class="tag">Rewards</span></a>
+            </div>
+            <a href="../reviews/index.html" class="btn btn-primary btn-block mt-2">All reviews</a>
+          </div>
+          <div class="card mb-3">
+            <h4 class="mt-0">Free tools</h4>
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <a href="../tools/odds-converter/index.html" class="btn btn-ghost btn-sm">Odds converter →</a>
+              <a href="../tools/parlay/index.html" class="btn btn-ghost btn-sm">Parlay calc →</a>
+              <a href="../tools/ev/index.html" class="btn btn-ghost btn-sm">Expected value →</a>
+              <a href="../tools/kelly/index.html" class="btn btn-ghost btn-sm">Kelly criterion →</a>
+              <a href="../tools/hedge/index.html" class="btn btn-ghost btn-sm">Hedge →</a>
+              <a href="../tools/arbitrage/index.html" class="btn btn-ghost btn-sm">Arbitrage →</a>
+            </div>
+          </div>
+          <div class="card">
+            <h4 class="mt-0">Featured report</h4>
+            <p class="muted">2026 US Sports Betting State of the Industry — handle, share, forecasts.</p>
+            <a href="../reports/2026-state-of-the-industry/index.html" class="btn btn-primary btn-block">Read the report</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Build / dev artifacts
+node_modules/
+package.json
+package-lock.json
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs
+*.log
+
+# Local env files
+.env
+.env.local
+
+# Build scripts (kept locally, not deployed)
+build-*.py
+expand_*.py
+menu_pages_data.py
+menu_pages_more.py
+menu_pages_more2.py
+test-calculators.js
+scraped-content/

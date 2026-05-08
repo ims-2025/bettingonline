@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arbitrage Betting: How to Spot, Compute, and Capture Risk-Free Bets | BettingOnline.org</title>
+  <meta name="description" content="Arbitrage betting guide: when arbs exist, how to compute optimal stakes, the realistic edge in 2026 markets, and the operator response to arb activity.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/guides/arbitrage-betting.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Arbitrage Betting: How to Spot, Compute, and Capture Risk-Free Bets">
+  <meta property="og:description" content="Arbitrage betting guide: when arbs exist, how to compute optimal stakes, the realistic edge in 2026 markets, and the operator response to arb activity.">
+  <meta property="og:url" content="https://www.bettingonline.org/guides/arbitrage-betting.html">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Arbitrage Betting: How to Spot, Compute, and Capture Risk-Free Bets">
+  <meta name="twitter:description" content="Arbitrage betting guide: when arbs exist, how to compute optimal stakes, the realistic edge in 2026 markets, and the operator response to arb activity.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.bettingonline.org/guides/"}, {"@type": "ListItem", "position": 3, "name": "Arbitrage Betting: How to Spot, Compute, and Capture Risk-Fr", "item": "https://www.bettingonline.org/guides/arbitrage-betting.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Arbitrage Betting: How to Spot, Compute, and Capture Risk-Free Bets", "description": "Arbitrage betting guide: when arbs exist, how to compute optimal stakes, the realistic edge in 2026 markets, and the operator response to arb activity.", "url": "https://www.bettingonline.org/guides/arbitrage-betting.html", "publisher": {"@type": "Organization", "name": "BettingOnline.org", "logo": {"@type": "ImageObject", "url": "https://www.bettingonline.org/assets/img/logo.png"}}, "author": {"@type": "Person", "name": "Jordan Reyes", "url": "https://www.bettingonline.org/authors/jordan-reyes/"}, "datePublished": "2026-04-30", "dateModified": "2026-04-30", "mainEntityOfPage": "https://www.bettingonline.org/guides/arbitrage-betting.html"}</script>
+  <link rel="alternate icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../index.html">Home</a><span class="sep">/</span><a href="../guides/index.html">Guides</a><span class="sep">/</span><span>Arbitrage Betting: How to Spot, Compute, and Capture Risk-Free Bets</span></div>
+      <span class="eyebrow">Math · 11 min read</span>
+      <h1 style="margin-top:14px">Arbitrage Betting: How to Spot, Compute, and Capture Risk-Free Bets</h1>
+      <p class="lede">Arbitrage looks risk-free on the spreadsheet. The reality is messier — but knowing the math is still essential.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 40px">
+        <article class="article" style="margin:0">
+          <p>Arbitrage betting (or 'arbing') is the practice of betting both sides of a market at different sportsbooks where the combined odds produce a guaranteed profit regardless of outcome. It exists when sportsbook prices are inconsistent enough that the combined implied probabilities sum to less than 100%. In legal US markets in 2026, arbs are real but rare, small, and operationally difficult to capture sustainably.</p>
+
+<h2>The math</h2>
+<p>Arbitrage exists when the no-vig implied probability of all market outcomes summed across the cheapest books for each side totals less than 100%. Concretely:</p>
+<ul>
+  <li>Book A has Lakers ML at +120 (implied 45.5%)</li>
+  <li>Book B has Celtics ML at +110 (implied 47.6%)</li>
+  <li>Sum: 93.1% → arb of 6.9%</li>
+</ul>
+<p>To capture: stake an amount on each side proportional to its decimal odds, normalized to your total stake. The standard formula:</p>
+<ul>
+  <li>Total return target = TR</li>
+  <li>Stake on Lakers = TR / 2.20 (decimal)</li>
+  <li>Stake on Celtics = TR / 2.10 (decimal)</li>
+  <li>Total stake = sum of stakes; profit = TR - total stake</li>
+</ul>
+<p>For TR = $1,000: stake $454.55 on Lakers + $476.19 on Celtics = $930.74 total. Profit either way: $1,000 - $930.74 = $69.26 (~7.4% return on capital).</p>
+
+<h2>What arb sizes look like in practice</h2>
+<table>
+  <thead><tr><th>Combined implied %</th><th>Arb size</th><th>Frequency in 2026 US markets</th></tr></thead>
+  <tbody>
+    <tr><td>99.0%</td><td>1.0%</td><td>Common — minor pricing differences</td></tr>
+    <tr><td>97.5%</td><td>2.5%</td><td>Several per week per active arb hunter</td></tr>
+    <tr><td>95%</td><td>5%</td><td>Rare — usually a stale line</td></tr>
+    <tr><td>90%</td><td>10%</td><td>Almost always an error or limit-trapped market</td></tr>
+  </tbody>
+</table>
+<p>Most actionable arbs are 1-3%. A bettor capturing 2 arbs per week at 2% on $1,000 capital generates ~$40/week — meaningful but not life-changing.</p>
+
+<h2>Why arbs exist</h2>
+<ol>
+  <li><strong>Different operator pricing models.</strong> DraftKings and FanDuel use different inputs and trader practices. They diverge in small ways, especially on lower-volume markets.</li>
+  <li><strong>Late line moves.</strong> One book moves on news; another book hasn't processed yet. Window: typically minutes.</li>
+  <li><strong>Promo-driven mispricing.</strong> An operator's promotional boost on one side creates an arb against another book's normal price.</li>
+  <li><strong>Cross-format markets.</strong> Asian handicap on one book vs spread on another, where the equivalence math creates inconsistencies.</li>
+</ol>
+
+<h2>The operator response</h2>
+<p>Sportsbooks know arbing exists and actively limit arb players. Arb-flagging signals:</p>
+<ul>
+  <li>Round-number bet sizes that match arb-stake formulas.</li>
+  <li>Bets placed within seconds of line opens or moves.</li>
+  <li>Concentration on lower-volume markets where arbs are most common.</li>
+  <li>Withdrawal patterns that suggest churn rather than recreational play.</li>
+</ul>
+<p>Arb players in the US legal market typically see max-bet limits compressed within 60-90 days of consistent arbing — often to $5-50 per market. The arb math still works at smaller stakes; the absolute dollar profit just shrinks. <a href="account-longevity.html">Account longevity guide</a>.</p>
+
+<h2>Operational realities of arb betting</h2>
+<ol>
+  <li><strong>You need at least 4-6 active accounts.</strong> Arbs typically appear between specific book pairs; you need wide market access.</li>
+  <li><strong>Speed matters.</strong> Most arbs disappear within minutes. Manual arb-hunting is hard; automated tools (Oddsjam, RebelBetting) help but cost money and can flag you.</li>
+  <li><strong>Capital efficiency.</strong> Arbing requires capital at every book. $1,000 spread across 4 books is more efficient than $4,000 at one.</li>
+  <li><strong>Withdrawals are a tax.</strong> Constant deposit/withdrawal cycles flag you. Plan capital distribution carefully.</li>
+  <li><strong>Bonus arbs.</strong> Welcome offers often create arb-able situations (free bet on side A + real money on side B). These have positive EV but require care to claim cleanly.</li>
+</ol>
+
+<h2>Arb edge cases</h2>
+<ul>
+  <li><strong>Voided bets.</strong> If one side is voided (e.g., postponement), the other side becomes a one-sided risk. Read each book's void/postponement rules.</li>
+  <li><strong>Different rule sets.</strong> Soccer extra-time rules differ across books — your arb may not be an arb if the markets settle differently.</li>
+  <li><strong>Bonus bet stake-not-returned.</strong> Bonus bets pay only profit, not stake. The arb math changes — see our <a href="../bonuses/draftkings-150-bonus-bets/index.html">bonus T&C deep dives</a>.</li>
+</ul>
+
+<h2>Should retail bettors arb?</h2>
+<p>Honest answer: probably not as a primary strategy. The 1-3% returns on small capital don't compound to anything material. The operational overhead is real. The account-longevity tax is severe — you'll burn through book accounts faster than the arb profits justify for most retail bettors.</p>
+<p>But: knowing how arbing works is essential. It teaches you to think across multiple book prices, to compute no-vig probabilities reflexively, and to recognize mispricing when it appears. Even if you never place a true arb, the analytical framework is part of every disciplined bettor's toolkit.</p>
+
+<h2>Discipline rules</h2>
+<ol>
+  <li><strong>Verify both books accept your stake before placing either.</strong> A limit-rejected hedge leg leaves you with one-sided risk.</li>
+  <li><strong>Bet both sides within seconds of each other.</strong> Lines move.</li>
+  <li><strong>Track every arb.</strong> Realized return is often lower than expected because of partial limits.</li>
+  <li><strong>Don't compound arb behavior with sharp behavior.</strong> Each piles on the limit-flag risk.</li>
+  <li><strong>Round stakes carefully.</strong> $238.42 + $295.71 looks computer-generated.</li>
+</ol>
+
+<h2>Related</h2>
+<ul>
+  <li><a href="../tools/arbitrage/index.html">Arbitrage calculator</a></li>
+  <li><a href="implied-probability-deep-dive.html">Implied probability</a></li>
+  <li><a href="vig-and-no-vig-pricing.html">Vig and no-vig pricing</a></li>
+  <li><a href="middling-markets.html">Middling markets</a></li>
+  <li><a href="account-longevity.html">Account longevity</a></li>
+</ul>
+          <hr>
+          <p class="byline muted" style="font-size:.9rem">By <a href="../authors/jordan-reyes/index.html"><strong>Jordan Reyes</strong></a> · Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span></p>
+        </article>
+        
+        <aside>
+          <div class="card mb-3" style="position:sticky; top:88px">
+            <h4 class="mt-0">Top sportsbooks</h4>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <a href="../reviews/draftkings/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>DraftKings</strong><br><small class="muted">$150 bonus bets</small></div><span class="tag primary">#1</span></a>
+              <a href="../reviews/fanduel/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>FanDuel</strong><br><small class="muted">$1,000 first-bet</small></div><span class="tag">Best UX</span></a>
+              <a href="../reviews/betmgm/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>BetMGM</strong><br><small class="muted">$1,500 first-bet</small></div><span class="tag">Loyalty</span></a>
+              <a href="../reviews/caesars/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>Caesars</strong><br><small class="muted">$300 bonus bets</small></div><span class="tag">Rewards</span></a>
+            </div>
+            <a href="../reviews/index.html" class="btn btn-primary btn-block mt-2">All reviews</a>
+          </div>
+          <div class="card mb-3">
+            <h4 class="mt-0">Free tools</h4>
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <a href="../tools/odds-converter/index.html" class="btn btn-ghost btn-sm">Odds converter →</a>
+              <a href="../tools/parlay/index.html" class="btn btn-ghost btn-sm">Parlay calc →</a>
+              <a href="../tools/ev/index.html" class="btn btn-ghost btn-sm">Expected value →</a>
+              <a href="../tools/kelly/index.html" class="btn btn-ghost btn-sm">Kelly criterion →</a>
+              <a href="../tools/hedge/index.html" class="btn btn-ghost btn-sm">Hedge →</a>
+              <a href="../tools/arbitrage/index.html" class="btn btn-ghost btn-sm">Arbitrage →</a>
+            </div>
+          </div>
+          <div class="card">
+            <h4 class="mt-0">Featured report</h4>
+            <p class="muted">2026 US Sports Betting State of the Industry — handle, share, forecasts.</p>
+            <a href="../reports/2026-state-of-the-industry/index.html" class="btn btn-primary btn-block">Read the report</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../assets/js/main.js"></script>
+</body>
+</html>

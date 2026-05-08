@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Evaluate a Betting Model (Yours or Someone Else&#x27;s) | BettingOnline.org</title>
+  <meta name="description" content="Evaluating betting models guide: sample size requirements, CLV vs ROI, common biases, model validation discipline, and how to spot survivorship bias.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/guides/evaluate-betting-model.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="How to Evaluate a Betting Model (Yours or Someone Else&#x27;s) | BettingOnline.org">
+  <meta property="og:description" content="Evaluating betting models guide: sample size requirements, CLV vs ROI, common biases, model validation discipline, and how to spot survivorship bias.">
+  <meta property="og:url" content="https://www.bettingonline.org/guides/evaluate-betting-model.html">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Evaluate a Betting Model (Yours or Someone Else&#x27;s) | BettingOnline.org">
+  <meta name="twitter:description" content="Evaluating betting models guide: sample size requirements, CLV vs ROI, common biases, model validation discipline, and how to spot survivorship bias.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.bettingonline.org/guides/"}, {"@type": "ListItem", "position": 3, "name": "How to Evaluate a Betting Model (Yours or Someone Else's)", "item": "https://www.bettingonline.org/guides/evaluate-betting-model.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Evaluate a Betting Model (Yours or Someone Else's)", "description": "Evaluating betting models guide: sample size requirements, CLV vs ROI, common biases, model validation discipline, and how to spot survivorship bias.", "url": "https://www.bettingonline.org/guides/evaluate-betting-model.html", "publisher": {"@type": "Organization", "name": "BettingOnline.org", "logo": {"@type": "ImageObject", "url": "https://www.bettingonline.org/assets/img/logo.png"}}, "author": {"@type": "Person", "name": "Jordan Reyes", "url": "https://www.bettingonline.org/authors/jordan-reyes/"}, "datePublished": "2026-04-15", "dateModified": "2026-04-28", "mainEntityOfPage": "https://www.bettingonline.org/guides/evaluate-betting-model.html"}</script>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <link rel="alternate icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../index.html">Home</a><span class="sep">/</span><a href="../guides/index.html">Guides</a><span class="sep">/</span><span>How to Evaluate a Betting Model (Yours or Someone Else&#x27;s)</span></div>
+      <span class="eyebrow">Betting strategy · 12 min read</span>
+      <h1 style="margin-top:14px">How to Evaluate a Betting Model (Yours or Someone Else&#x27;s)</h1>
+      <p class="lede">Most betting models — including most published ones — fail under the smallest stress. Here&#x27;s the discipline.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 40px">
+        <article class="article" style="margin:0">
+          <p>The number of "models" in retail sports betting has exploded. Twitter has them. Substacks have them. Discord groups sell them. The honest answer about most of them is that they're noise dressed up in spreadsheets. Evaluating whether a model is real — yours or someone else's — requires a small set of disciplined questions. None of them are exotic. Most published models fail when you ask them.</p>
+
+<h2>Question 1: What does the model claim to do?</h2>
+<p>A real model has a falsifiable claim. "This model identifies +EV NFL spread bets where my number differs from the closing line by 1.5+ points" is falsifiable. "This model spots winners" is not. If the claim is fuzzy, the model is unevaluable — which is the point.</p>
+
+<h2>Question 2: What's the sample size?</h2>
+<p>Sports betting variance is enormous. A 100-bet sample tells you almost nothing. Industry standard for assessing whether a betting strategy has edge is 1,000+ bets — and even then, the standard error on win rate is large. A model with 50 bets and a 60% win rate at -110 (a stunning record) has a 95% confidence interval that ranges from "elite" to "barely above coinflip." Ignore any model claim that doesn't disclose sample size and the corresponding standard error.</p>
+
+<h2>Question 3: What's the CLV?</h2>
+<p>Closing line value is the single best forward-looking edge indicator. A model that consistently beats the closing line by 1.5%+ on every bet is mathematically expected to be profitable. A model that "wins 60% of bets" but doesn't beat closing line is variance, not edge. Read our <a href="closing-line-value.html">CLV guide</a> for the underlying logic.</p>
+<p>CLV is also resistant to most forms of result-padding. You can cherry-pick "winners" in retrospect; you cannot retroactively beat closing lines you didn't bet.</p>
+
+<h2>Question 4: How was it backtested?</h2>
+<p>Backtests are the most-abused tool in betting analytics. The most common backtesting traps:</p>
+<ul>
+  <li><strong>Look-ahead bias.</strong> Using closing odds (which incorporate information not available at the time of decision) to evaluate a model that pretends to operate on opening odds.</li>
+  <li><strong>Survivorship bias.</strong> Backtesting only on the seasons / sports / players where the model "would have worked" — and excluding the rest as "unique circumstances."</li>
+  <li><strong>Parameter mining.</strong> Tuning model parameters until the backtest shows positive results; the model has 30 parameters and you tested 200 combinations until one worked.</li>
+  <li><strong>Free-data trap.</strong> Modeling on cleaned, after-the-fact data that didn't exist in real-time. Closing odds, final injury reports, even some game-state data was not available the way the backtest assumes.</li>
+</ul>
+<p>A clean backtest discloses look-ahead controls, walks the test forward in time (training-set ends before test-set begins), uses opening or open-near odds (not close), and reports out-of-sample results separately from in-sample.</p>
+
+<h2>Question 5: What's the variance profile?</h2>
+<p>A model that wins 55% of bets at -110 has expected value of about 5%. A losing streak of 10 in a row is roughly a 1-in-180 event for that model. In a 500-bet season, you'll see at least one 10-loss streak with high probability. A model that doesn't include variance projections — and the bettor doesn't have a bankroll plan to survive them — will get abandoned mid-streak even if the underlying edge is real. That's not a model failure; it's a discipline failure.</p>
+
+<h2>Question 6: Why hasn't the market arbitraged the edge away?</h2>
+<p>This is the question most retail-built models can't answer. Sports betting is a competitive market with sophisticated counterparties (Pinnacle, Cris, Betcris) whose entire business is removing inefficiencies. If your model claims a 5% edge on NFL totals, you have to explain why the global market — including Pinnacle, which prices the closest-to-fair lines in the world — is leaving that edge on the table.</p>
+<p>The answer is sometimes legitimate: a niche market (D3 college football, table tennis), an information advantage (you cover a beat, you saw a closed practice), a behavioral inefficiency (the public's over-tilt on prime-time games). The answer is sometimes "I haven't tested at scale and my model is overfit." Don't put bankroll on a model until you can answer Question 6.</p>
+
+<h2>Question 7: Does the model still work as it scales?</h2>
+<p>Some models work at small bet sizes ($50-100) but break at larger sizes ($500-1,000) because the books move lines on the model's signal. Some models work for 50 bets per week but fail at 200 because the bettor can't maintain decision discipline at that volume. A model is only as good as the bettor's ability to execute it consistently.</p>
+
+<h2>Evaluating someone else's model (a paid pick service or model)</h2>
+<p>Three quick disqualifiers:</p>
+<ol>
+  <li><strong>The track record is reported in units, not in CLV.</strong> Units can be padded by selectively reporting wins. CLV cannot.</li>
+  <li><strong>The track record predates the disclosure.</strong> Honest models publish picks before games start, retain the public record indefinitely, and report ALL picks (not "best bets only").</li>
+  <li><strong>The pricing model depends on retail buyers, not on the operator's own bets.</strong> The best signal that a tout actually has edge is that they're betting their own picks at scale. Most don't.</li>
+</ol>
+
+<h2>The shortest possible model evaluation</h2>
+<p>If a model claims edge: ask for the bet log, run CLV against the published closing lines, check sample size, look at variance profile, and ask why the market hasn't already pricing the edge in. If the answers are weak on any of these, walk away.</p>
+
+<h2>Building your own</h2>
+<p>If you want to build, start small. Pick one market (NFL totals, NBA player rebounds, MLB strikeout props). Build a model with 5-10 inputs. Walk it forward through 2-3 seasons of historical data without parameter mining. Track CLV from day one. Bet small until the sample is meaningful. Most models that survive this discipline produce 1-3% edge — modest, real, and actually exploitable.</p>
+
+<h2>Related reading</h2>
+<ul>
+  <li><a href="closing-line-value.html">Closing Line Value (CLV)</a></li>
+  <li><a href="bankroll.html">Bankroll management</a></li>
+  <li><a href="value-line-shopping.html">Line shopping</a></li>
+  <li><a href="sharp-vs-public-money.html">Sharp money vs public money</a></li>
+</ul>
+          <hr>
+          <p class="byline muted" style="font-size:.9rem; margin-top:14px">By <a href="../authors/jordan-reyes/index.html"><strong>Jordan Reyes</strong></a> · Updated April 28, 2026 · <span class="tag">Reviewed by editorial team</span></p>
+        </article>
+        <aside>
+          <div class="card mb-3" style="position:sticky; top:88px">
+            <h4 class="mt-0">Top sportsbooks</h4>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <a href="../reviews/draftkings/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>DraftKings</strong><br><small class="muted">$150 bonus bets</small></div><span class="tag primary">#1</span></a>
+              <a href="../reviews/fanduel/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>FanDuel</strong><br><small class="muted">$1,000 first-bet</small></div><span class="tag">Best UX</span></a>
+              <a href="../reviews/betmgm/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>BetMGM</strong><br><small class="muted">$1,500 first-bet</small></div><span class="tag">Loyalty</span></a>
+              <a href="../reviews/caesars/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>Caesars</strong><br><small class="muted">$300 bonus bets</small></div><span class="tag">Rewards</span></a>
+            </div>
+            <a href="../reviews/index.html" class="btn btn-primary btn-block mt-2">All reviews</a>
+          </div>
+          <div class="card mb-3">
+            <h4 class="mt-0">Free tools</h4>
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <a href="../tools/odds-converter/index.html" class="btn btn-ghost btn-sm">Odds converter →</a>
+              <a href="../tools/parlay/index.html" class="btn btn-ghost btn-sm">Parlay calc →</a>
+              <a href="../tools/ev/index.html" class="btn btn-ghost btn-sm">Expected value →</a>
+              <a href="../tools/kelly/index.html" class="btn btn-ghost btn-sm">Kelly criterion →</a>
+              <a href="../tools/hedge/index.html" class="btn btn-ghost btn-sm">Hedge →</a>
+              <a href="../tools/arbitrage/index.html" class="btn btn-ghost btn-sm">Arbitrage →</a>
+            </div>
+          </div>
+          <div class="card">
+            <h4 class="mt-0">Featured report</h4>
+            <p class="muted">2026 US Sports Betting: State of the Industry — analysis, forecasts, original data.</p>
+            <a href="../reports/2026-state-of-the-industry/index.html" class="btn btn-primary btn-block">Read the report</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../assets/js/main.js"></script>
+</body>
+</html>

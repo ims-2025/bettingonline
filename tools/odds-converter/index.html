@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Odds Converter — American, Decimal, Fractional, Implied | BettingOnline.org</title>
+  <meta name="description" content="Free odds converter. Convert between American, Decimal, Fractional and Implied Probability instantly. The fastest betting odds calculator online.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/tools/odds-converter/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Odds Converter — American, Decimal, Fractional, Implied | BettingOnline.org">
+  <meta property="og:description" content="Free odds converter. Convert between American, Decimal, Fractional and Implied Probability instantly. The fastest betting odds calculator online.">
+  <meta property="og:url" content="https://www.bettingonline.org/tools/odds-converter/">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Odds Converter — American, Decimal, Fractional, Implied | BettingOnline.org">
+  <meta name="twitter:description" content="Free odds converter. Convert between American, Decimal, Fractional and Implied Probability instantly. The fastest betting odds calculator online.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://www.bettingonline.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Odds Converter", "item": "https://www.bettingonline.org/tools/odds-converter/"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "How to Convert Sports Betting Odds", "description": "Convert between American, Decimal, Fractional, and Implied Probability odds formats.", "step": [{"@type": "HowToStep", "name": "Type your odds", "text": "Enter odds in any of the four formats: American (-110), Decimal (1.91), Fractional (10/11), or Implied % (52.38).", "position": 1}, {"@type": "HowToStep", "name": "Read the conversion", "text": "All four formats update simultaneously, plus break-even win rate and $100 stake return.", "position": 2}], "totalTime": "PT1M", "supply": [{"@type": "HowToSupply", "name": "Sports betting odds and stake amount"}], "tool": [{"@type": "HowToTool", "name": "BettingOnline.org calculator"}]}</script>
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <link rel="alternate icon" href="../../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="../../index.html">Home</a><span class="sep">/</span><a href="../../tools/index.html">Tools</a><span class="sep">/</span><span>Odds Converter</span></div>
+      <span class="eyebrow">Calculator</span>
+      <h1>Odds Converter</h1>
+      <p class="lede">American ↔ Decimal ↔ Fractional ↔ Implied Probability. Type into any field — the others update instantly.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="calc">
+        <div class="calc-grid">
+          <div class="field"><label for="i-am">American (e.g. -110, +250)</label><input id="i-am" class="input" type="text" placeholder="-110"></div>
+          <div class="field"><label for="i-dec">Decimal (e.g. 1.91)</label><input id="i-dec" class="input" type="text" placeholder="1.91"></div>
+          <div class="field"><label for="i-frac">Fractional (e.g. 10/11)</label><input id="i-frac" class="input" type="text" placeholder="10/11"></div>
+          <div class="field"><label for="i-imp">Implied probability (%)</label><input id="i-imp" class="input" type="text" placeholder="52.38"></div>
+        </div>
+        <div class="calc-result mt-3">
+          <div class="calc-result-grid">
+            <div><div class="label">$100 stake returns</div><div class="value" id="r-100">—</div></div>
+            <div><div class="label">$100 to win</div><div class="value" id="r-towin">—</div></div>
+            <div><div class="label">Break-even win rate</div><div class="value" id="r-breakeven">—</div></div>
+            <div><div class="label">Vig (assuming -110 fair)</div><div class="value" id="r-vig">—</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <h3 class="mt-0">A 60-second guide to odds formats</h3>
+        <p><strong>American odds</strong> describe what you risk and what you win at $100 increments. <strong>-110</strong> means risk $110 to win $100. <strong>+250</strong> means a $100 wager wins $250 in profit. Used in the US.</p>
+        <p><strong>Decimal odds</strong> describe what $1 returns including stake. <strong>1.91</strong> means $1 returns $1.91 ($0.91 profit). Used everywhere outside the US — this is the format your spreadsheet wants.</p>
+        <p><strong>Fractional odds</strong> describe profit-to-stake. <strong>10/11</strong> means risk $11 to win $10. Common in horse racing and UK markets.</p>
+        <p><strong>Implied probability</strong> is the win-rate the price implies. -110 implies 52.38% — meaning if you bet -110 200 times, you need to win 105 to break even. <em>This is the only format that matters for evaluating a bet.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    let updating = false;
+
+    function fromAmerican(v) {
+      const a = parseFloat(v);
+      if (!isFinite(a) || a === 0) return null;
+      const d = BO_CALC.americanToDecimal(a);
+      return { am: a, dec: d, frac: BO_CALC.decimalToFractional(d), imp: 100/d };
+    }
+    function fromDecimal(v) {
+      const d = parseFloat(v);
+      if (!isFinite(d) || d <= 1) return null;
+      return { am: BO_CALC.decimalToAmerican(d), dec: d, frac: BO_CALC.decimalToFractional(d), imp: 100/d };
+    }
+    function fromFractional(v) {
+      const d = BO_CALC.fractionalToDecimal(v);
+      if (!isFinite(d) || d <= 1) return null;
+      return { am: BO_CALC.decimalToAmerican(d), dec: d, frac: v, imp: 100/d };
+    }
+    function fromImplied(v) {
+      const p = parseFloat(v);
+      if (!isFinite(p) || p <= 0 || p >= 100) return null;
+      const d = 100 / p;
+      return { am: BO_CALC.decimalToAmerican(d), dec: d, frac: BO_CALC.decimalToFractional(d), imp: p };
+    }
+
+    function paint(r) {
+      if (!r) { $('r-100').textContent='—'; $('r-towin').textContent='—'; $('r-breakeven').textContent='—'; $('r-vig').textContent='—'; return; }
+      updating = true;
+      if (document.activeElement.id !== 'i-am') $('i-am').value = (r.am > 0 ? '+' : '') + Math.round(r.am);
+      if (document.activeElement.id !== 'i-dec') $('i-dec').value = r.dec.toFixed(3);
+      if (document.activeElement.id !== 'i-frac') $('i-frac').value = r.frac;
+      if (document.activeElement.id !== 'i-imp') $('i-imp').value = r.imp.toFixed(2);
+      updating = false;
+      $('r-100').textContent = '$' + (r.dec * 100).toFixed(2);
+      $('r-towin').textContent = '$' + (r.am > 0 ? r.am : 100).toFixed(2);
+      $('r-breakeven').textContent = r.imp.toFixed(2) + '%';
+      // vig assuming both sides priced equally — simplified
+      const fairProb = 50;
+      const margin = (r.imp - fairProb) / fairProb * 100;
+      $('r-vig').textContent = (margin > 0 ? '+' : '') + margin.toFixed(2) + '%';
+    }
+
+    $('i-am').addEventListener('input', e => { if (updating) return; paint(fromAmerican(e.target.value)); });
+    $('i-dec').addEventListener('input', e => { if (updating) return; paint(fromDecimal(e.target.value)); });
+    $('i-frac').addEventListener('input', e => { if (updating) return; paint(fromFractional(e.target.value)); });
+    $('i-imp').addEventListener('input', e => { if (updating) return; paint(fromImplied(e.target.value)); });
+
+    // Default
+    $('i-am').value = '-110'; paint(fromAmerican('-110'));
+  </script>
+
+  <div data-site-footer></div>
+  <script defer src="../../assets/js/main.js"></script>
+</body>
+</html>

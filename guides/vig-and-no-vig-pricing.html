@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vig and No-Vig Pricing: How the Sportsbook&#x27;s Margin Actually Works | BettingOnline.org</title>
+  <meta name="description" content="Vig (juice) and no-vig pricing explained: how to compute the operator&#x27;s structural margin, normalize to fair probabilities, and use no-vig analysis in your bet evaluation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/guides/vig-and-no-vig-pricing.html">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Vig and No-Vig Pricing: How the Sportsbook&#x27;s Margin Actually Works">
+  <meta property="og:description" content="Vig (juice) and no-vig pricing explained: how to compute the operator&#x27;s structural margin, normalize to fair probabilities, and use no-vig analysis in your bet evaluation.">
+  <meta property="og:url" content="https://www.bettingonline.org/guides/vig-and-no-vig-pricing.html">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vig and No-Vig Pricing: How the Sportsbook&#x27;s Margin Actually Works">
+  <meta name="twitter:description" content="Vig (juice) and no-vig pricing explained: how to compute the operator&#x27;s structural margin, normalize to fair probabilities, and use no-vig analysis in your bet evaluation.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-guides.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.bettingonline.org/guides/"}, {"@type": "ListItem", "position": 3, "name": "Vig and No-Vig Pricing: How the Sportsbook's Margin Actually", "item": "https://www.bettingonline.org/guides/vig-and-no-vig-pricing.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Vig and No-Vig Pricing: How the Sportsbook's Margin Actually Works", "description": "Vig (juice) and no-vig pricing explained: how to compute the operator's structural margin, normalize to fair probabilities, and use no-vig analysis in your bet evaluation.", "url": "https://www.bettingonline.org/guides/vig-and-no-vig-pricing.html", "publisher": {"@type": "Organization", "name": "BettingOnline.org", "logo": {"@type": "ImageObject", "url": "https://www.bettingonline.org/assets/img/logo.png"}}, "author": {"@type": "Person", "name": "Jordan Reyes", "url": "https://www.bettingonline.org/authors/jordan-reyes/"}, "datePublished": "2026-04-30", "dateModified": "2026-04-30", "mainEntityOfPage": "https://www.bettingonline.org/guides/vig-and-no-vig-pricing.html"}</script>
+  <link rel="alternate icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../index.html">Home</a><span class="sep">/</span><a href="../guides/index.html">Guides</a><span class="sep">/</span><span>Vig and No-Vig Pricing: How the Sportsbook&#x27;s Margin Actually Works</span></div>
+      <span class="eyebrow">Math · 10 min read</span>
+      <h1 style="margin-top:14px">Vig and No-Vig Pricing: How the Sportsbook&#x27;s Margin Actually Works</h1>
+      <p class="lede">Every sportsbook line carries a margin. Knowing how to remove it is the foundation of fair-value analysis.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 40px">
+        <article class="article" style="margin:0">
+          <p>Every sportsbook line includes the operator's margin — the 'vig' or 'juice.' On a -110/-110 spread, the margin is 4.5%. On a parlay, it's 12-22%. On a futures market, it can be 25%+. Understanding how the margin is constructed — and how to remove it to find the no-vig (fair) line — is the foundational skill of bet evaluation.</p>
+
+<h2>What vig is</h2>
+<p>Vig is the share of total market action the book retains as expected profit if action is balanced. On a 50/50 market with -110 on both sides, the book takes $110 from each side, returns $210 to the winner, and keeps $10 — a 4.55% hold.</p>
+<p>Vig is not a 'tax' on your bet. It's a margin baked into the odds. You don't pay vig as a separate fee; the worse-than-fair odds <em>are</em> the vig.</p>
+
+<h2>The math: implied probability sums to >100%</h2>
+<p>On a -110/-110 spread:</p>
+<ul>
+  <li>Side A implied probability = 110 / 210 = 52.4%</li>
+  <li>Side B implied probability = 110 / 210 = 52.4%</li>
+  <li>Total = 104.8%</li>
+</ul>
+<p>The 4.8% over 100% is the vig (in a slightly different definition than the 4.5% hold — convention varies, but the concept is the same).</p>
+
+<h2>Removing the vig — the no-vig line</h2>
+<p>To find the fair (no-vig) probability of each side, divide each side's implied probability by the total:</p>
+<ul>
+  <li>Side A no-vig = 52.4 / 104.8 = 50.0%</li>
+  <li>Side B no-vig = 52.4 / 104.8 = 50.0%</li>
+</ul>
+<p>That's the cleanest expression of what the market thinks: each side has a 50% chance.</p>
+
+<h2>Worked example: an unbalanced market</h2>
+<p>Cowboys -7 (-115) / Eagles +7 (-105). Implied probabilities:</p>
+<ul>
+  <li>Cowboys: 115/215 = 53.5%</li>
+  <li>Eagles: 105/205 = 51.2%</li>
+  <li>Sum: 104.7%</li>
+</ul>
+<p>No-vig probabilities:</p>
+<ul>
+  <li>Cowboys no-vig = 53.5 / 104.7 = 51.1%</li>
+  <li>Eagles no-vig = 51.2 / 104.7 = 48.9%</li>
+</ul>
+<p>The market is saying Cowboys are 51.1% to cover. If you think they're 56%, you have a bet.</p>
+
+<h2>Why no-vig analysis matters</h2>
+<ol>
+  <li><strong>Cross-book comparison.</strong> Different books offer different vig structures. Comparing raw implied probabilities is misleading; no-vig probabilities normalize the comparison.</li>
+  <li><strong>Estimating fair price.</strong> If a sharp book (Pinnacle, Cris) posts a market with low hold, the no-vig price at that book is a strong estimate of true probability.</li>
+  <li><strong>Detecting line moves.</strong> No-vig probability tracks market consensus better than implied probability over time.</li>
+  <li><strong>Computing required edge.</strong> To break-even at -110, you need 52.4% win rate. To break-even on -120 juice, you need 54.5%. The no-vig perspective shows the gap clearly.</li>
+</ol>
+
+<h2>Hold percentages by market type</h2>
+<table>
+  <thead><tr><th>Market</th><th>Typical hold</th></tr></thead>
+  <tbody>
+    <tr><td>Spread/total at -110</td><td>4.5%</td></tr>
+    <tr><td>Spread/total at sharp books</td><td>2.5-3.5%</td></tr>
+    <tr><td>Moneyline (close prices)</td><td>3-5%</td></tr>
+    <tr><td>Moneyline (heavy fav/dog)</td><td>5-8%</td></tr>
+    <tr><td>Player props</td><td>4-8%</td></tr>
+    <tr><td>Same Game Parlay</td><td>14-22%</td></tr>
+    <tr><td>Futures</td><td>15-30%</td></tr>
+    <tr><td>Live betting</td><td>8-13%</td></tr>
+  </tbody>
+</table>
+<p>Knowing the hold tells you where to focus volume. Standard game lines have low structural cost; futures markets bake in 20%+ structural margin before you even start.</p>
+
+<h2>Two operator hold conventions</h2>
+<p>The industry uses two slightly different hold conventions:</p>
+<ul>
+  <li><strong>Theoretical hold:</strong> the margin per dollar of action, balanced (the 4.5% number).</li>
+  <li><strong>Actual hold:</strong> the operator's reported revenue / handle ratio. This is the post-results version, affected by which side won. Reported quarterly in operator filings.</li>
+</ul>
+<p>Industry-wide actual hold has been 8.5-9.0% in recent quarters across all market types — higher than theoretical hold because of unbalanced action and structurally higher-margin products gaining handle share.</p>
+
+<h2>Practical workflow</h2>
+<ol>
+  <li>Look at posted odds on both sides.</li>
+  <li>Compute each side's implied probability.</li>
+  <li>Compute total — that's where the vig is hiding.</li>
+  <li>Normalize each side: implied / total = no-vig probability.</li>
+  <li>Compare to your estimate of the actual probability.</li>
+  <li>Bet when your estimate exceeds no-vig by enough to overcome the vig (typically 2%+ edge).</li>
+</ol>
+
+<h2>Related</h2>
+<ul>
+  <li><a href="implied-probability-deep-dive.html">Implied probability deep dive</a></li>
+  <li><a href="odds-explained.html">Odds explained</a></li>
+  <li><a href="value-line-shopping.html">Line shopping</a></li>
+  <li><a href="../tools/ev/index.html">Expected value calculator</a></li>
+  <li><a href="../tools/odds-converter/index.html">Odds converter</a></li>
+</ul>
+          <hr>
+          <p class="byline muted" style="font-size:.9rem">By <a href="../authors/jordan-reyes/index.html"><strong>Jordan Reyes</strong></a> · Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span></p>
+        </article>
+        
+        <aside>
+          <div class="card mb-3" style="position:sticky; top:88px">
+            <h4 class="mt-0">Top sportsbooks</h4>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <a href="../reviews/draftkings/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>DraftKings</strong><br><small class="muted">$150 bonus bets</small></div><span class="tag primary">#1</span></a>
+              <a href="../reviews/fanduel/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>FanDuel</strong><br><small class="muted">$1,000 first-bet</small></div><span class="tag">Best UX</span></a>
+              <a href="../reviews/betmgm/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>BetMGM</strong><br><small class="muted">$1,500 first-bet</small></div><span class="tag">Loyalty</span></a>
+              <a href="../reviews/caesars/index.html" class="flex-between" style="padding:10px; border-radius:10px; background:var(--surface-2)"><div><strong>Caesars</strong><br><small class="muted">$300 bonus bets</small></div><span class="tag">Rewards</span></a>
+            </div>
+            <a href="../reviews/index.html" class="btn btn-primary btn-block mt-2">All reviews</a>
+          </div>
+          <div class="card mb-3">
+            <h4 class="mt-0">Free tools</h4>
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <a href="../tools/odds-converter/index.html" class="btn btn-ghost btn-sm">Odds converter →</a>
+              <a href="../tools/parlay/index.html" class="btn btn-ghost btn-sm">Parlay calc →</a>
+              <a href="../tools/ev/index.html" class="btn btn-ghost btn-sm">Expected value →</a>
+              <a href="../tools/kelly/index.html" class="btn btn-ghost btn-sm">Kelly criterion →</a>
+              <a href="../tools/hedge/index.html" class="btn btn-ghost btn-sm">Hedge →</a>
+              <a href="../tools/arbitrage/index.html" class="btn btn-ghost btn-sm">Arbitrage →</a>
+            </div>
+          </div>
+          <div class="card">
+            <h4 class="mt-0">Featured report</h4>
+            <p class="muted">2026 US Sports Betting State of the Industry — handle, share, forecasts.</p>
+            <a href="../reports/2026-state-of-the-industry/index.html" class="btn btn-primary btn-block">Read the report</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../assets/js/main.js"></script>
+</body>
+</html>

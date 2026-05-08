@@ -1,0 +1,150 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "BettingOnline.org News",
+  "home_page_url": "https://www.bettingonline.org/news/",
+  "feed_url": "https://www.bettingonline.org/news/feed.json",
+  "description": "Independent sports betting industry news, operator updates, and regulatory developments.",
+  "language": "en-US",
+  "items": [
+    {
+      "id": "https://www.bettingonline.org/news/texas-mobile-betting-2026-update.html",
+      "url": "https://www.bettingonline.org/news/texas-mobile-betting-2026-update.html",
+      "title": "Texas Mobile Sports Betting: 2026 Legislative Update",
+      "summary": "HJR 134 advances out of committee \u2014 but the path to a 2027 launch remains narrow.",
+      "content_html": "<p>HJR 134 advances out of committee \u2014 but the path to a 2027 launch remains narrow.</p>",
+      "date_published": "2026-04-24T12:00:00Z",
+      "author": {
+        "name": "Alex Park"
+      },
+      "tags": [
+        "Regulation"
+      ]
+    },
+    {
+      "id": "https://www.bettingonline.org/news/ncaa-prop-bet-restrictions-2026.html",
+      "url": "https://www.bettingonline.org/news/ncaa-prop-bet-restrictions-2026.html",
+      "title": "NCAA Player Prop Bet Restrictions Spread to 12 States",
+      "summary": "The NCAA's lobbying push reaches a tipping point as state regulators pull college player props from sportsbook menus.",
+      "content_html": "<p>The NCAA&#x27;s lobbying push reaches a tipping point as state regulators pull college player props from sportsbook menus.</p>",
+      "date_published": "2026-04-19T12:00:00Z",
+      "author": {
+        "name": "Sarah Vance"
+      },
+      "tags": [
+        "Regulation"
+      ]
+    },
+    {
+      "id": "https://www.bettingonline.org/news/espn-bet-q1-2026-market-share.html",
+      "url": "https://www.bettingonline.org/news/espn-bet-q1-2026-market-share.html",
+      "title": "ESPN Bet Q1 2026: Market Share Stalls at 3.2%",
+      "summary": "Penn Entertainment's Q1 earnings reveal a sportsbook struggling to take share from DraftKings and FanDuel.",
+      "content_html": "<p>Penn Entertainment&#x27;s Q1 earnings reveal a sportsbook struggling to take share from DraftKings and FanDuel.</p>",
+      "date_published": "2026-04-16T12:00:00Z",
+      "author": {
+        "name": "Mike Cole"
+      },
+      "tags": [
+        "Operators"
+      ]
+    },
+    {
+      "id": "https://www.bettingonline.org/news/live-betting-handle-share-2026.html",
+      "url": "https://www.bettingonline.org/news/live-betting-handle-share-2026.html",
+      "title": "Live Betting Now 53% of US Sports Wagering Handle",
+      "summary": "In-play wagering crosses 50% of total handle for the first time \u2014 the structural reshape of US sports betting.",
+      "content_html": "<p>In-play wagering crosses 50% of total handle for the first time \u2014 the structural reshape of US sports betting.</p>",
+      "date_published": "2026-04-12T12:00:00Z",
+      "author": {
+        "name": "Jordan Reyes"
+      },
+      "tags": [
+        "Industry"
+      ]
+    },
+    {
+      "id": "https://www.bettingonline.org/news/responsible-gambling-aga-standards-2026.html",
+      "url": "https://www.bettingonline.org/news/responsible-gambling-aga-standards-2026.html",
+      "title": "AGA Publishes Updated Responsible Gambling Standards for 2026",
+      "summary": "Industry-wide changes coming to deposit limits, advertising rules, and affordability checks.",
+      "content_html": "<p>Industry-wide changes coming to deposit limits, advertising rules, and affordability checks.</p>",
+      "date_published": "2026-04-10T12:00:00Z",
+      "author": {
+        "name": "Chris Thompson"
+      },
+      "tags": [
+        "Responsibility"
+      ]
+    },
+    {
+      "id": "https://www.bettingonline.org/news/operator-margin-q1-2026.html",
+      "url": "https://www.bettingonline.org/news/operator-margin-q1-2026.html",
+      "title": "Q1 2026 Operator Margins: FanDuel Leads, BetMGM Recovers",
+      "summary": "Quarterly operator margins reveal who is pricing aggressively and who is leaving room for sharps.",
+      "content_html": "<p>Quarterly operator margins reveal who is pricing aggressively and who is leaving room for sharps.</p>",
+      "date_published": "2026-04-08T12:00:00Z",
+      "author": {
+        "name": "Alex Park"
+      },
+      "tags": [
+        "Operators"
+      ]
+    },
+    {
+      "id": "https://www.bettingonline.org/news/cashless-wagering-rollout-2026.html",
+      "url": "https://www.bettingonline.org/news/cashless-wagering-rollout-2026.html",
+      "title": "Cashless Wagering Hits 18 States: What's Behind the Rollout",
+      "summary": "Mobile wallet integration is reshaping the retail betting experience \u2014 for operators and bettors alike.",
+      "content_html": "<p>Mobile wallet integration is reshaping the retail betting experience \u2014 for operators and bettors alike.</p>",
+      "date_published": "2026-04-05T12:00:00Z",
+      "author": {
+        "name": "Jordan Reyes"
+      },
+      "tags": [
+        "Technology"
+      ]
+    },
+    {
+      "id": "https://www.bettingonline.org/news/player-prop-limits-2026.html",
+      "url": "https://www.bettingonline.org/news/player-prop-limits-2026.html",
+      "title": "Player Prop Limits Are Tightening: What's Going On",
+      "summary": "Operators are pulling back player-prop limits as sharp action intensifies \u2014 here's what changed and how to adapt.",
+      "content_html": "<p>Operators are pulling back player-prop limits as sharp action intensifies \u2014 here&#x27;s what changed and how to adapt.</p>",
+      "date_published": "2026-04-02T12:00:00Z",
+      "author": {
+        "name": "Mike Cole"
+      },
+      "tags": [
+        "Operators"
+      ]
+    },
+    {
+      "id": "https://www.bettingonline.org/news/q2-2026-forecast.html",
+      "url": "https://www.bettingonline.org/news/q2-2026-forecast.html",
+      "title": "Q2 2026 Betting Industry Forecast",
+      "summary": "Analysts predict record summer growth amid regulatory changes.",
+      "content_html": "<p>Analysts predict record summer growth amid regulatory changes.</p>",
+      "date_published": "2026-04-01T12:00:00Z",
+      "author": {
+        "name": "Alex Park"
+      },
+      "tags": [
+        "Industry"
+      ]
+    },
+    {
+      "id": "https://www.bettingonline.org/news/draftkings-state-expansion.html",
+      "url": "https://www.bettingonline.org/news/draftkings-state-expansion.html",
+      "title": "DraftKings Expands Into Three New State Markets",
+      "summary": "Regulatory hurdles cleared as the operator secures licenses for 2026 launches.",
+      "content_html": "<p>Regulatory hurdles cleared as the operator secures licenses for 2026 launches.</p>",
+      "date_published": "2026-04-22T12:00:00Z",
+      "author": {
+        "name": "Mike Cole"
+      },
+      "tags": [
+        "Operators"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arbitrage Calculator — Find Risk-Free Bets | BettingOnline.org</title>
+  <meta name="description" content="Free arbitrage calculator. Spot risk-free arbitrage opportunities between two sportsbooks. Get stakes, payout, locked profit and arb percentage.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/main.min.css">
+  <link rel="canonical" href="https://www.bettingonline.org/tools/arbitrage/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="Arbitrage Calculator — Find Risk-Free Bets | BettingOnline.org">
+  <meta property="og:description" content="Free arbitrage calculator. Spot risk-free arbitrage opportunities between two sportsbooks. Get stakes, payout, locked profit and arb percentage.">
+  <meta property="og:url" content="https://www.bettingonline.org/tools/arbitrage/">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Arbitrage Calculator — Find Risk-Free Bets | BettingOnline.org">
+  <meta name="twitter:description" content="Free arbitrage calculator. Spot risk-free arbitrage opportunities between two sportsbooks. Get stakes, payout, locked profit and arb percentage.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://www.bettingonline.org/tools/"}, {"@type": "ListItem", "position": 3, "name": "Arbitrage", "item": "https://www.bettingonline.org/tools/arbitrage/"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "How to Calculate an Arbitrage Bet", "description": "Determine whether two opposing odds at different sportsbooks form a risk-free arbitrage opportunity.", "step": [{"@type": "HowToStep", "name": "Enter Side A odds", "text": "Type the American odds for one side at one sportsbook.", "position": 1}, {"@type": "HowToStep", "name": "Enter Side B odds", "text": "Type the American odds for the opposing side at a different sportsbook.", "position": 2}, {"@type": "HowToStep", "name": "Set your bankroll", "text": "Type the total dollar amount you want to deploy across both legs.", "position": 3}, {"@type": "HowToStep", "name": "Read the result", "text": "If the combined implied probability is below 100%, the calculator shows your arb % and recommended stakes.", "position": 4}], "totalTime": "PT1M", "supply": [{"@type": "HowToSupply", "name": "Sports betting odds and stake amount"}], "tool": [{"@type": "HowToTool", "name": "BettingOnline.org calculator"}]}</script>
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+  <link rel="alternate icon" href="../../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
+  <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+</head>
+<body>
+  <div data-site-header></div>
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="../../index.html">Home</a><span class="sep">/</span><a href="../../tools/index.html">Tools</a><span class="sep">/</span><span>Arbitrage</span></div>
+      <span class="eyebrow">Calculator</span>
+      <h1>Arbitrage Calculator</h1>
+      <p class="lede">Two opposing sides at two books. If their combined implied probability is under 100%, there's a guaranteed profit — and we'll tell you exactly how to stake it.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="calc">
+        <div class="calc-grid">
+          <div class="field"><label for="o1">Side A odds (American) — Book 1</label><input id="o1" class="input" type="text" value="+110"></div>
+          <div class="field"><label for="o2">Side B odds (American) — Book 2</label><input id="o2" class="input" type="text" value="+105"></div>
+          <div class="field"><label for="total">Total bankroll to deploy ($)</label><input id="total" class="input" type="number" min="0" step="0.01" value="1000"></div>
+        </div>
+        <div class="calc-result mt-3">
+          <div class="calc-result-grid">
+            <div><div class="label">Stake on Side A</div><div class="value" id="r-a">—</div></div>
+            <div><div class="label">Stake on Side B</div><div class="value" id="r-b">—</div></div>
+            <div><div class="label">Guaranteed payout</div><div class="value" id="r-pay">—</div></div>
+            <div><div class="label">Arbitrage edge</div><div class="value" id="r-arb">—</div></div>
+          </div>
+        </div>
+        <p class="muted mt-3" style="font-size:.88rem" id="status"></p>
+      </div>
+
+      <div class="card mt-4">
+        <h3 class="mt-0">Why arbs exist (and why books hate them)</h3>
+        <p>Different sportsbooks have different risk profiles, different lean tendencies, and different times when they sharpen lines. A book that's heavy on one side will adjust its price; a book that hasn't taken much action might still be at the open. When the books disagree by enough, the combined implied probabilities of both sides drop below 100% — meaning a bettor staking both sides locks in profit no matter the outcome.</p>
+        <p>The catch: bookmakers actively monitor for arbitrage activity. Patterns like betting both sides of a market, betting the maximum stake on a soft line, or having an account with consistently positive CLV will get your account limited or banned.</p>
+        <p>Arbing is real, profitable, and legal — but it's a fast-burn strategy. Most arbers cycle through accounts as they get limited, and the better-known operators (DraftKings, FanDuel) limit faster than smaller offshore books.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    function compute() {
+      const o1 = parseFloat($('o1').value);
+      const o2 = parseFloat($('o2').value);
+      const t = parseFloat($('total').value || 0);
+      const r = BO_CALC.arbitrage(o1, o2, t);
+      const status = $('status');
+      if (!r || t <= 0) { ['r-a','r-b','r-pay','r-arb'].forEach(i => $(i).textContent='—'); status.textContent=''; return; }
+      $('r-a').textContent = '$' + r.stakeA.toFixed(2);
+      $('r-b').textContent = '$' + r.stakeB.toFixed(2);
+      $('r-pay').textContent = '$' + r.guaranteedPayout.toFixed(2);
+      $('r-arb').textContent = (r.arbPercent>=0?'+':'') + r.arbPercent.toFixed(2) + '%';
+      if (r.arb) {
+        status.innerHTML = `<strong style="color:var(--success)">✓ Arbitrage opportunity</strong> — guaranteed profit of $${r.profit.toFixed(2)} on $${t.toFixed(2)} deployed.`;
+      } else {
+        status.innerHTML = `<strong style="color:var(--danger)">No arbitrage</strong> — combined implied probability is ${(100-r.arbPercent).toFixed(2)}%. You'd lose $${(-r.profit).toFixed(2)} (the bookmaker's hold).`;
+      }
+    }
+    ['o1','o2','total'].forEach(i => $(i).addEventListener('input', compute));
+    compute();
+  </script>
+
+  <div data-site-footer></div>
+  <script defer src="../../assets/js/main.js"></script>
+</body>
+</html>

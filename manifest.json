@@ -1,0 +1,13 @@
+{
+  "name": "BettingOnline.org",
+  "short_name": "BettingOnline",
+  "description": "Independent sports betting, casino and poker guide",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e5cff",
+  "icons": [
+    { "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/assets/img/apple-touch-icon.svg", "sizes": "180x180", "type": "image/svg+xml" }
+  ]
+}
