@@ -33,6 +33,7 @@
   <link rel="alternate icon" href="../../favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
   <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a parlay bet?", "acceptedAnswer": {"@type": "Answer", "text": "A combination bet that requires every leg to win for any payout. Higher potential payout than single bets, but compounding vig means parlay hold is significantly higher than single-bet hold."}}, {"@type": "Question", "name": "How do I calculate parlay payouts?", "acceptedAnswer": {"@type": "Answer", "text": "Multiply the decimal odds of every leg, then multiply by stake. Use our parlay calculator at /tools/parlay/ for any number of legs in any odds format."}}, {"@type": "Question", "name": "What's the typical hold on a parlay?", "acceptedAnswer": {"@type": "Answer", "text": "14-25% combined hold, compared to 4-7% on single bets. Same Game Parlays specifically run 14-22% because operators explicitly price correlation."}}, {"@type": "Question", "name": "Can I cash out a parlay early?", "acceptedAnswer": {"@type": "Answer", "text": "Most operators offer cash-out on partially-completed parlays (when most legs have already won). Cash-out prices typically carry 5-15% additional juice."}}, {"@type": "Question", "name": "Are parlays profitable long-term?", "acceptedAnswer": {"@type": "Answer", "text": "Generally no for retail bettors. Parlays can be profitable when 2-3 legs are genuinely +EV singles or when correlated SGPs have mispricing \u2014 but most retail parlay activity loses money."}}]}</script>
 </head>
 <body>
   <div data-site-header></div>
@@ -83,6 +84,35 @@
       </div>
     </div>
   </section>
+
+  
+    
+  <section class="section" data-pillar-expanded style="background:var(--surface-2)">
+    <div class="container container-narrow">
+      <article class="article">
+<p class="lede" style="font-size:1.1rem; margin-bottom:24px">A parlay bet combines multiple individual wagers into a single ticket. To win, every leg must hit. The reward is dramatically higher than betting each leg separately — potential payouts on 4+ leg parlays often run +500 to +5000 or higher. The catch: parlay hold is much higher than single-bet hold.</p><h2 id="how-parlay-payouts-are-calculated">How parlay payouts are calculated</h2>
+<p>Multiply the decimal odds of every leg, then multiply by stake. Three legs at decimal 1.91 each on $100: 1.91 × 1.91 × 1.91 × $100 = $696.</p>
+<p>The more legs, the higher the multiplier. A 5-leg parlay at -110 each pays approximately +2530 (29.6x decimal). A 10-leg parlay pays roughly +47000 (471x decimal). The math compounds rapidly.</p>
+
+<h2 id="why-parlays-have-higher-hold">Why parlays have higher hold</h2>
+<p>Per-leg vig compounds across the parlay. A -110/-110 single bet has 4.5% structural margin. A 5-leg parlay of -110 legs has 5.7%^5 - 1 = roughly 32% combined hold (worse than the simple 4.5% × 5 = 22.5% you might expect because of multiplication).</p>
+<p>Industry data shows parlay hold typically 14-25% across operators, compared to 4-7% on single bets. Same Game Parlays specifically run 14-22% hold because operators price correlation explicitly.</p>
+
+<h2 id="when-parlays-make-sense">When parlays make sense</h2>
+<ol><li><strong>2-3 leg parlays of independently +EV singles.</strong> If you've identified two genuinely +EV bets, parlaying them (assuming legs are uncorrelated) maintains the +EV.</li><li><strong>Same Game Parlays where correlation is mispriced.</strong> When the book's correlation model is off, a properly-built SGP can be +EV.</li><li><strong>Wong teasers (NFL).</strong> 6-point teasers crossing the 3 and 7 in NFL have historical +EV in specific spread ranges.</li><li><strong>Round robins for variance smoothing.</strong> A round robin breaks a list of teams into multiple smaller parlays.</li></ol>
+
+<h2 id="parlay-mistakes-to-avoid">Parlay mistakes to avoid</h2>
+<ol><li><strong>6+ leg parlays.</strong> Per-leg vig compounds. Even +EV singles produce -EV parlays once you stack 6+ legs.</li><li><strong>Highly-correlated legs in cross-game parlays.</strong> Operators may detect and price correlation, but cross-game correlation often slips through. Don't assume independent pricing.</li><li><strong>Boost parlays with hidden juice.</strong> Boosted parlay prices often look impressive but are still 30-50% behind fair value despite the boost.</li><li><strong>Same-stake parlay sizing as singles.</strong> A $50 parlay risks the same $50 as a $50 single — but the variance profile is wildly different. Size parlay stakes accordingly.</li></ol>
+
+<h2 id="faq">Frequently asked questions</h2><div class="faq-item" style="border-top:1px solid var(--border); padding:18px 0"><h3 style="font-size:1.05rem; margin:0 0 8px">What is a parlay bet?</h3><p class="muted" style="margin:0; line-height:1.65">A combination bet that requires every leg to win for any payout. Higher potential payout than single bets, but compounding vig means parlay hold is significantly higher than single-bet hold.</p></div><div class="faq-item" style="border-top:1px solid var(--border); padding:18px 0"><h3 style="font-size:1.05rem; margin:0 0 8px">How do I calculate parlay payouts?</h3><p class="muted" style="margin:0; line-height:1.65">Multiply the decimal odds of every leg, then multiply by stake. Use our parlay calculator at /tools/parlay/ for any number of legs in any odds format.</p></div><div class="faq-item" style="border-top:1px solid var(--border); padding:18px 0"><h3 style="font-size:1.05rem; margin:0 0 8px">What's the typical hold on a parlay?</h3><p class="muted" style="margin:0; line-height:1.65">14-25% combined hold, compared to 4-7% on single bets. Same Game Parlays specifically run 14-22% because operators explicitly price correlation.</p></div><div class="faq-item" style="border-top:1px solid var(--border); padding:18px 0"><h3 style="font-size:1.05rem; margin:0 0 8px">Can I cash out a parlay early?</h3><p class="muted" style="margin:0; line-height:1.65">Most operators offer cash-out on partially-completed parlays (when most legs have already won). Cash-out prices typically carry 5-15% additional juice.</p></div><div class="faq-item" style="border-top:1px solid var(--border); padding:18px 0"><h3 style="font-size:1.05rem; margin:0 0 8px">Are parlays profitable long-term?</h3><p class="muted" style="margin:0; line-height:1.65">Generally no for retail bettors. Parlays can be profitable when 2-3 legs are genuinely +EV singles or when correlated SGPs have mispricing — but most retail parlay activity loses money.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <div class="container container-narrow" style="padding:24px 20px; border-top:1px solid var(--border); margin-top:32px">
+      <p class="byline muted" style="font-size:.9rem; margin:0 0 8px">By <strong>BettingOnline.org Editorial Team</strong> · Last updated April 2026 · <span class="tag">Reviewed by editorial team</span></p>
+      <p class="muted" style="font-size:.82rem; margin:0">Independent betting guide. See our <a href="../../methodology/">methodology</a>, <a href="../../editorial-standards/">editorial standards</a>, and <a href="../../legal/disclosure.html">affiliate disclosure</a>. 21+ where legal. <a href="../../legal/responsible-gambling.html">Bet responsibly.</a></p>
+    </div>
 
   <div data-site-footer></div>
   <script defer src="../../assets/js/main.js"></script>
