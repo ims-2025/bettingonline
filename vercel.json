@@ -12,6 +12,86 @@
       "source": "/:path*/index.html",
       "destination": "/:path*/",
       "permanent": true
+    },
+    {
+      "source": "/go/draftkings/",
+      "destination": "/reviews/draftkings/",
+      "permanent": false
+    },
+    {
+      "source": "/go/fanduel/",
+      "destination": "/reviews/fanduel/",
+      "permanent": false
+    },
+    {
+      "source": "/go/betmgm/",
+      "destination": "/reviews/betmgm/",
+      "permanent": false
+    },
+    {
+      "source": "/go/caesars/",
+      "destination": "/reviews/caesars/",
+      "permanent": false
+    },
+    {
+      "source": "/go/bet365/",
+      "destination": "/reviews/bet365/",
+      "permanent": false
+    },
+    {
+      "source": "/go/betrivers/",
+      "destination": "/reviews/betrivers/",
+      "permanent": false
+    },
+    {
+      "source": "/go/draftkings-casino/",
+      "destination": "/reviews/draftkings-casino/",
+      "permanent": false
+    },
+    {
+      "source": "/go/fanduel-casino/",
+      "destination": "/reviews/fanduel-casino/",
+      "permanent": false
+    },
+    {
+      "source": "/go/betmgm-casino/",
+      "destination": "/reviews/betmgm-casino/",
+      "permanent": false
+    },
+    {
+      "source": "/go/caesars-palace-online/",
+      "destination": "/reviews/caesars-palace-online/",
+      "permanent": false
+    },
+    {
+      "source": "/go/betrivers-casino/",
+      "destination": "/reviews/betrivers-casino/",
+      "permanent": false
+    },
+    {
+      "source": "/go/pokerstars/",
+      "destination": "/reviews/pokerstars/",
+      "permanent": false
+    },
+    {
+      "source": "/go/888-poker/",
+      "destination": "/reviews/888-poker/",
+      "permanent": false
+    },
+    {
+      "source": "/go/wsop-draftkings-poker/",
+      "destination": "/reviews/wsop-draftkings-poker/",
+      "permanent": false
+    },
+    {
+      "source": "/go/partypoker/",
+      "destination": "/reviews/partypoker/",
+      "permanent": false
+    },
+    {
+      "source": "/go/:slug/",
+      "destination": "/reviews/:slug/",
+      "permanent": false
     }
   ],
   "headers": [
