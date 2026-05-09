@@ -30,6 +30,7 @@
   <link rel="alternate icon" href="../../favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
   <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is positive EV in sports betting?", "acceptedAnswer": {"@type": "Answer", "text": "A bet where your estimated probability of winning exceeds the implied probability of the offered odds. Mathematically, EV > 0. Long-run, positive EV bets accumulate profit. Short-run, variance dominates."}}, {"@type": "Question", "name": "How do I know if my probability estimates are accurate?", "acceptedAnswer": {"@type": "Answer", "text": "Track outcomes across 200+ bets. Compare your estimated probabilities to actual outcomes. If you estimated 55% probability across 100 bets and won 53%, your estimates are roughly calibrated. If you estimated 60% and won 47%, you're overconfident."}}, {"@type": "Question", "name": "What's the difference between EV and CLV?", "acceptedAnswer": {"@type": "Answer", "text": "EV is the per-bet expected dollar value based on your probability estimate. CLV (closing line value) is the gap between your bet's price and the market's closing price. Both measure edge, but CLV is observable directly while EV requires accurate probability estimation."}}, {"@type": "Question", "name": "How do I improve my EV-finding skills?", "acceptedAnswer": {"@type": "Answer", "text": "Specialize in 1-2 sports/markets. Build or use predictive models. Compare your fair lines to sharp consensus (e.g., Pinnacle no-vig). Audit your results across large samples to verify probability accuracy."}}, {"@type": "Question", "name": "Can I bet only positive EV bets?", "acceptedAnswer": {"@type": "Answer", "text": "In principle, yes \u2014 but in practice, finding consistent +EV opportunities at scale requires substantial analytical work. Most professional bettors blend +EV bets with disciplined bankroll management to capture edge over thousands of bets."}}, {"@type": "Question", "name": "What EV percentage is achievable for retail bettors?", "acceptedAnswer": {"@type": "Answer", "text": "Excellent retail bettors run 2-4% ROI long-term. Top professionals run 5-8%. Anyone claiming consistent 10%+ ROI is almost certainly overestimating either their edge or their sample size."}}, {"@type": "Question", "name": "How does the Kelly Criterion relate to EV?", "acceptedAnswer": {"@type": "Answer", "text": "EV tells you whether to bet. Kelly tells you how much. Optimal Kelly stake = (edge / odds), where edge is your probability gap above implied. Use both together for compounding-optimal sizing."}}, {"@type": "Question", "name": "Why do some +EV bets still lose money long-term?", "acceptedAnswer": {"@type": "Answer", "text": "Variance and incorrect probability estimates. Variance smooths out across thousands of bets but can hide edge for hundreds of bets. Incorrect probability estimates produce false +EV that doesn't materialize. Both are common reasons +EV strategies underperform."}}]}</script>
 </head>
 <body>
   <div data-site-header></div>
@@ -89,6 +90,72 @@
     ['prob','odds','stake'].forEach(i => $(i).addEventListener('input', compute));
     compute();
   </script>
+
+  
+  <section class="section" data-pillar-expanded style="background:var(--surface-2)">
+    <div class="container container-narrow">
+      <article class="article">
+        <p class="lede" style="font-size:1.1rem; margin-bottom:32px">Compute the expected dollar value of a bet given your estimated probability and the offered odds. Expected value is the foundation of every long-term-profitable betting strategy. If you don&#x27;t know your EV, you don&#x27;t know whether a bet is worth placing.</p>
+        
+<section class="pillar-section">
+<h2 id="what-expected-value-really-means">What expected value really means</h2>
+
+<p>Expected value (EV) is the average amount you'd win or lose if you placed the same bet many times. Mathematically: EV = (probability of winning × profit if win) − (probability of losing × stake).</p>
+<p>If you bet $100 on a coin flip at +110 odds: probability of winning 50%, profit if win $110, probability of losing 50%, loss if lose $100. EV = 0.5 × $110 − 0.5 × $100 = $5. Long-run, this bet earns $5 per attempt.</p>
+<p>Negative EV bets lose money on average even when individual bets win. The vast majority of casino games and most casual sports bets have negative EV — that's how operators stay in business. Profitable bettors find specific situations where their probability estimate exceeds the implied probability of the offered odds.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="how-to-estimate-your-true-probability">How to estimate your true probability</h2>
+
+<p>The hardest part of EV betting isn't the math — it's accurately estimating probability. Three approaches:</p>
+<ul>
+<li><strong>Build a model.</strong> NFL spreads, NBA totals, MLB run lines all have public data sources to feed predictive models. Even a simple Elo-style rating system can produce probability estimates within 2-3% of sharp markets.</li>
+<li><strong>Use sharp market consensus as your baseline.</strong> Pinnacle (off-shore) is widely considered the sharpest book. Their no-vig closing line is approximately fair probability. Compare your bet's offered odds to Pinnacle's no-vig line.</li>
+<li><strong>Apply specialist knowledge.</strong> If you cover a beat, watch a specific league closely, or have analytical insight not embedded in market prices, your probability estimate may meaningfully differ from market consensus.</li>
+</ul>
+<p>The honest answer: most retail bettors overestimate their probability accuracy. Conservative estimates and disciplined sample sizes (200+ bets minimum) are the only way to verify whether your EV claims hold up.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="worked-ev-example">Worked EV example</h2>
+
+<p>You think Bills are 56% to cover -3 vs Patriots. The market is offering -110 (52.4% implied). You stake $100.</p>
+<p>EV = 0.56 × $90.91 − 0.44 × $100 = $50.91 − $44 = +$6.91.</p>
+<p>Each $100 bet at this price has expected value of $6.91 — roughly 6.9% return on stake. Across 50 bets at this estimated probability, expected total profit is $345.50, with standard deviation around $700. So even with positive EV, you'll see a wide range of outcomes — some weeks you'll be down 5+ units, other weeks you'll be up 10+.</p>
+<p>The key: positive EV bets accumulate over time. Variance dominates short-term results; EV dominates long-term results. <a href="../../guides/closing-line-value.html">Read our CLV guide</a> for how to verify your edge through closing line value tracking.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="common-ev-mistakes">Common EV mistakes</h2>
+
+<ol>
+<li><strong>Overestimating your probability accuracy.</strong> Most retail bettors think their probability estimates are within 2-3% of true probability. Audit yourself: track 100+ bets and compare your estimated probabilities to actual outcomes.</li>
+<li><strong>Treating market price as ignorant.</strong> The market reflects consensus from informed bettors. If your probability estimate diverges 8%+ from market implied probability, you're either right with high conviction (rare) or wrong (common).</li>
+<li><strong>Ignoring closing line value.</strong> Track CLV alongside results. CLV is the most reliable forward-looking edge signal — beating closing line value 1.5%+ on a 200+ sample suggests genuine edge.</li>
+<li><strong>Sizing positions purely by EV.</strong> EV doesn't account for variance. The Kelly Criterion (see our <a href="../kelly/">Kelly calculator</a>) optimizes growth-adjusted sizing, accounting for both edge and variance.</li>
+</ol>
+
+</section>
+
+<section class="pillar-section"><h2 id="faq">Frequently asked questions</h2>
+<div class="faq-item"><h3>What is positive EV in sports betting?</h3><p>A bet where your estimated probability of winning exceeds the implied probability of the offered odds. Mathematically, EV &gt; 0. Long-run, positive EV bets accumulate profit. Short-run, variance dominates.</p></div>
+<div class="faq-item"><h3>How do I know if my probability estimates are accurate?</h3><p>Track outcomes across 200+ bets. Compare your estimated probabilities to actual outcomes. If you estimated 55% probability across 100 bets and won 53%, your estimates are roughly calibrated. If you estimated 60% and won 47%, you&#x27;re overconfident.</p></div>
+<div class="faq-item"><h3>What&#x27;s the difference between EV and CLV?</h3><p>EV is the per-bet expected dollar value based on your probability estimate. CLV (closing line value) is the gap between your bet&#x27;s price and the market&#x27;s closing price. Both measure edge, but CLV is observable directly while EV requires accurate probability estimation.</p></div>
+<div class="faq-item"><h3>How do I improve my EV-finding skills?</h3><p>Specialize in 1-2 sports/markets. Build or use predictive models. Compare your fair lines to sharp consensus (e.g., Pinnacle no-vig). Audit your results across large samples to verify probability accuracy.</p></div>
+<div class="faq-item"><h3>Can I bet only positive EV bets?</h3><p>In principle, yes — but in practice, finding consistent +EV opportunities at scale requires substantial analytical work. Most professional bettors blend +EV bets with disciplined bankroll management to capture edge over thousands of bets.</p></div>
+<div class="faq-item"><h3>What EV percentage is achievable for retail bettors?</h3><p>Excellent retail bettors run 2-4% ROI long-term. Top professionals run 5-8%. Anyone claiming consistent 10%+ ROI is almost certainly overestimating either their edge or their sample size.</p></div>
+<div class="faq-item"><h3>How does the Kelly Criterion relate to EV?</h3><p>EV tells you whether to bet. Kelly tells you how much. Optimal Kelly stake = (edge / odds), where edge is your probability gap above implied. Use both together for compounding-optimal sizing.</p></div>
+<div class="faq-item"><h3>Why do some +EV bets still lose money long-term?</h3><p>Variance and incorrect probability estimates. Variance smooths out across thousands of bets but can hide edge for hundreds of bets. Incorrect probability estimates produce false +EV that doesn&#x27;t materialize. Both are common reasons +EV strategies underperform.</p></div></section>
+<section class="pillar-section"><h2 id="related">Related calculators &amp; guides</h2>
+<ul><li><a href="../parlay/">Parlay calculator</a></li><li><a href="../odds-converter/">Odds converter</a></li><li><a href="../hedge/">Hedge calculator</a></li><li><a href="../ev/">Expected value (EV) calculator</a></li><li><a href="../kelly/">Kelly Criterion calculator</a></li><li><a href="../arbitrage/">Arbitrage calculator</a></li><li><a href="../../guides/closing-line-value.html">Closing line value (CLV) explained</a></li><li><a href="../../guides/bankroll.html">Bankroll management</a></li><li><a href="../../guides/value-line-shopping.html">Line shopping for retail bettors</a></li></ul></section>
+<p class="byline muted" style="font-size:.9rem; margin-top:32px">Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span> · See our <a href="../../how-we-rate/">methodology</a> and <a href="../../legal/disclosure.html">affiliate disclosure</a>.</p>
+      </article>
+    </div>
+  </section>
 
   <div data-site-footer></div>
   <script defer src="../../assets/js/main.js"></script>

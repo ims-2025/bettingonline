@@ -30,6 +30,7 @@
   <link rel="alternate icon" href="../../favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
   <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do you calculate a parlay payout?", "acceptedAnswer": {"@type": "Answer", "text": "Multiply the decimal odds of every leg together, then multiply by your stake. For example, three legs at decimal 1.91 each on a $100 stake: 1.91 \u00d7 1.91 \u00d7 1.91 \u00d7 $100 = $696. Use our calculator above for any number of legs in any odds format."}}, {"@type": "Question", "name": "What is the maximum number of legs allowed in a parlay?", "acceptedAnswer": {"@type": "Answer", "text": "Most major US operators allow 12-15 legs. DraftKings caps at 14, FanDuel at 12, BetMGM at 15. Beyond that you'll need to split into separate parlays or use round robin."}}, {"@type": "Question", "name": "Are parlays profitable long-term?", "acceptedAnswer": {"@type": "Answer", "text": "On average, no. Sportsbook hold on parlays is 14-25%, far higher than the 4.5% on straight bets. Selective parlays can be +EV (specifically 2-3 leg parlays of independently +EV singles, or correlated SGPs where mispricing exists), but most retail parlays are -EV."}}, {"@type": "Question", "name": "Can I cash out a parlay early?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, most operators offer cash-out on partially-won parlays. The cash-out price typically carries 5-15% additional juice beyond fair value, so it's usually less profitable than letting the parlay ride or hedging the last leg manually."}}, {"@type": "Question", "name": "What is a Same Game Parlay?", "acceptedAnswer": {"@type": "Answer", "text": "A Same Game Parlay (SGP) combines multiple legs from a single game. Operators price correlation explicitly, so SGPs run higher hold (14-22%) than cross-game parlays. They're entertaining but rarely profitable as a primary strategy."}}, {"@type": "Question", "name": "How do round robins work?", "acceptedAnswer": {"@type": "Answer", "text": "A round robin breaks a list of teams into multiple smaller parlays. For example, 5 teams in a 'round robin by 3' creates 10 different 3-leg parlays. You stake each parlay separately, gaining variance smoothing but reducing per-bet upside."}}, {"@type": "Question", "name": "What's the difference between American and Decimal parlay odds?", "acceptedAnswer": {"@type": "Answer", "text": "Math is identical \u2014 they're just different formats. Decimal makes parlay calculation visually obvious (just multiply). American odds are easier to read at a glance for individual legs but harder to combine without conversion. Use our calculator's format toggle to work in whichever you prefer."}}, {"@type": "Question", "name": "Should I take parlay insurance promotions?", "acceptedAnswer": {"@type": "Answer", "text": "Parlay insurance (where you get a refund if one leg loses) can be valuable if it's offered without strings. Most parlay insurance promotions cap the refund as a bonus bet, which is worth ~70% of cash. Read terms carefully \u2014 some require a minimum 4+ leg parlay or specific markets."}}]}</script>
 </head>
 <body>
   <div data-site-header></div>
@@ -169,6 +170,79 @@
 
     renderLegs(); compute();
   </script>
+
+  
+  <section class="section" data-pillar-expanded style="background:var(--surface-2)">
+    <div class="container container-narrow">
+      <article class="article">
+        <p class="lede" style="font-size:1.1rem; margin-bottom:32px">The parlay calculator multiplies the decimal odds of every leg you add and applies your stake to produce the total payout, profit, and combined American line. The math behind it is simple — but understanding how parlay value really works is what separates winning bettors from losing ones.</p>
+        
+<section class="pillar-section">
+<h2 id="how-parlay-payouts-are-calculated">How parlay payouts are calculated</h2>
+
+<p>A parlay payout is the product of every leg's decimal odds, multiplied by your stake. Two legs at -110 (decimal 1.909) on a $100 stake: 1.909 × 1.909 × $100 = $364.46 payout, or $264.46 profit. Three legs: 1.909³ × $100 = $695.79. Five legs: $1,329 from a $100 stake.</p>
+<p>The catch — and it's a big one — is that the operator's vig compounds with each leg you add. A 5-leg parlay of -110 legs has a true probability of 52.4%⁵ = 3.96%, but the parlay's implied probability at the posted price is closer to 7.5%. That gap is the operator's structural margin on parlays. Sportsbook hold on parlays runs 14-25%, compared to 4.5% on straight bets.</p>
+<p>This is why most parlays lose money long-term — even when the individual legs are well-priced. The parlay format takes a small per-leg vig and stacks it.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="when-parlays-make-sense">When parlays make sense</h2>
+
+<p>Despite the unfavorable math, certain parlay situations have positive expected value:</p>
+<ul>
+<li><strong>2-3 leg parlays of independently +EV singles.</strong> If you've identified two genuinely +EV bets you'd place as singles, parlaying them maintains the +EV — provided the legs are uncorrelated.</li>
+<li><strong>Same Game Parlays where correlation is mispriced.</strong> When the book underprices positive correlation between legs (e.g., team total over + opposing team's QB rushing under), a properly-built SGP can be +EV. <a href="../../guides/same-game-parlay-strategy.html">Read our SGP strategy guide</a>.</li>
+<li><strong>Teaser-style parlays at key numbers.</strong> NFL Wong Teasers (6-point teasers crossing the 3 and 7) have historical +EV in specific spread ranges. <a href="../../bet-types/teaser-bet/">Teaser guide</a>.</li>
+<li><strong>Round robins for variance smoothing.</strong> A round robin breaks a list of teams into smaller parlays. You sacrifice some upside but survive a single-leg loss.</li>
+</ul>
+<p>Cases to avoid: 6+ leg parlays (the per-leg vig compounds), correlated leg parlays where you're paying full price for legs that will move together anyway, and "boost" parlays where the boosted price is still 30-50% behind fair value.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="worked-example-4-leg-nfl-sunday-parlay">Worked example: 4-leg NFL Sunday parlay</h2>
+
+<p>Suppose you're considering this 4-leg parlay:</p>
+<ul>
+<li>Bills -3 (-110)</li>
+<li>Cowboys ML (+150)</li>
+<li>Eagles/Giants over 47.5 (-105)</li>
+<li>49ers -7 (-115)</li>
+</ul>
+<p>Decimal odds: 1.909 × 2.50 × 1.952 × 1.870 = 17.42. On a $25 stake, payout = $435.50, profit = $410.50. Combined American line: +1,642.</p>
+<p>Now check whether each leg is +EV. If your fair-line analysis says Bills are 56% to cover (vs the implied 52.4%), Cowboys 42% to win outright (vs 40%), the over hits 53% (vs 51.2%), and 49ers cover 53% (vs 53.5%), the parlay's true probability is 0.56 × 0.42 × 0.53 × 0.53 = 6.6%. Implied: 1/17.42 = 5.7%. Parlay edge: ~16% of stake. That's a +EV parlay.</p>
+<p>If even one of those probability estimates is too generous (say Bills are really only 53% to cover, not 56%), the +EV evaporates fast. This is why parlay edge is fragile — small errors compound.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="common-parlay-mistakes">Common parlay mistakes</h2>
+
+<ol>
+<li><strong>Stacking heavy favorites.</strong> A 5-leg parlay of -300 favorites pays small. Even if all five hit at 75% true probability, the combined return is barely above break-even after vig.</li>
+<li><strong>Adding correlated legs the book hasn't priced.</strong> Same Game Parlays handle correlation. Cross-game parlays don't — but operators sometimes detect correlation and price accordingly. Don't assume independent pricing.</li>
+<li><strong>Treating boosted parlays as free money.</strong> A boost from +1500 to +2000 looks impressive. If the original price was 30% behind fair value, the boosted price is still 12% behind.</li>
+<li><strong>Sizing parlays the same as straight bets.</strong> A $100 unit on a -110 single risks $100. A $100 unit on a 5-leg parlay risks $100 to win $1,000+ — completely different variance profile. Size accordingly.</li>
+</ol>
+
+</section>
+
+<section class="pillar-section"><h2 id="faq">Frequently asked questions</h2>
+<div class="faq-item"><h3>How do you calculate a parlay payout?</h3><p>Multiply the decimal odds of every leg together, then multiply by your stake. For example, three legs at decimal 1.91 each on a $100 stake: 1.91 × 1.91 × 1.91 × $100 = $696. Use our calculator above for any number of legs in any odds format.</p></div>
+<div class="faq-item"><h3>What is the maximum number of legs allowed in a parlay?</h3><p>Most major US operators allow 12-15 legs. DraftKings caps at 14, FanDuel at 12, BetMGM at 15. Beyond that you&#x27;ll need to split into separate parlays or use round robin.</p></div>
+<div class="faq-item"><h3>Are parlays profitable long-term?</h3><p>On average, no. Sportsbook hold on parlays is 14-25%, far higher than the 4.5% on straight bets. Selective parlays can be +EV (specifically 2-3 leg parlays of independently +EV singles, or correlated SGPs where mispricing exists), but most retail parlays are -EV.</p></div>
+<div class="faq-item"><h3>Can I cash out a parlay early?</h3><p>Yes, most operators offer cash-out on partially-won parlays. The cash-out price typically carries 5-15% additional juice beyond fair value, so it&#x27;s usually less profitable than letting the parlay ride or hedging the last leg manually.</p></div>
+<div class="faq-item"><h3>What is a Same Game Parlay?</h3><p>A Same Game Parlay (SGP) combines multiple legs from a single game. Operators price correlation explicitly, so SGPs run higher hold (14-22%) than cross-game parlays. They&#x27;re entertaining but rarely profitable as a primary strategy.</p></div>
+<div class="faq-item"><h3>How do round robins work?</h3><p>A round robin breaks a list of teams into multiple smaller parlays. For example, 5 teams in a &#x27;round robin by 3&#x27; creates 10 different 3-leg parlays. You stake each parlay separately, gaining variance smoothing but reducing per-bet upside.</p></div>
+<div class="faq-item"><h3>What&#x27;s the difference between American and Decimal parlay odds?</h3><p>Math is identical — they&#x27;re just different formats. Decimal makes parlay calculation visually obvious (just multiply). American odds are easier to read at a glance for individual legs but harder to combine without conversion. Use our calculator&#x27;s format toggle to work in whichever you prefer.</p></div>
+<div class="faq-item"><h3>Should I take parlay insurance promotions?</h3><p>Parlay insurance (where you get a refund if one leg loses) can be valuable if it&#x27;s offered without strings. Most parlay insurance promotions cap the refund as a bonus bet, which is worth ~70% of cash. Read terms carefully — some require a minimum 4+ leg parlay or specific markets.</p></div></section>
+<section class="pillar-section"><h2 id="related">Related calculators &amp; guides</h2>
+<ul><li><a href="../parlay/">Parlay calculator</a></li><li><a href="../odds-converter/">Odds converter</a></li><li><a href="../hedge/">Hedge calculator</a></li><li><a href="../ev/">Expected value (EV) calculator</a></li><li><a href="../kelly/">Kelly Criterion calculator</a></li><li><a href="../arbitrage/">Arbitrage calculator</a></li><li><a href="../../guides/closing-line-value.html">Closing line value (CLV) explained</a></li><li><a href="../../guides/bankroll.html">Bankroll management</a></li><li><a href="../../guides/value-line-shopping.html">Line shopping for retail bettors</a></li></ul></section>
+<p class="byline muted" style="font-size:.9rem; margin-top:32px">Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span> · See our <a href="../../how-we-rate/">methodology</a> and <a href="../../legal/disclosure.html">affiliate disclosure</a>.</p>
+      </article>
+    </div>
+  </section>
 
   <div data-site-footer></div>
   <script defer src="../../assets/js/main.js"></script>

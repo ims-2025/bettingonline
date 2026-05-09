@@ -30,6 +30,7 @@
   <link rel="alternate icon" href="../../favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
   <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "When should I hedge a sports bet?", "acceptedAnswer": {"@type": "Answer", "text": "Hedge when (a) the potential payout is meaningfully large relative to your bankroll, (b) the guaranteed profit from hedging is substantial, and (c) you've already won the bulk of the original probability. Most useful for futures, late-leg parlays, and live positions."}}, {"@type": "Question", "name": "How does hedging differ from cash out?", "acceptedAnswer": {"@type": "Answer", "text": "Cash out is a one-click hedge built into the sportsbook app at a price the operator sets. Manual hedging lets you find better prices at competing operators. Cash out typically carries 5-15% additional juice."}}, {"@type": "Question", "name": "Can I hedge a bet at the same sportsbook?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, but operators can detect hedging behavior. Spreading hedges across multiple books reduces the operator's visibility into your strategy."}}, {"@type": "Question", "name": "What's the math for a perfect hedge?", "acceptedAnswer": {"@type": "Answer", "text": "Hedge stake = (original payout including stake) / (hedge decimal odds). Total guaranteed payout equals original payout. Guaranteed profit = original payout minus total risk (original stake + hedge stake)."}}, {"@type": "Question", "name": "Should I always hedge a winning futures bet?", "acceptedAnswer": {"@type": "Answer", "text": "No. Hedging gives up expected value. Whether to hedge depends on the size of the position relative to your bankroll and your personal risk tolerance. Small futures relative to bankroll: ride. Large futures relative to bankroll: hedge meaningful percentages."}}, {"@type": "Question", "name": "What's a partial hedge?", "acceptedAnswer": {"@type": "Answer", "text": "Stake less than the full hedge amount. You give up some guaranteed profit in exchange for retaining upside if the original ticket wins. Partial hedges optimize for personal risk tolerance between full ride and full hedge."}}, {"@type": "Question", "name": "Can I hedge a Same Game Parlay?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, on individual legs. SGPs settle as a whole, so hedging the parlay outcome is straightforward \u2014 bet against the parlay winning at fair odds. Hedging individual legs of an SGP is operationally complex and rarely worth it."}}, {"@type": "Question", "name": "How does hedging interact with bonus bets?", "acceptedAnswer": {"@type": "Answer", "text": "Bonus bets pay only profit (not stake). When hedging with bonus bets, the math changes \u2014 bonus bet stake doesn't return on settlement. Use real cash for hedge stakes when possible; bonus bets shift the equilibrium."}}]}</script>
 </head>
 <body>
   <div data-site-header></div>
@@ -95,6 +96,73 @@
     ['orig-stake','orig-odds','hedge-odds'].forEach(i => $(i).addEventListener('input', compute));
     compute();
   </script>
+
+  
+  <section class="section" data-pillar-expanded style="background:var(--surface-2)">
+    <div class="container container-narrow">
+      <article class="article">
+        <p class="lede" style="font-size:1.1rem; margin-bottom:32px">Calculate the exact stake to hedge a winning futures bet, large parlay leg, or live position to lock in guaranteed profit. The hedge calculator computes how much to wager on the opposite side to guarantee equal payout regardless of outcome.</p>
+        
+<section class="pillar-section">
+<h2 id="how-hedging-works-mathematically">How hedging works mathematically</h2>
+
+<p>A hedge bet places opposite-side wagers to lock in profit (or limit loss) on an existing position. The math: if your original bet pays out X dollars on a win, you stake on the opposite side with odds Y. To equalize payouts:</p>
+<p>Hedge stake = original payout / hedge decimal odds.</p>
+<p>Total risk = original stake + hedge stake. Guaranteed profit = original payout - total risk.</p>
+<p>Example: You placed $100 on Bills futures at +1500 in September. The Bills make the Super Bowl. Your potential payout is $1,600 ($1,500 profit + $100 stake). The opposing team is -130 (decimal 1.769). To hedge: hedge stake = $1,600 / 1.769 = $904.46. Total risk: $100 + $904.46 = $1,004.46. If Bills win Super Bowl: $1,600 - $904.46 = $695.54 profit. If opposing team wins: $904.46 × 1.769 - $100 - $904.46 = $695.54 profit. Equal payout either way.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="when-hedging-is-rational-vs-irrational">When hedging is rational vs irrational</h2>
+
+<p>Hedging gives up expected value in exchange for guaranteed profit. Mathematically, the rational hedge depends on:</p>
+<ul>
+<li><strong>How much guaranteed profit are you locking in?</strong> If hedging guarantees $1,000 vs riding for $5,000 expected with 30% probability, you're locking in $1,000 to give up $1,500 expected value. Whether that's worth it depends on personal utility.</li>
+<li><strong>How big is the potential payout relative to your bankroll?</strong> A $5,000 payout on a $1,000 bankroll is meaningful — locking in some profit is rational. A $100 payout on a $10,000 bankroll is trivial — riding is mathematically optimal.</li>
+<li><strong>Are you confident in your edge?</strong> If you bet the original ticket because you thought it was +EV, riding is consistent with your analysis. Hedging is a confession that you're more risk-averse than your bet sizing implied.</li>
+</ul>
+<p>Operationally, hedging is most useful for: large futures payouts, last-leg parlay positions, and live in-game scenarios where the original probability has shifted dramatically.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="worked-example-nfl-futures-hedge">Worked example: NFL futures hedge</h2>
+
+<p>You bet $200 on the Chiefs to win the Super Bowl at +800 in August. They make the Super Bowl. Your potential payout: $1,800 ($1,600 profit + $200 stake). Your opponent is -110 (decimal 1.909).</p>
+<p>Hedge stake = $1,800 / 1.909 = $943.</p>
+<p>Total risk: $200 + $943 = $1,143. Guaranteed payout regardless of result: $1,800 (Chiefs win) or $943 × 1.909 = $1,800 (opponent wins). Guaranteed profit: $1,800 - $1,143 = $657.</p>
+<p>Compare to riding: Chiefs are roughly 50% to win the Super Bowl at this point. Expected value of riding: 0.5 × $1,600 + 0.5 × ($-200) = $700. Hedging gives up $43 of expected value to guarantee $657 instead of risking 50/50 on $1,600 vs -$200. Most bettors would take the guaranteed $657.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="common-hedging-mistakes">Common hedging mistakes</h2>
+
+<ol>
+<li><strong>Hedging too early.</strong> Hedging a 5-leg parlay's first leg locks in nothing useful. Wait until you have only 1-2 legs left and the potential payout is meaningful.</li>
+<li><strong>Hedging at bad prices.</strong> Live markets can have widening spreads. If the live hedge market is at -200 and you'd want -150, the hedge might cost more than it saves. Recompute fair value before hedging.</li>
+<li><strong>Hedging at the same operator.</strong> Some operators detect hedging behavior and limit accounts. Spread hedges across multiple books when possible.</li>
+<li><strong>Using cash-out instead of hedging.</strong> Operator cash-out offers typically carry 5-15% additional juice beyond a manually-built hedge. Build the hedge yourself when possible.</li>
+</ol>
+
+</section>
+
+<section class="pillar-section"><h2 id="faq">Frequently asked questions</h2>
+<div class="faq-item"><h3>When should I hedge a sports bet?</h3><p>Hedge when (a) the potential payout is meaningfully large relative to your bankroll, (b) the guaranteed profit from hedging is substantial, and (c) you&#x27;ve already won the bulk of the original probability. Most useful for futures, late-leg parlays, and live positions.</p></div>
+<div class="faq-item"><h3>How does hedging differ from cash out?</h3><p>Cash out is a one-click hedge built into the sportsbook app at a price the operator sets. Manual hedging lets you find better prices at competing operators. Cash out typically carries 5-15% additional juice.</p></div>
+<div class="faq-item"><h3>Can I hedge a bet at the same sportsbook?</h3><p>Yes, but operators can detect hedging behavior. Spreading hedges across multiple books reduces the operator&#x27;s visibility into your strategy.</p></div>
+<div class="faq-item"><h3>What&#x27;s the math for a perfect hedge?</h3><p>Hedge stake = (original payout including stake) / (hedge decimal odds). Total guaranteed payout equals original payout. Guaranteed profit = original payout minus total risk (original stake + hedge stake).</p></div>
+<div class="faq-item"><h3>Should I always hedge a winning futures bet?</h3><p>No. Hedging gives up expected value. Whether to hedge depends on the size of the position relative to your bankroll and your personal risk tolerance. Small futures relative to bankroll: ride. Large futures relative to bankroll: hedge meaningful percentages.</p></div>
+<div class="faq-item"><h3>What&#x27;s a partial hedge?</h3><p>Stake less than the full hedge amount. You give up some guaranteed profit in exchange for retaining upside if the original ticket wins. Partial hedges optimize for personal risk tolerance between full ride and full hedge.</p></div>
+<div class="faq-item"><h3>Can I hedge a Same Game Parlay?</h3><p>Yes, on individual legs. SGPs settle as a whole, so hedging the parlay outcome is straightforward — bet against the parlay winning at fair odds. Hedging individual legs of an SGP is operationally complex and rarely worth it.</p></div>
+<div class="faq-item"><h3>How does hedging interact with bonus bets?</h3><p>Bonus bets pay only profit (not stake). When hedging with bonus bets, the math changes — bonus bet stake doesn&#x27;t return on settlement. Use real cash for hedge stakes when possible; bonus bets shift the equilibrium.</p></div></section>
+<section class="pillar-section"><h2 id="related">Related calculators &amp; guides</h2>
+<ul><li><a href="../parlay/">Parlay calculator</a></li><li><a href="../odds-converter/">Odds converter</a></li><li><a href="../hedge/">Hedge calculator</a></li><li><a href="../ev/">Expected value (EV) calculator</a></li><li><a href="../kelly/">Kelly Criterion calculator</a></li><li><a href="../arbitrage/">Arbitrage calculator</a></li><li><a href="../../guides/closing-line-value.html">Closing line value (CLV) explained</a></li><li><a href="../../guides/bankroll.html">Bankroll management</a></li><li><a href="../../guides/value-line-shopping.html">Line shopping for retail bettors</a></li></ul></section>
+<p class="byline muted" style="font-size:.9rem; margin-top:32px">Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span> · See our <a href="../../how-we-rate/">methodology</a> and <a href="../../legal/disclosure.html">affiliate disclosure</a>.</p>
+      </article>
+    </div>
+  </section>
 
   <div data-site-footer></div>
   <script defer src="../../assets/js/main.js"></script>

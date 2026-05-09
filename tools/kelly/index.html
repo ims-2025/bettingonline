@@ -30,6 +30,7 @@
   <link rel="alternate icon" href="../../favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
   <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the Kelly Criterion?", "acceptedAnswer": {"@type": "Answer", "text": "A formula for computing optimal bet sizing: f* = (bp - q) / b. It balances expected growth against variance, producing the bankroll fraction that maximizes long-term compounding given your estimated edge."}}, {"@type": "Question", "name": "Should I use full Kelly?", "acceptedAnswer": {"@type": "Answer", "text": "Most bettors should use fractional Kelly (0.25-0.5x full). Full Kelly maximizes long-term growth but at painful short-term variance. Half-Kelly captures ~75% of full-Kelly growth with 50% of variance."}}, {"@type": "Question", "name": "What if Kelly suggests negative?", "acceptedAnswer": {"@type": "Answer", "text": "Don't take the bet. Negative Kelly means -EV \u2014 the offered odds price you against your probability estimate. Negative results clamp to zero in our calculator."}}, {"@type": "Question", "name": "How accurate must my probability estimate be?", "acceptedAnswer": {"@type": "Answer", "text": "Reasonably accurate, especially with full Kelly. If your edge estimate is off by 30%+, full Kelly massively over-bets and risks bankroll destruction. Fractional Kelly is more forgiving of estimation error."}}, {"@type": "Question", "name": "How does Kelly relate to EV?", "acceptedAnswer": {"@type": "Answer", "text": "EV tells you whether to bet (positive = yes). Kelly tells you how much. Use both together: filter for +EV opportunities, size with Kelly."}}, {"@type": "Question", "name": "What's the difference between Kelly and unit sizing?", "acceptedAnswer": {"@type": "Answer", "text": "Unit sizing uses fixed dollar amounts regardless of edge. Kelly scales stake with edge size \u2014 bigger edge = bigger stake. Kelly is more efficient mathematically but requires accurate probability estimation."}}, {"@type": "Question", "name": "Can I use Kelly for parlays?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, but treat the parlay as a single bet. Compute combined probability (multiply leg probabilities, assuming independence) and combined odds. Apply Kelly to the parlay's combined edge and odds."}}, {"@type": "Question", "name": "How does drawdown work under Kelly?", "acceptedAnswer": {"@type": "Answer", "text": "Full Kelly produces 50%+ drawdowns regularly even with positive edge. Half-Kelly drawdowns max at ~30%. Quarter-Kelly drawdowns max at ~15%. The trade-off is long-term growth speed."}}]}</script>
 </head>
 <body>
   <div data-site-header></div>
@@ -94,6 +95,76 @@
     ['prob','odds','bankroll','fraction'].forEach(i => $(i).addEventListener('input', compute));
     compute();
   </script>
+
+  
+  <section class="section" data-pillar-expanded style="background:var(--surface-2)">
+    <div class="container container-narrow">
+      <article class="article">
+        <p class="lede" style="font-size:1.1rem; margin-bottom:32px">Compute the mathematically optimal bet size for compounding bankroll growth based on your edge and odds. The Kelly Criterion balances aggressive growth against bankruptcy risk — bet too small and you give up compounding; bet too large and variance can wipe out the bankroll before edge materializes.</p>
+        
+<section class="pillar-section">
+<h2 id="the-kelly-formula">The Kelly formula</h2>
+
+<p>Kelly Criterion: f* = (bp − q) / b, where:</p>
+<ul>
+<li>f* = optimal fraction of bankroll to wager</li>
+<li>b = decimal odds minus 1 (the profit per unit staked if win)</li>
+<li>p = your probability of winning</li>
+<li>q = your probability of losing (1 − p)</li>
+</ul>
+<p>Example: Bet at +150 (decimal 2.50, b = 1.5). You estimate 50% probability of winning. Kelly = (1.5 × 0.5 − 0.5) / 1.5 = 0.25 / 1.5 = 16.67%. Stake 16.67% of bankroll on this bet.</p>
+<p>If Kelly suggests a negative number, the bet is -EV — don't take it. The calculator above clamps negative Kelly to zero.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="why-fractional-kelly-is-usually-correct">Why fractional Kelly is usually correct</h2>
+
+<p>Full Kelly maximizes long-run geometric bankroll growth, but at substantial short-term variance. A 50% bankroll drawdown is mathematically possible — and emotionally devastating — even when betting at full Kelly with positive edge.</p>
+<p>Fractional Kelly (typically 0.25 to 0.5 of full Kelly) sacrifices some long-run growth for substantially reduced variance. Half-Kelly captures roughly 75% of full-Kelly growth with 50% of full-Kelly variance.</p>
+<p>Practical recommendation: most retail bettors should use 0.25-0.5 Kelly. Full Kelly is mathematically optimal but emotionally unsustainable for most. Conservative bettors benefit from fractional Kelly's smoother bankroll trajectory.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="worked-kelly-example">Worked Kelly example</h2>
+
+<p>You estimate the Bills are 56% to cover -3 against the Patriots. The market is at -110 (decimal 1.909, b = 0.909). Your bankroll is $5,000.</p>
+<p>Full Kelly: f* = (0.909 × 0.56 − 0.44) / 0.909 = (0.509 − 0.44) / 0.909 = 7.6%.</p>
+<p>Full Kelly stake: $5,000 × 7.6% = $380.</p>
+<p>Half Kelly stake: $190.</p>
+<p>Quarter Kelly stake: $95.</p>
+<p>If your edge estimate (56% true probability) is correct, full Kelly produces fastest long-term bankroll growth. If you're overconfident — say true probability is 53% not 56% — full Kelly massively over-bets. Quarter Kelly compensates for probability estimation error.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="common-kelly-mistakes">Common Kelly mistakes</h2>
+
+<ol>
+<li><strong>Using full Kelly without testing edge accuracy.</strong> Full Kelly assumes perfect probability estimation. Most retail bettors overestimate edge. Quarter Kelly is far safer.</li>
+<li><strong>Ignoring correlation across bets.</strong> Kelly assumes independent bets. If you have multiple correlated +EV bets (e.g., multiple legs on the same NFL game), summing individual Kelly stakes overstates total exposure.</li>
+<li><strong>Not adjusting for parlays.</strong> Parlay Kelly is a separate calculation: treat the parlay as a single bet with combined probability and combined odds.</li>
+<li><strong>Forgetting to recompute after wins/losses.</strong> Kelly is bankroll-relative. After a 20% bankroll drawdown, your stake size should drop 20% even if Kelly fraction stays the same.</li>
+</ol>
+
+</section>
+
+<section class="pillar-section"><h2 id="faq">Frequently asked questions</h2>
+<div class="faq-item"><h3>What is the Kelly Criterion?</h3><p>A formula for computing optimal bet sizing: f* = (bp - q) / b. It balances expected growth against variance, producing the bankroll fraction that maximizes long-term compounding given your estimated edge.</p></div>
+<div class="faq-item"><h3>Should I use full Kelly?</h3><p>Most bettors should use fractional Kelly (0.25-0.5x full). Full Kelly maximizes long-term growth but at painful short-term variance. Half-Kelly captures ~75% of full-Kelly growth with 50% of variance.</p></div>
+<div class="faq-item"><h3>What if Kelly suggests negative?</h3><p>Don&#x27;t take the bet. Negative Kelly means -EV — the offered odds price you against your probability estimate. Negative results clamp to zero in our calculator.</p></div>
+<div class="faq-item"><h3>How accurate must my probability estimate be?</h3><p>Reasonably accurate, especially with full Kelly. If your edge estimate is off by 30%+, full Kelly massively over-bets and risks bankroll destruction. Fractional Kelly is more forgiving of estimation error.</p></div>
+<div class="faq-item"><h3>How does Kelly relate to EV?</h3><p>EV tells you whether to bet (positive = yes). Kelly tells you how much. Use both together: filter for +EV opportunities, size with Kelly.</p></div>
+<div class="faq-item"><h3>What&#x27;s the difference between Kelly and unit sizing?</h3><p>Unit sizing uses fixed dollar amounts regardless of edge. Kelly scales stake with edge size — bigger edge = bigger stake. Kelly is more efficient mathematically but requires accurate probability estimation.</p></div>
+<div class="faq-item"><h3>Can I use Kelly for parlays?</h3><p>Yes, but treat the parlay as a single bet. Compute combined probability (multiply leg probabilities, assuming independence) and combined odds. Apply Kelly to the parlay&#x27;s combined edge and odds.</p></div>
+<div class="faq-item"><h3>How does drawdown work under Kelly?</h3><p>Full Kelly produces 50%+ drawdowns regularly even with positive edge. Half-Kelly drawdowns max at ~30%. Quarter-Kelly drawdowns max at ~15%. The trade-off is long-term growth speed.</p></div></section>
+<section class="pillar-section"><h2 id="related">Related calculators &amp; guides</h2>
+<ul><li><a href="../parlay/">Parlay calculator</a></li><li><a href="../odds-converter/">Odds converter</a></li><li><a href="../hedge/">Hedge calculator</a></li><li><a href="../ev/">Expected value (EV) calculator</a></li><li><a href="../kelly/">Kelly Criterion calculator</a></li><li><a href="../arbitrage/">Arbitrage calculator</a></li><li><a href="../../guides/closing-line-value.html">Closing line value (CLV) explained</a></li><li><a href="../../guides/bankroll.html">Bankroll management</a></li><li><a href="../../guides/value-line-shopping.html">Line shopping for retail bettors</a></li></ul></section>
+<p class="byline muted" style="font-size:.9rem; margin-top:32px">Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span> · See our <a href="../../how-we-rate/">methodology</a> and <a href="../../legal/disclosure.html">affiliate disclosure</a>.</p>
+      </article>
+    </div>
+  </section>
 
   <div data-site-footer></div>
   <script defer src="../../assets/js/main.js"></script>

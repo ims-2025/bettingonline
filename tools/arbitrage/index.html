@@ -30,6 +30,7 @@
   <link rel="alternate icon" href="../../favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="BettingOnline.org News" href="../../news/rss.xml">
   <link rel="alternate" type="application/feed+json" title="BettingOnline.org News" href="../../news/feed.json">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is arbitrage betting legal?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, in jurisdictions where sports betting is legal. However, sportsbooks are private businesses and may detect, limit, or close accounts engaged in arb betting. Legal but operationally risky."}}, {"@type": "Question", "name": "How much can I make arbitrage betting?", "acceptedAnswer": {"@type": "Answer", "text": "Typical arbs are 1-4% margins on the staked capital. With $10,000 deployed and several arbs per week, this might produce $300-800/month before account limits become an issue. Pro arbers diversify across many books to extend account lifetimes."}}, {"@type": "Question", "name": "Can I arb at the same sportsbook?", "acceptedAnswer": {"@type": "Answer", "text": "No. The same sportsbook would never offer two opposing prices that sum to less than 100% \u2014 that's losing money for them. Arbitrage requires opposing sides at different operators."}}, {"@type": "Question", "name": "Will I get banned from sportsbooks for arbing?", "acceptedAnswer": {"@type": "Answer", "text": "Likely, eventually. Detection algorithms identify pattern-betting consistent with arbing \u2014 round-trip betting on opposing markets, identical-amount bets across operators, only ever betting at +EV moments. Most arbers see account limits within 6-18 months."}}, {"@type": "Question", "name": "What's the difference between arbitrage and middling?", "acceptedAnswer": {"@type": "Answer", "text": "Arbitrage guarantees profit regardless of outcome. Middling bets opposing sides on different lines hoping the result lands between them \u2014 winning both bets with substantial bonus profit, but losing one bet otherwise. Middling is variance-driven; arbitrage is risk-free."}}, {"@type": "Question", "name": "Can I arb with bonus bets?", "acceptedAnswer": {"@type": "Answer", "text": "Bonus bet arbing is explicitly prohibited at most operators. Even if technically possible to compute, attempting it typically violates terms and results in voided winnings or account closure."}}, {"@type": "Question", "name": "How do I find arbs?", "acceptedAnswer": {"@type": "Answer", "text": "Specialized services (RebelBetting, OddsJam, Arber.bet, etc.) scan market lines continuously. They identify arbs as they appear and alert subscribers. Without a service, finding arbs manually is time-prohibitive given how briefly they exist."}}, {"@type": "Question", "name": "What's the minimum profitable arb size?", "acceptedAnswer": {"@type": "Answer", "text": "Below 2% combined edge, latency risk and stake-detection costs typically eat the profit. 2.5%+ is a reasonable minimum threshold. Higher percentages (4%+) are rarer but more profitable per arb."}}]}</script>
 </head>
 <body>
   <div data-site-header></div>
@@ -92,6 +93,72 @@
     ['o1','o2','total'].forEach(i => $(i).addEventListener('input', compute));
     compute();
   </script>
+
+  
+  <section class="section" data-pillar-expanded style="background:var(--surface-2)">
+    <div class="container container-narrow">
+      <article class="article">
+        <p class="lede" style="font-size:1.1rem; margin-bottom:32px">Identify risk-free betting opportunities where staking both sides of a market across two sportsbooks guarantees a profit regardless of outcome. Arbitrage exists when the combined implied probabilities of opposing markets sum to less than 100%.</p>
+        
+<section class="pillar-section">
+<h2 id="how-arbitrage-works">How arbitrage works</h2>
+
+<p>An arbitrage opportunity exists when two opposing sides of a market are priced such that the implied probabilities sum to less than 100%. Why? Because the operator's vig in each market is built on its own probability estimate. If two operators disagree on probability, their combined implied probabilities can sum below 100% — which means stakes on both sides guarantee profit.</p>
+<p>Example: Sportsbook A has Team X at +120 (45.45% implied). Sportsbook B has Team Y at +110 (47.62% implied). Combined: 93.07%. The 6.93% gap is your arbitrage profit. Stake on both sides in proportion to the inverse of their decimal odds, and you guarantee profit regardless of outcome.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="worked-arbitrage-example">Worked arbitrage example</h2>
+
+<p>You want a $1,000 total bankroll arb. Side A: +120 (decimal 2.20). Side B: +110 (decimal 2.10).</p>
+<p>Stake A = $1,000 × (1/2.20) / ((1/2.20) + (1/2.10)) = $1,000 × 0.4545 / 0.9307 = $488.45</p>
+<p>Stake B = $1,000 - $488.45 = $511.55</p>
+<p>If Side A wins: $488.45 × 2.20 = $1,074.59 payout. Profit: $74.59 ($1,074.59 - $1,000).</p>
+<p>If Side B wins: $511.55 × 2.10 = $1,074.26 payout. Profit: $74.26 ($1,074.26 - $1,000).</p>
+<p>Approximately 7.4% guaranteed profit on capital deployed.</p>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="where-arbitrage-opportunities-come-from">Where arbitrage opportunities come from</h2>
+
+<p>Three sources of arbitrage in modern markets:</p>
+<ul>
+<li><strong>Lag between operators.</strong> Sportsbook A moves a line first; Sportsbook B hasn't updated. Arb exists during the 30-90 minute lag window. These are most common on lower-volume markets and lower-tier sports.</li>
+<li><strong>Promotional pricing.</strong> One operator boosts a bet to attract customers, creating arb against another operator's standard price. Promotional arbs are explicitly time-limited and often subject to operator detection.</li>
+<li><strong>Cross-format mispricing.</strong> Asian Handicap (Asian operator) vs spread (US operator) on the same game. Different format structures can produce arbitrage at the boundaries of equivalence.</li>
+</ul>
+
+</section>
+
+<section class="pillar-section">
+<h2 id="why-arbitrage-is-harder-than-it-looks">Why arbitrage is harder than it looks</h2>
+
+<ol>
+<li><strong>Account limits.</strong> Sportsbook detection algorithms identify and limit arb-betting accounts. A profitable arb strategy requires diversification across many books and constant rotation to stay below detection thresholds.</li>
+<li><strong>Stake matching.</strong> Operators detect identical-amount opposite-side bets across affiliated platforms and limit accounts. Round numbers (e.g., $500 / $400) are easier to detect than awkward amounts ($488.45 / $511.55).</li>
+<li><strong>Latency risk.</strong> The arb might disappear between placing the first leg and the second. If only one leg lands, you're holding a -EV position. Arbitrage requires speed and confidence in market liquidity.</li>
+<li><strong>Bonus voiding.</strong> Operators routinely void winnings (or close accounts) when bonus terms are violated. Arbing with bonus bets is particularly risky — most operators explicitly prohibit it.</li>
+</ol>
+
+</section>
+
+<section class="pillar-section"><h2 id="faq">Frequently asked questions</h2>
+<div class="faq-item"><h3>Is arbitrage betting legal?</h3><p>Yes, in jurisdictions where sports betting is legal. However, sportsbooks are private businesses and may detect, limit, or close accounts engaged in arb betting. Legal but operationally risky.</p></div>
+<div class="faq-item"><h3>How much can I make arbitrage betting?</h3><p>Typical arbs are 1-4% margins on the staked capital. With $10,000 deployed and several arbs per week, this might produce $300-800/month before account limits become an issue. Pro arbers diversify across many books to extend account lifetimes.</p></div>
+<div class="faq-item"><h3>Can I arb at the same sportsbook?</h3><p>No. The same sportsbook would never offer two opposing prices that sum to less than 100% — that&#x27;s losing money for them. Arbitrage requires opposing sides at different operators.</p></div>
+<div class="faq-item"><h3>Will I get banned from sportsbooks for arbing?</h3><p>Likely, eventually. Detection algorithms identify pattern-betting consistent with arbing — round-trip betting on opposing markets, identical-amount bets across operators, only ever betting at +EV moments. Most arbers see account limits within 6-18 months.</p></div>
+<div class="faq-item"><h3>What&#x27;s the difference between arbitrage and middling?</h3><p>Arbitrage guarantees profit regardless of outcome. Middling bets opposing sides on different lines hoping the result lands between them — winning both bets with substantial bonus profit, but losing one bet otherwise. Middling is variance-driven; arbitrage is risk-free.</p></div>
+<div class="faq-item"><h3>Can I arb with bonus bets?</h3><p>Bonus bet arbing is explicitly prohibited at most operators. Even if technically possible to compute, attempting it typically violates terms and results in voided winnings or account closure.</p></div>
+<div class="faq-item"><h3>How do I find arbs?</h3><p>Specialized services (RebelBetting, OddsJam, Arber.bet, etc.) scan market lines continuously. They identify arbs as they appear and alert subscribers. Without a service, finding arbs manually is time-prohibitive given how briefly they exist.</p></div>
+<div class="faq-item"><h3>What&#x27;s the minimum profitable arb size?</h3><p>Below 2% combined edge, latency risk and stake-detection costs typically eat the profit. 2.5%+ is a reasonable minimum threshold. Higher percentages (4%+) are rarer but more profitable per arb.</p></div></section>
+<section class="pillar-section"><h2 id="related">Related calculators &amp; guides</h2>
+<ul><li><a href="../parlay/">Parlay calculator</a></li><li><a href="../odds-converter/">Odds converter</a></li><li><a href="../hedge/">Hedge calculator</a></li><li><a href="../ev/">Expected value (EV) calculator</a></li><li><a href="../kelly/">Kelly Criterion calculator</a></li><li><a href="../arbitrage/">Arbitrage calculator</a></li><li><a href="../../guides/closing-line-value.html">Closing line value (CLV) explained</a></li><li><a href="../../guides/bankroll.html">Bankroll management</a></li><li><a href="../../guides/value-line-shopping.html">Line shopping for retail bettors</a></li></ul></section>
+<p class="byline muted" style="font-size:.9rem; margin-top:32px">Updated April 30, 2026 · <span class="tag">Reviewed by editorial team</span> · See our <a href="../../how-we-rate/">methodology</a> and <a href="../../legal/disclosure.html">affiliate disclosure</a>.</p>
+      </article>
+    </div>
+  </section>
 
   <div data-site-footer></div>
   <script defer src="../../assets/js/main.js"></script>
