@@ -14,6 +14,11 @@
       "permanent": true
     },
     {
+      "source": "/bonuses/draftkings-150-bonus-bets/",
+      "destination": "/bonuses/draftkings-100-bonus-bets/",
+      "permanent": true
+    },
+    {
       "source": "/go/draftkings/",
       "destination": "/reviews/draftkings/",
       "permanent": false

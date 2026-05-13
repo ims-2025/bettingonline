@@ -109,7 +109,7 @@
           ['Cricket / Rugby', 'sports/cricket-rugby/']
         ]}
       ],
-      feature: { title: 'Sportsbook of the Month', text: 'DraftKings — $150 in bonus bets', cta: 'See review', href: 'reviews/draftkings/' }
+      feature: { title: 'Sportsbook of the Month', text: 'DraftKings — Bet $5, Get $100 in Bonus Bets', cta: 'See review', href: 'reviews/draftkings/' }
     },
     casino: {
       label: 'Casino',
