@@ -4748,6 +4748,46 @@
     ]
   },
   {
+    "title": "NFL Injury Reports & Line Movement: How Wires Move Markets",
+    "desc": "A complete guide to NFL injury reports and how they move betting lines: the Wed/Thu/Fri practice cycle, game-status designations, the player tiers that matter most, and the timing windows where bettors can find soft prices.",
+    "url": "sports/football/nfl-injuries/",
+    "tags": [
+      "sports",
+      "football",
+      "nfl-injuries"
+    ]
+  },
+  {
+    "title": "NFL Key Numbers Explained: Why 3 and 7 Matter Most in Spread Betting",
+    "desc": "A complete breakdown of NFL key numbers: the historical distribution of margins, why 3 and 7 are dominant, and how to use the key-number distribution to find value on spreads and teasers.",
+    "url": "sports/football/nfl-key-numbers/",
+    "tags": [
+      "sports",
+      "football",
+      "nfl-key-numbers"
+    ]
+  },
+  {
+    "title": "NFL Line Movement: Reading Reverse Line Movement & Sharp Signals",
+    "desc": "How NFL betting lines move between Tuesday's opener and Sunday's close, what reverse line movement actually tells you, and how to separate sharp signals from public-money noise.",
+    "url": "sports/football/nfl-line-movement/",
+    "tags": [
+      "sports",
+      "football",
+      "nfl-line-movement"
+    ]
+  },
+  {
+    "title": "NFL Live & In-Play Betting: Markets, Edges and How to Avoid the Traps",
+    "desc": "A complete guide to NFL live betting in 2026: how in-play markets price during games, where sharp bettors find edges, the lag windows worth exploiting, and the emotional traps that wreck casual live bettors.",
+    "url": "sports/football/nfl-live-betting/",
+    "tags": [
+      "sports",
+      "football",
+      "nfl-live-betting"
+    ]
+  },
+  {
     "title": "NFL Moneylines & Fair Pricing: When to Take the ML Over the Spread",
     "desc": "How NFL moneylines work, how to convert American odds into implied probability, when a moneyline is the better bet than the spread, and how to strip the vig to find fair value.",
     "url": "sports/football/nfl-moneylines/",
@@ -4805,6 +4845,16 @@
       "sports",
       "football",
       "nfl-totals"
+    ]
+  },
+  {
+    "title": "NFL Weather Betting: How Wind, Rain and Cold Move Totals",
+    "desc": "How NFL weather conditions affect betting totals and spreads: the historical impact of wind, rain, snow and cold on scoring, plus the practical workflow for using forecasts to find under value.",
+    "url": "sports/football/nfl-weather/",
+    "tags": [
+      "sports",
+      "football",
+      "nfl-weather"
     ]
   },
   {
