@@ -4602,6 +4602,26 @@
     ]
   },
   {
+    "title": "NBA Injury Reports & Game-Status Windows: How News Moves Lines",
+    "desc": "How NBA injury reports drive betting lines: game-status designations, the 60-90 minute pre-tip inactive window, the prop ripples after a star downgrade, and where the biggest in-day edges live.",
+    "url": "sports/basketball/nba-injuries/",
+    "tags": [
+      "sports",
+      "basketball",
+      "nba-injuries"
+    ]
+  },
+  {
+    "title": "NBA Line Movement: Reading Reverse Line Movement & Steam Moves",
+    "desc": "How NBA betting lines move through the day, what reverse line movement actually signals, how to read steam moves, and how to use line-movement data to find +EV NBA bets.",
+    "url": "sports/basketball/nba-line-movement/",
+    "tags": [
+      "sports",
+      "basketball",
+      "nba-line-movement"
+    ]
+  },
+  {
     "title": "NBA Live & In-Play Betting: Lag Windows, Edges and Common Traps",
     "desc": "A complete guide to NBA live betting in 2026: how in-play markets update, where the lag-window edges live, the in-game patterns worth tracking, and the emotional traps that wreck casual live bettors.",
     "url": "sports/basketball/nba-live-betting/",
@@ -4609,6 +4629,16 @@
       "sports",
       "basketball",
       "nba-live-betting"
+    ]
+  },
+  {
+    "title": "NBA Load Management: Star Rest Patterns and the Late-News Edge",
+    "desc": "How NBA load management drives betting markets: the patterns of star resting, the 60-90 minute pre-tip inactive window, and how disciplined bettors capture the largest in-day edges in US sports.",
+    "url": "sports/basketball/nba-load-management/",
+    "tags": [
+      "sports",
+      "basketball",
+      "nba-load-management"
     ]
   },
   {
@@ -4622,6 +4652,16 @@
     ]
   },
   {
+    "title": "NBA Pace & Totals: How Possessions Per Game Drive the Over/Under",
+    "desc": "How NBA pace metrics drive totals: possessions per game, recent-trend vs season-average pace, matchup-adjusted pace, and how to use pace data to find +EV over/under bets.",
+    "url": "sports/basketball/nba-pace/",
+    "tags": [
+      "sports",
+      "basketball",
+      "nba-pace"
+    ]
+  },
+  {
     "title": "NBA Player Props Strategy: PRA, Threes, Usage and the Edges That Pay",
     "desc": "A complete strategy guide to NBA player props in 2026: points, rebounds, assists, threes, PRA combined totals, usage-driven projection, and the inactive-list windows where the biggest edges live.",
     "url": "sports/basketball/nba-player-props/",
@@ -4629,6 +4669,16 @@
       "sports",
       "basketball",
       "nba-player-props"
+    ]
+  },
+  {
+    "title": "NBA Rest Days & Back-to-Back Betting: The Biggest In-Week Edge",
+    "desc": "How rest schedules drive NBA betting lines: back-to-back math, 3-in-4 patterns, travel-adjusted rest, and the recurring situational angles disciplined NBA bettors find in the schedule.",
+    "url": "sports/basketball/nba-rest-days/",
+    "tags": [
+      "sports",
+      "basketball",
+      "nba-rest-days"
     ]
   },
   {

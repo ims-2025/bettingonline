@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NBA Pace &amp; Totals: How Possessions Per Game Drive the Over/Under</title>
+  <meta name="description" content="How NBA pace metrics drive totals: possessions per game, recent-trend vs season-average pace, matchup-adjusted pace, and how to use pace data to find +EV over/under bets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/main.min.css?v=20260509c">
+  <link rel="canonical" href="https://www.bettingonline.org/sports/basketball/nba-pace/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="NBA Pace &amp; Totals: How Possessions Per Game Drive the Over/Under">
+  <meta property="og:description" content="How NBA pace metrics drive totals: possessions per game, recent-trend vs season-average pace, matchup-adjusted pace, and how to use pace data to find +EV over/under bets.">
+  <meta property="og:url" content="https://www.bettingonline.org/sports/basketball/nba-pace/">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-sports.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NBA Pace &amp; Totals: How Possessions Per Game Drive the Over/Under">
+  <meta name="twitter:description" content="How NBA pace metrics drive totals: possessions per game, recent-trend vs season-average pace, matchup-adjusted pace, and how to use pace data to find +EV over/under bets.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-sports.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.bettingonline.org/"},{"@type":"ListItem","position":2,"name":"Sports","item":"https://www.bettingonline.org/sports/"},{"@type":"ListItem","position":3,"name":"NBA Basketball","item":"https://www.bettingonline.org/sports/basketball/"},{"@type":"ListItem","position":4,"name":"Pace","item":"https://www.bettingonline.org/sports/basketball/nba-pace/"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"NBA Pace & Totals","url":"https://www.bettingonline.org/sports/basketball/nba-pace/","author":{"@type":"Organization","name":"BettingOnline.org Editorial Team"},"publisher":{"@type":"Organization","name":"BettingOnline.org","logo":{"@type":"ImageObject","url":"https://www.bettingonline.org/assets/img/logo.png"}},"datePublished":"2026-05-10","dateModified":"2026-05-10","mainEntityOfPage":"https://www.bettingonline.org/sports/basketball/nba-pace/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is NBA pace?","acceptedAnswer":{"@type":"Answer","text":"Pace is the number of possessions a team averages per 48 minutes. Fast-paced teams average 102-105 possessions; slow teams average 95-98. The 7-possession gap between fastest and slowest is roughly worth 7-9 points on the total, all else equal. Pace is the single largest input to NBA total pricing."}},{"@type":"Question","name":"How is NBA pace calculated?","acceptedAnswer":{"@type":"Answer","text":"Possessions per 48 minutes. A possession starts with one team gaining the ball and ends with a shot attempt, turnover, or trip to the free-throw line. Pace adjusts for game length so that overtime games don't artificially inflate the metric. Most public-facing analytics sites compute and publish pace data."}},{"@type":"Question","name":"Is recent pace more predictive than season-average pace?","acceptedAnswer":{"@type":"Answer","text":"Often yes. Recent 5-10 game pace captures coaching adjustments, rotation changes, and injury impact on tempo. Books typically use season averages as the baseline; bettors who track recent-trend pace find recurring small edges, especially after roster moves or coaching changes."}},{"@type":"Question","name":"How does pace interact with opponent strength?","acceptedAnswer":{"@type":"Answer","text":"Pace varies based on opponent. Some teams push pace against weaker defenses but walk it up against elite defenses. Pace data segmented by opponent defensive rating is more predictive than blanket pace averages. The same team can play 104 possessions against a bad defense and 96 against an elite one."}},{"@type":"Question","name":"Where can I find NBA pace data?","acceptedAnswer":{"@type":"Answer","text":"Public-facing analytics sites publish pace data segmented by time window and matchup. Basketball-Reference and Cleaning the Glass are common starting points. NBA Stuffer and various paid services aggregate pace with rest-day, home/road and matchup splits."}}]}</script>
+  <link rel="icon" type="image/svg+xml" href="../../../assets/img/favicon.svg">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="../../../">Home</a><span class="sep">/</span><a href="../../">Sports</a><span class="sep">/</span><a href="../">NBA Basketball</a><span class="sep">/</span><span>Pace</span></div>
+      <span class="eyebrow">NBA Betting · Concept Guide</span>
+      <h1>NBA Pace &amp; Totals</h1>
+      <p class="lede">The single largest driver of NBA totals — bigger than defense, bigger than three-point shooting. Two fast teams playing each other produce totals 10-15 points higher than two slow teams playing each other, before either team has touched a ball.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <article class="article">
+
+        <h2>What pace is and why it dominates totals</h2>
+        <p>Pace is the number of possessions a team averages per 48 minutes of game time. A possession starts when a team gains the ball and ends with a shot attempt, turnover, or trip to the free-throw line. Faster teams run more possessions; slower teams run fewer. Across the NBA, the gap between the fastest team (typically 102-105 possessions per 48) and the slowest (95-98) is roughly 7 possessions per game.</p>
+        <p>Each possession produces approximately 1 point of scoring (the league-average points-per-possession is just above 1). That means a 7-possession gap is worth roughly 7-9 points on the total before factoring in any difference in shooting efficiency, defense, or rest. Two fast teams playing each other generate around 14-18 more total points than two slow teams playing each other, all else equal.</p>
+        <p>Pace dominates total pricing because no other single input has this much leverage. Defensive rating moves the total by 3-5 points per matchup; three-point variance moves it by 4-6 points game-to-game; pace moves it 10-15 points across the fastest-to-slowest spectrum. Books bake baseline pace into the total — but baseline pace uses season averages, and there are recurring spots where recent pace trends meaningfully outperform season averages as predictive inputs.</p>
+
+        <h2>How pace varies across teams</h2>
+        <p>Pace is coach-driven and roster-driven. The teams that consistently rank in the top 5 for pace each season tend to have:</p>
+        <ul>
+          <li>Coaches who explicitly value transition offense and quick attacks.</li>
+          <li>Point guards who push the ball in transition rather than walk it up.</li>
+          <li>Shooting depth that lets the team play five-out spacing and generate quick threes.</li>
+          <li>Defensive identities that prioritize forcing turnovers (which create transition opportunities).</li>
+        </ul>
+        <p>The teams that rank in the bottom 5 for pace tend to be:</p>
+        <ul>
+          <li>Defensive-minded clubs that prioritize half-court execution over transition runouts.</li>
+          <li>Teams with bigs as primary scorers (forcing the offense through the post slows tempo).</li>
+          <li>Veteran-heavy teams that manage workload by playing slower.</li>
+        </ul>
+        <p>Both archetypes are stable across seasons. The same teams tend to rank in the top 10 and bottom 10 year after year, with marginal shifts based on coaching and roster changes.</p>
+
+        <h2>Recent-trend pace vs season-average pace</h2>
+        <p>Books default to season-to-date pace averages. The most reliable edge in pace-based betting is finding spots where recent trends meaningfully diverge from season averages. Three scenarios where recent trend outperforms:</p>
+
+        <p><strong>Mid-season coaching change.</strong> A team that fired its coach in January and brought in a faster-style replacement often plays 2-3 possessions faster over the next 10 games than its season average suggests. Books typically take 5-15 games to fully recalibrate the pace baseline.</p>
+
+        <p><strong>Roster trade or major call-up.</strong> A team that traded for a pace-up point guard or got back its starting playmaker from injury immediately plays faster. The season average is contaminated by the previous, slower rotation.</p>
+
+        <p><strong>Rest-induced pace shifts.</strong> A team coming off four days of rest typically plays faster (more transition energy) than its season average suggests. The reverse is true on the second night of a B2B.</p>
+
+        <p>Bettors who track 5-game and 10-game pace alongside season-to-date averages find recurring small edges in these spots. The pace data is publicly available at multiple analytics sites; the work is real but the payoff is consistent.</p>
+
+        <h2>Matchup-adjusted pace</h2>
+        <p>Beyond raw pace, the matchup matters. Pace is dictated by both teams; a fast team playing a slow defensive specialist will play at a slower pace than its season average. The right framework is matchup-adjusted pace projection:</p>
+        <ol>
+          <li>Take both teams' recent pace (last 10 games).</li>
+          <li>Adjust for the opponent's pace tendencies (a team that has historically forced opponents into slower pace will compress the projection).</li>
+          <li>Adjust for rest (a fully rested team will lean toward its faster end; a B2B team toward its slower end).</li>
+          <li>Compare the matchup-adjusted projection to the book's posted total.</li>
+        </ol>
+        <p>The gap between matchup-adjusted projection and posted total is the betting edge. When the projection is 2+ points above the posted total, the over offers value. When it's 2+ points below, the under does.</p>
+
+        <h2>Worked example: a pace mismatch</h2>
+        <p>Pacers (104.5 pace, top-5 in NBA) at Heat (96.5 pace, bottom-5). Total opens 228. The pace-only projection:</p>
+        <ul>
+          <li>League-average matchup pace: (104.5 + 96.5) / 2 = 100.5 possessions per game.</li>
+          <li>Both teams' offensive ratings (points per 100 possessions): Pacers ~118, Heat ~112. Combined: 230.</li>
+          <li>Combined total projection: 100.5 × (230/100) = 231.2 points.</li>
+        </ul>
+        <p>The total of 228 is roughly 3 points below the pace-only projection. If you also factor in that Pacers are fully rested and Heat are on a B2B (subtracts 1-2 points from Heat side), the projection drifts back toward 228. Bet plan: probably skip the total unless additional information (lineup news, weather-equivalent factors) pushes it.</p>
+        <p>Worked the other way: same matchup, but Indiana is on a B2B and Heat are fully rested. Now the projection drops to roughly 222-223 — 5-6 points below the total. The under at 228 is a meaningful edge bet.</p>
+
+        <h2>Where pace data lives</h2>
+        <ul>
+          <li><strong>Basketball-Reference</strong> — free, publishes pace, ORtg, DRtg with various time-window filters.</li>
+          <li><strong>Cleaning the Glass</strong> — paid subscription, specializes in advanced metrics including matchup-adjusted pace.</li>
+          <li><strong>NBA Stuffer</strong> — publishes rest-day-adjusted pace tables.</li>
+          <li><strong>NBA.com/stats</strong> — official league stats portal with deep filtering.</li>
+        </ul>
+
+        <h2>Common pace-based betting mistakes</h2>
+        <ul>
+          <li><strong>Defaulting to season-average pace.</strong> After 20 games, recent trends often outperform season averages. The lag is most valuable after mid-season changes.</li>
+          <li><strong>Ignoring matchup adjustment.</strong> Both teams' pace determines the actual game pace. A fast team can be slowed; a slow team can be pushed.</li>
+          <li><strong>Conflating pace with scoring.</strong> Pace = possessions. Scoring also depends on offensive efficiency. A team can play fast and still score poorly; a team can play slow and score efficiently. Both inputs matter for the total.</li>
+          <li><strong>Treating the over as default in fast matchups.</strong> Books price pace into the line. The edge is in the gap between baseline pricing and recent trends, not in betting overs because "both teams are fast."</li>
+        </ul>
+
+        <h2>Frequently asked questions</h2>
+        <div class="card mb-2"><h3 style="margin:0 0 6px">What is NBA pace?</h3><p class="muted" style="margin:0">Possessions per 48 minutes. Fast teams average 102-105; slow teams 95-98. The 7-possession gap is worth roughly 7-9 points on the total, all else equal. Pace is the single largest input to NBA total pricing.</p></div>
+        <div class="card mb-2"><h3 style="margin:0 0 6px">How is NBA pace calculated?</h3><p class="muted" style="margin:0">A possession starts when one team gains the ball and ends with a shot attempt, turnover, or trip to the free-throw line. Pace adjusts for game length so overtime doesn't artificially inflate the metric.</p></div>
+        <div class="card mb-2"><h3 style="margin:0 0 6px">Is recent pace more predictive than season average?</h3><p class="muted" style="margin:0">Often yes. Recent 5-10 game pace captures coaching adjustments, rotation changes, and injury impact. Books typically use season averages; bettors tracking recent-trend pace find recurring small edges after roster or coaching changes.</p></div>
+        <div class="card mb-2"><h3 style="margin:0 0 6px">How does pace interact with opponent strength?</h3><p class="muted" style="margin:0">Pace is dictated by both teams. The same team can play 104 possessions against a bad defense and 96 against an elite one. Pace data segmented by opponent type is more predictive than blanket pace averages.</p></div>
+        <div class="card"><h3 style="margin:0 0 6px">Where can I find NBA pace data?</h3><p class="muted" style="margin:0">Basketball-Reference and Cleaning the Glass are common starting points. NBA Stuffer and various paid services aggregate pace with rest-day, home/road and matchup splits.</p></div>
+
+        <h2>Related resources</h2>
+        <ul>
+          <li><a href="../">Back to the NBA Betting pillar</a></li>
+          <li><a href="../nba-totals/">NBA Totals</a> — the market pace primarily drives.</li>
+          <li><a href="../nba-rest-days/">NBA Rest Days</a> — rest affects pace as much as roster.</li>
+          <li><a href="../nba-spreads/">NBA Point Spreads</a> — pace also affects spread variance.</li>
+        </ul>
+
+      </article>
+
+      <div style="padding:24px 0; border-top:1px solid var(--border); margin-top:32px">
+        <p class="byline muted" style="font-size:.9rem; margin:0 0 8px">By <strong>BettingOnline.org Editorial Team</strong> · Last updated May 10, 2026</p>
+        <p class="muted" style="font-size:.82rem; margin:0">21+ where legal. See our <a href="../../../methodology/">methodology</a> and <a href="../../../legal/responsible-gambling.html">responsible gambling resources</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../../../assets/js/main.js?v=20260509c"></script>
+</body>
+</html>
