@@ -19,6 +19,11 @@
       "permanent": true
     },
     {
+      "source": "/bonuses/fanduel-1000-no-sweat/",
+      "destination": "/bonuses/fanduel-150-bet-and-get/",
+      "permanent": true
+    },
+    {
       "source": "/go/draftkings/",
       "destination": "/reviews/draftkings/",
       "permanent": false
