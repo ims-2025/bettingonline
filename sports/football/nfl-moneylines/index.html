@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NFL Moneylines &amp; Fair Pricing: When to Take the ML Over the Spread</title>
+  <meta name="description" content="How NFL moneylines work, how to convert American odds into implied probability, when a moneyline is the better bet than the spread, and how to strip the vig to find fair value.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/main.min.css?v=20260509c">
+  <link rel="canonical" href="https://www.bettingonline.org/sports/football/nfl-moneylines/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="NFL Moneylines &amp; Fair Pricing: When to Take the ML Over the Spread">
+  <meta property="og:description" content="How NFL moneylines work, how to convert American odds into implied probability, when a moneyline is the better bet than the spread, and how to strip the vig to find fair value.">
+  <meta property="og:url" content="https://www.bettingonline.org/sports/football/nfl-moneylines/">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-sports.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NFL Moneylines &amp; Fair Pricing: When to Take the ML Over the Spread">
+  <meta name="twitter:description" content="How NFL moneylines work, how to convert American odds into implied probability, when a moneyline is the better bet than the spread, and how to strip the vig to find fair value.">
+  <meta name="twitter:image" content="https://www.bettingonline.org/assets/img/og-sports.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.bettingonline.org/"},{"@type":"ListItem","position":2,"name":"Sports","item":"https://www.bettingonline.org/sports/"},{"@type":"ListItem","position":3,"name":"NFL Football","item":"https://www.bettingonline.org/sports/football/"},{"@type":"ListItem","position":4,"name":"Moneylines","item":"https://www.bettingonline.org/sports/football/nfl-moneylines/"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"NFL Moneylines & Fair Pricing: When to Take the ML Over the Spread","description":"How NFL moneylines work, how to convert American odds into implied probability, when a moneyline is the better bet than the spread, and how to strip the vig to find fair value.","url":"https://www.bettingonline.org/sports/football/nfl-moneylines/","author":{"@type":"Organization","name":"BettingOnline.org Editorial Team"},"publisher":{"@type":"Organization","name":"BettingOnline.org","logo":{"@type":"ImageObject","url":"https://www.bettingonline.org/assets/img/logo.png"}},"datePublished":"2026-05-10","dateModified":"2026-05-10","mainEntityOfPage":"https://www.bettingonline.org/sports/football/nfl-moneylines/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do NFL moneylines work?","acceptedAnswer":{"@type":"Answer","text":"A moneyline is a bet on which team will win the game outright, with no margin adjustment. American odds price each side: minus odds (-200, -300) show how much you must stake to win $100; plus odds (+150, +250) show how much you win on a $100 stake. The wider the gap between favorite and underdog, the more lopsided the priced probabilities."}},{"@type":"Question","name":"How do I calculate implied probability from American odds?","acceptedAnswer":{"@type":"Answer","text":"For negative odds (a favorite), implied probability = -odds / (-odds + 100). So -150 implies 60% (150 / 250). For positive odds (an underdog), implied probability = 100 / (odds + 100). So +200 implies 33.3% (100 / 300). These percentages include the book's vig; strip it out for the true fair-value probability."}},{"@type":"Question","name":"When is a moneyline a better bet than the spread?","acceptedAnswer":{"@type":"Answer","text":"On a small favorite (under -180), the moneyline often offers fair-or-better value because the book has to keep both sides priced cleanly. On a large underdog (+250 and beyond), the moneyline lets you bet on a single outcome without worrying about a spread cover that could come down to a meaningless late score. On heavy chalk (-400 and beyond), moneylines are usually poor value — you risk a lot to win very little."}},{"@type":"Question","name":"What does no-vig pricing tell me about a moneyline?","acceptedAnswer":{"@type":"Answer","text":"No-vig pricing strips out the book's commission so you can see what the moneyline is implying about each team's true win probability. If a -150/+135 line has roughly 4% combined vig, the no-vig fair line is closer to -140/+140 — about 58% / 42%. Comparing your own win-probability estimate to that no-vig pair is how you find positive expected value."}},{"@type":"Question","name":"Are NFL underdog moneylines profitable long term?","acceptedAnswer":{"@type":"Answer","text":"Not as a blanket strategy. The market efficiently prices most NFL underdogs in line with their true win probability. The exception is large home underdogs (+150 to +250) in specific situational spots — divisional games, primetime games where the public overbets visible favorites, and weather-affected games. Selective dog play is one of the few repeatable NFL angles."}}]}</script>
+  <link rel="icon" type="image/svg+xml" href="../../../assets/img/favicon.svg">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="crumbs"><a href="../../../">Home</a><span class="sep">/</span><a href="../../">Sports</a><span class="sep">/</span><a href="../">NFL Football</a><span class="sep">/</span><span>Moneylines</span></div>
+      <span class="eyebrow">NFL Betting · Bet Type Guide</span>
+      <h1>NFL Moneylines &amp; Fair Pricing</h1>
+      <p class="lede">The most intuitive NFL market — pick the winner — and the one where casual bettors most often pay a hidden premium. Here is how the math actually works, how to translate the odds into probability, and when the moneyline is the smartest bet on the board.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <article class="article">
+
+        <h2>What an NFL moneyline is</h2>
+        <p>A moneyline is a wager on which team will win an NFL game outright. There is no point spread adjustment — a one-point Buccaneers win pays the same as a 30-point Buccaneers win. Pricing is set with American odds: the favorite carries a negative number (-150, -220, -400) reflecting the premium you have to pay to back the more likely winner; the underdog carries a positive number (+135, +180, +350) reflecting the return on a winning bet against the longer odds.</p>
+        <p>The intuition for the math: minus odds say "this is how much you must wager to win $100." +200 odds say "a $100 bet would win $200 in profit." Negative odds correspond to the favorite (higher win probability, smaller payout); positive odds correspond to the underdog (lower win probability, larger payout). The bigger the gap between favorite and underdog, the bigger the implied probability gap — and the more aggressively the book takes its margin out of the bettor's expected return.</p>
+
+        <h2>Converting American odds to implied probability</h2>
+        <p>The most useful single skill in moneyline betting is converting prices into implied probabilities. The two formulas:</p>
+        <ul>
+          <li><strong>For negative odds (favorites):</strong> implied probability = (–odds) / (–odds + 100). For example, -150 implies 150 / 250 = 60%.</li>
+          <li><strong>For positive odds (underdogs):</strong> implied probability = 100 / (odds + 100). For example, +200 implies 100 / 300 = 33.3%.</li>
+        </ul>
+        <p>If you add the two implied probabilities for both sides of an NFL moneyline, you almost always get more than 100% — frequently around 104–106%. That extra 4–6% is the book's vig. A "fair" market priced with no margin would sum to exactly 100%; the difference is what the book keeps. Sharper markets (Pinnacle, Circa, low-juice operators) often run closer to 102%; heavier-hold markets (sportsbooks during peak-public NFL weekends) can run 106% or higher.</p>
+        <p>For a quick conversion without doing the math by hand, use our <a href="../../../tools/odds-converter/">odds converter</a>. For deeper reading on what to do with the no-vig number, see our <a href="../../../guides/vig-and-no-vig-pricing.html">vig and no-vig pricing guide</a>.</p>
+
+        <h2>Stripping the vig to find fair value</h2>
+        <p>Imagine an NFL moneyline of -150 / +135. The implied probabilities are 60% on the favorite and 42.6% on the underdog — totaling 102.6%, meaning roughly 2.6% combined vig. To strip the vig:</p>
+        <ol>
+          <li>Divide each side's implied probability by the total. 60 / 102.6 = 58.5%; 42.6 / 102.6 = 41.5%.</li>
+          <li>Those are the no-vig probabilities — what the market actually believes each team's win chance is, free of the book's margin.</li>
+          <li>Convert back to American odds: 58.5% implied = roughly -141; 41.5% implied = roughly +141.</li>
+        </ol>
+        <p>That -141 / +141 is the "fair line." Compare the fair line to what you can actually bet at across multiple books. If you can get the underdog at +145 anywhere — that's 4 cents above fair — you have positive expected value. Track that gap consistently over 200+ bets and you have an edge. This is the foundation of professional moneyline betting.</p>
+
+        <h2>When the moneyline beats the spread</h2>
+        <p>Most NFL bettors default to the spread because the -110 / -110 pricing keeps the hold tight on both sides and avoids paying a heavy premium on big favorites. But there are specific spots where the moneyline is the better tool:</p>
+        <p><strong>Small favorites (under -180).</strong> A -3 spread paired with a -150 moneyline often offers nearly identical probability on the side, but the moneyline avoids the "what if the favorite wins by 3 exactly and pushes" scenario and avoids the half-point hook. If you genuinely think the favorite wins outright, the moneyline can be the cleaner bet.</p>
+        <p><strong>Live underdog plays.</strong> Once a game is in progress and a small dog leads by a score, the moneyline reflects the change in win probability sharper than the live spread. Bettors with a directional view on momentum or game script often find live moneylines easier to evaluate.</p>
+        <p><strong>Large underdogs in close-game spots.</strong> A +200 underdog with a defensive-minded coach in a low-total game is the textbook moneyline target. Defensive coaches play the field-position game, run more, throw less risky passes, and produce more close games than the spread suggests. The +200 payout on an outright win — with no concern for spread cover — is sometimes better expected value than taking the +6.5 spread.</p>
+
+        <h2>When the moneyline is a trap</h2>
+        <p>Three situations where the moneyline is almost always the worse bet:</p>
+        <p><strong>Heavy favorites at -400 and beyond.</strong> Risking $400 to win $100 means you need to win 80% of the time just to break even after vig. Even strong NFL favorites win 75-78% of the time at most. The math on heavy chalk moneylines is structurally unfavorable.</p>
+        <p><strong>Primetime favorites.</strong> Public money piles onto televised favorites (Sunday Night Football, Monday Night Football). The moneyline absorbs that public premium, pushing it 5-10 cents past where the spread would imply. A -180 primetime favorite is often a -160 favorite priced as -180 because of public flow.</p>
+        <p><strong>Coin-flip games at -120 / +100.</strong> When the moneyline is roughly even, the spread will almost always offer better expected value because the spread price (-110 / -110) is tighter than the moneyline (-120 / +100). A +100 dog in a pick'em game is usually a +1 or +1.5 dog at -110 — better expected value, lower risk profile.</p>
+
+        <h2>Worked example: comparing moneyline to spread</h2>
+        <p>Suppose the Ravens are listed at -3.5 (-110) against the Steelers, with a moneyline of -185 / +160. You believe Baltimore will win, and you're trying to decide between the spread and the moneyline.</p>
+        <ul>
+          <li><strong>Spread (-3.5 at -110):</strong> Risk $110 to win $100. You win if Baltimore wins by 4 or more.</li>
+          <li><strong>Moneyline (-185):</strong> Risk $185 to win $100. You win if Baltimore wins by any margin.</li>
+        </ul>
+        <p>The moneyline implies roughly 65% Baltimore win probability (after stripping vig). For the moneyline to be the better bet, your estimate of Baltimore's outright win probability must be enough higher than 65% to outweigh the smaller payout. If you think Baltimore wins outright 75% of the time but covers -3.5 only 55% of the time (the spread is high), the moneyline is mathematically the better play. If you think Baltimore covers -3.5 at 60% and wins outright 70%, the spread is better.</p>
+        <p>The general rule: the more confident you are about the outright winner but the less confident about margin, the stronger the case for the moneyline.</p>
+
+        <h2>Best sportsbooks for NFL moneylines</h2>
+        <ul>
+          <li><strong><a href="../../../reviews/bet365/">bet365</a></strong> — consistently the tightest moneyline juice on close games (low combined vig). The price-to-beat on most pick'em and small-favorite markets.</li>
+          <li><strong><a href="../../../reviews/draftkings/">DraftKings</a></strong> — broadest moneyline market on prop and exotic moneylines (first-half ML, first-quarter ML, divisional ML).</li>
+          <li><strong><a href="../../../reviews/fanduel/">FanDuel</a></strong> — fastest live moneyline updates, useful for in-play directional plays.</li>
+          <li><strong><a href="../../../reviews/betmgm/">BetMGM</a></strong> — typically the most generous pricing on plus-money dogs of +150 or higher.</li>
+        </ul>
+
+        <h2>Common moneyline mistakes</h2>
+        <ul>
+          <li><strong>Backing -300 favorites for entertainment.</strong> The dollar return is low, the upset risk is real, and the implied math is structurally bad. If you "love" a -300 favorite, the better move is usually to skip the moneyline and bet a player prop or alt spread instead.</li>
+          <li><strong>Parlaying short moneylines.</strong> Combining three -200 favorites into a parlay produces a roughly +120 payout for what is, mathematically, three coin-flip-ish independent outcomes. The parlay hold eats almost the entire edge. Single bets win.</li>
+          <li><strong>Ignoring the no-vig conversion.</strong> The price on the screen is not the fair price. Without stripping the vig, you can't compare books or evaluate whether a moneyline offers positive EV.</li>
+        </ul>
+
+        <h2>Frequently asked questions</h2>
+        <div class="card mb-2"><h3 style="margin:0 0 6px">How do NFL moneylines work?</h3><p class="muted" style="margin:0">A moneyline is a bet on which team will win outright, with no margin adjustment. American odds price each side: minus odds show how much you stake to win $100; plus odds show how much you win on a $100 stake. The wider the gap between favorite and underdog, the more lopsided the priced probabilities.</p></div>
+        <div class="card mb-2"><h3 style="margin:0 0 6px">How do I calculate implied probability from American odds?</h3><p class="muted" style="margin:0">For negative odds: implied probability = -odds / (-odds + 100). -150 implies 60%. For positive odds: implied probability = 100 / (odds + 100). +200 implies 33.3%. These include the book's vig; strip it out to find the true fair-value probability.</p></div>
+        <div class="card mb-2"><h3 style="margin:0 0 6px">When is a moneyline a better bet than the spread?</h3><p class="muted" style="margin:0">On small favorites (under -180) or in spots where you have strong outright-winner conviction but less margin certainty. Large home underdogs in defensive-minded close-game profiles often offer plus-money moneyline value the spread doesn't capture.</p></div>
+        <div class="card mb-2"><h3 style="margin:0 0 6px">What does no-vig pricing tell me?</h3><p class="muted" style="margin:0">It strips out the book's commission so you can see the market's true win-probability estimate for each team. Compare your own probability estimate to the no-vig line — if your number beats the no-vig price, you have positive expected value.</p></div>
+        <div class="card"><h3 style="margin:0 0 6px">Are NFL underdog moneylines profitable long term?</h3><p class="muted" style="margin:0">Not as a blanket strategy. Markets price most NFL dogs accurately. The exception is large home dogs in specific situational spots (divisional, primetime, defensive matchups) — those produce some of the few repeatable NFL angles.</p></div>
+
+        <h2>Related resources</h2>
+        <ul>
+          <li><a href="../">Back to the NFL Betting pillar</a></li>
+          <li><a href="../nfl-spreads/">NFL Point Spreads</a> — the companion bet type.</li>
+          <li><a href="../../../guides/vig-and-no-vig-pricing.html">Vig and No-Vig Pricing</a> — strip the commission to see fair value.</li>
+          <li><a href="../../../guides/implied-probability-deep-dive.html">Implied Probability Deep Dive</a> — beyond the basic formulas.</li>
+          <li><a href="../../../tools/odds-converter/">Odds Converter</a> — American ↔ Decimal ↔ Implied probability.</li>
+          <li><a href="../../../tools/ev/">Expected Value Calculator</a> — compute EV from your fair-line estimate vs. the book's price.</li>
+        </ul>
+
+      </article>
+
+      <div style="padding:24px 0; border-top:1px solid var(--border); margin-top:32px">
+        <p class="byline muted" style="font-size:.9rem; margin:0 0 8px">By <strong>BettingOnline.org Editorial Team</strong> · Last updated May 10, 2026</p>
+        <p class="muted" style="font-size:.82rem; margin:0">21+ where legal. See our <a href="../../../methodology/">methodology</a> and <a href="../../../legal/responsible-gambling.html">responsible gambling resources</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../../../assets/js/main.js?v=20260509c"></script>
+</body>
+</html>
