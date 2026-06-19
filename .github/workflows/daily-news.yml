@@ -1,0 +1,46 @@
+name: Daily News Publisher
+
+# Publishes 10 SEO-optimised news articles every day with staggered timestamps,
+# updates the news index, homepage news block, RSS and JSON feeds, then
+# commits and pushes. Vercel auto-deploys from the push.
+
+on:
+  schedule:
+    # Runs at 06:00 UTC every day. GitHub Actions cron is in UTC.
+    - cron: '0 6 * * *'
+  workflow_dispatch:   # also allow manual runs from the Actions tab
+
+permissions:
+  contents: write   # required to commit + push back to the repo
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Configure git identity
+        run: |
+          git config user.email "editorial-bot@bettingonline.org"
+          git config user.name "BettingOnline.org Editorial Bot"
+
+      - name: Generate today's articles
+        run: |
+          python3 scripts/generate-daily-news.py
+        # The generator script itself runs `git add`, `git commit`, and
+        # `git push`. The push uses the runner's GITHUB_TOKEN, which is
+        # configured by actions/checkout above.
+
+      - name: Confirm deploy
+        run: |
+          echo "Pushed to main. Vercel will auto-deploy."
+          git log -1 --oneline
