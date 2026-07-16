@@ -114,11 +114,6 @@
       "permanent": true
     },
     {
-      "source": "/author/:name/page/:page",
-      "destination": "/about/",
-      "permanent": true
-    },
-    {
       "source": "/us/reviews/:slug/",
       "destination": "/reviews/:slug/",
       "permanent": true
@@ -144,23 +139,8 @@
       "permanent": true
     },
     {
-      "source": "/odds/?apiKey",
-      "destination": "/odds/",
-      "permanent": true
-    },
-    {
       "source": "/kentucky-2/",
       "destination": "/us/",
-      "permanent": true
-    },
-    {
-      "source": "/us//:path*",
-      "destination": "/us/",
-      "permanent": true
-    },
-    {
-      "source": "/us/:slug/:path*",
-      "destination": "/us/:slug/",
       "permanent": true
     },
     {
@@ -181,6 +161,16 @@
     {
       "source": "/us/arkansas-sports-betting/",
       "destination": "/us/arkansas/",
+      "permanent": true
+    },
+    {
+      "source": "/author/:path*",
+      "destination": "/about/",
+      "permanent": true
+    },
+    {
+      "source": "/us/:a([^/]+)/:b([^/]+)",
+      "destination": "/us/:a/",
       "permanent": true
     }
   ],
