@@ -1,14 +1,16 @@
-name: Daily News Publisher
+name: Weekly News Publisher
 
-# Publishes 10 SEO-optimised news articles every day with staggered timestamps,
-# updates the news index, homepage news block, RSS and JSON feeds, then
-# commits and pushes. Vercel auto-deploys from the push.
+# REDUCED from daily to twice-weekly (Tue + Fri) per SEO-RECOVERY-PLAN.md.
+# Daily templated publishing was triggering "Crawled - currently not indexed"
+# quality signals in GSC. Twice-weekly with unchanged quality per article
+# keeps freshness signal alive without flooding Google with thin templated
+# content while the algorithmic-trust rebuild is in progress.
 
 on:
   schedule:
-    # Runs at 06:00 UTC every day. GitHub Actions cron is in UTC.
-    - cron: '0 6 * * *'
-  workflow_dispatch:   # also allow manual runs from the Actions tab
+    # 06:00 UTC every Tuesday and Friday.
+    - cron: '0 6 * * 2,5'
+  workflow_dispatch:   # allow manual runs from the Actions tab
 
 permissions:
   contents: write   # required to commit + push back to the repo
