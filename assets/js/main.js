@@ -261,6 +261,8 @@
       +       '<div><h5>Company</h5>'
       +         '<a href="' + url('about/') + '">About</a>'
       +         '<a href="' + url('methodology/') + '">Methodology</a>'
++         '<a href="' + url('trust/') + '">Trust &amp; Transparency</a>'
++         '<a href="' + url('data/') + '">Data &amp; Research</a>'
       +         '<a href="' + url('editorial-standards/') + '">Editorial standards</a>'
       +         '<a href="' + url('how-we-rate/') + '">How we rate</a>'
       +         '<a href="' + url('about/contact.html') + '">Contact</a>'
