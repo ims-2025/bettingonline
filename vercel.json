@@ -102,57 +102,182 @@
       "source": "/go/:slug/",
       "destination": "/reviews/:slug/",
       "permanent": false
+    },
+    {
+      "source": "/tag/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/category/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/author/:name/page/:page",
+      "destination": "/about/",
+      "permanent": true
+    },
+    {
+      "source": "/us/reviews/:slug/",
+      "destination": "/reviews/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/sports/reviews/:slug/",
+      "destination": "/reviews/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/fighting/reviews/:slug/",
+      "destination": "/reviews/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/casino/reviews/:slug/",
+      "destination": "/reviews/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/poker/reviews/:slug/",
+      "destination": "/reviews/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/odds/?apiKey",
+      "destination": "/odds/",
+      "permanent": true
+    },
+    {
+      "source": "/kentucky-2/",
+      "destination": "/us/",
+      "permanent": true
+    },
+    {
+      "source": "/us//:path*",
+      "destination": "/us/",
+      "permanent": true
+    },
+    {
+      "source": "/us/:slug/:path*",
+      "destination": "/us/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/reviews/fanduel-sportsbooks/",
+      "destination": "/reviews/fanduel-sportsbook/",
+      "permanent": true
+    },
+    {
+      "source": "/reviews/fanduel-sportsbooks-review-2025/",
+      "destination": "/reviews/fanduel-sportsbook/",
+      "permanent": true
+    },
+    {
+      "source": "/reviews/draftkings-sportsbook-review-2025-real-money-testing-of-every-feature/",
+      "destination": "/reviews/draftkings-sportsbook/",
+      "permanent": true
+    },
+    {
+      "source": "/us/arkansas-sports-betting/",
+      "destination": "/us/arkansas/",
+      "permanent": true
     }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=(), payment=()" },
-        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io https://api.the-odds-api.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.the-odds-api.com https://plausible.io; frame-ancestors 'self'" }
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=(), payment=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io https://api.the-odds-api.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.the-odds-api.com https://plausible.io; frame-ancestors 'self'"
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*)\\.svg",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*)\\.html",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=300, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, must-revalidate"
+        }
       ]
     },
     {
       "source": "/sitemap.xml",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" },
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        }
       ]
     },
     {
       "source": "/news/rss.xml",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=600" },
-        { "key": "Content-Type", "value": "application/rss+xml; charset=utf-8" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=600"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/rss+xml; charset=utf-8"
+        }
       ]
     },
     {
       "source": "/news/feed.json",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=600" },
-        { "key": "Content-Type", "value": "application/feed+json; charset=utf-8" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=600"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/feed+json; charset=utf-8"
+        }
       ]
     }
   ]
