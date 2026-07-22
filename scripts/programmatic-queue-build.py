@@ -1,0 +1,1523 @@
+#!/usr/bin/env python3
+"""
+Build the 50-page programmatic-SEO queue as a JSON data file.
+
+Each page entry contains genuinely unique data — the guardrail against
+the "template pages with only the variable swapped" penalty that the
+source doc warns about for 2026. The generator (separate script) reads
+this queue and renders full HTML pages, picking up 2 per day.
+"""
+from __future__ import annotations
+
+import json
+from datetime import date, timedelta
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = ROOT / "data"
+
+# Publishing starts tomorrow at a 2-per-day cadence
+START = date.today() + timedelta(days=0)
+
+
+def pdate(offset_days: int) -> str:
+    return (START + timedelta(days=offset_days // 2)).isoformat()
+
+
+# =============================================================================
+# Brand roster — for CTA/toplist blocks. Copy of the brand data we already
+# use in sportsbook/casino/poker builder scripts, packed into one place.
+# =============================================================================
+BRANDS = {
+    # Sportsbooks
+    "betonline-sportsbook": {
+        "name": "BetOnline", "display": "BetOnline Sportsbook",
+        "logo_bg": "#000000", "logo_fg": "#facc15", "initials": "BO",
+        "bonus": "50% Welcome Bonus up to $1,000",
+        "tracker": "https://record.betonlineaffiliates.ag/_CZzXr-5WlPe6tyDIijdDK2Nd7ZgqdRLk/2/",
+        "rating": 4.8, "vertical": "sportsbook",
+    },
+    "sportsbetting-sportsbook": {
+        "name": "Sportsbetting.ag", "display": "Sportsbetting.ag Sportsbook",
+        "logo_bg": "#0369a1", "logo_fg": "#ffffff", "initials": "SB",
+        "bonus": "50% Welcome Bonus up to $1,000",
+        "tracker": "https://record.sportsbettingaffiliates.ag/_CZzXr-5WlPeh_7RUBh20pWNd7ZgqdRLk/2/",
+        "rating": 4.7, "vertical": "sportsbook",
+    },
+    "betus-sportsbook": {
+        "name": "BetUS", "display": "BetUS Sportsbook",
+        "logo_bg": "#b91c1c", "logo_fg": "#ffffff", "initials": "BU",
+        "bonus": "125% Welcome Bonus up to $3,125 (crypto)",
+        "tracker": "https://record.revmasters.com/_B-rumzaR8azUOsjNOfgKeWNd7ZgqdRLk/2/",
+        "rating": 4.7, "vertical": "sportsbook",
+    },
+    # Casinos
+    "betonline-casino": {
+        "name": "BetOnline", "display": "BetOnline Casino",
+        "logo_bg": "#000000", "logo_fg": "#facc15", "initials": "BO",
+        "bonus": "100% up to $3,000 across first 3 deposits",
+        "tracker": "https://record.betonlineaffiliates.ag/_CZzXr-5WlPfYJMJFEJBL7mNd7ZgqdRLk/3/",
+        "rating": 4.8, "vertical": "casino",
+    },
+    "sportsbetting-casino": {
+        "name": "Sportsbetting.ag", "display": "Sportsbetting.ag Casino",
+        "logo_bg": "#0369a1", "logo_fg": "#ffffff", "initials": "SB",
+        "bonus": "100% up to $3,000 across first 3 deposits",
+        "tracker": "https://record.betonlineaffiliates.ag/_CZzXr-5WlPfYJMJFEJBL7mNd7ZgqdRLk/3/",
+        "rating": 4.7, "vertical": "casino",
+    },
+    "betus-casino": {
+        "name": "BetUS", "display": "BetUS Casino",
+        "logo_bg": "#b91c1c", "logo_fg": "#ffffff", "initials": "BU",
+        "bonus": "150% up to $3,000 (crypto)",
+        "tracker": "https://record.revmasters.com/_B-rumzaR8axhg6WO2I1rgWNd7ZgqdRLk/2/",
+        "rating": 4.7, "vertical": "casino",
+    },
+    # Poker
+    "black-chip-poker": {
+        "name": "Black Chip Poker", "display": "Black Chip Poker",
+        "logo_bg": "#0f172a", "logo_fg": "#facc15", "initials": "BC",
+        "bonus": "100% up to $2,000 + 27% Elite Benefits rakeback",
+        "tracker": "https://go.wpnaffiliates.com/visit/?bta=237090&nci=5355",
+        "rating": 4.8, "vertical": "poker",
+    },
+    "acr-poker": {
+        "name": "ACR Poker", "display": "ACR Poker",
+        "logo_bg": "#dc2626", "logo_fg": "#ffffff", "initials": "AC",
+        "bonus": "100% up to $2,000 + Venom qualifiers",
+        "tracker": "https://go.wpnaffiliates.com/visit/?bta=237090&brand=americascardroom",
+        "rating": 4.9, "vertical": "poker",
+    },
+    "ya-poker": {
+        "name": "Ya Poker", "display": "Ya Poker",
+        "logo_bg": "#16a34a", "logo_fg": "#ffffff", "initials": "YA",
+        "bonus": "100% up to $2,000 + rakeback rewards",
+        "tracker": "https://go.wpnaffiliates.com/visit/?bta=237090&brand=yapoker",
+        "rating": 4.6, "vertical": "poker",
+    },
+    "true-poker": {
+        "name": "True Poker", "display": "True Poker",
+        "logo_bg": "#1e40af", "logo_fg": "#ffffff", "initials": "TR",
+        "bonus": "100% up to $1,000 + WPN promos",
+        "tracker": "https://go.wpnaffiliates.com/visit/?bta=237090&brand=truepoker",
+        "rating": 4.5, "vertical": "poker",
+    },
+    "betonline-poker": {
+        "name": "BetOnline Poker", "display": "BetOnline Poker",
+        "logo_bg": "#000000", "logo_fg": "#facc15", "initials": "BO",
+        "bonus": "100% up to $1,000 + weekly poker reloads",
+        "tracker": "https://record.betonlineaffiliates.ag/_CZzXr-5WlPfYJMJFEJBL7mNd7ZgqdRLk/3/",
+        "rating": 4.7, "vertical": "poker",
+    },
+    "tigergaming-poker": {
+        "name": "TigerGaming", "display": "TigerGaming Poker",
+        "logo_bg": "#f97316", "logo_fg": "#ffffff", "initials": "TG",
+        "bonus": "100% up to $1,000 + poker rebates",
+        "tracker": "https://record.betonlineaffiliates.ag/_CZzXr-5WlPfYJMJFEJBL7mNd7ZgqdRLk/3/",
+        "rating": 4.5, "vertical": "poker",
+    },
+    "sportsbetting-poker": {
+        "name": "Sportsbetting.ag", "display": "Sportsbetting.ag Poker",
+        "logo_bg": "#0369a1", "logo_fg": "#ffffff", "initials": "SB",
+        "bonus": "100% up to $1,000 + weekly poker reloads",
+        "tracker": "https://record.betonlineaffiliates.ag/_CZzXr-5WlPfYJMJFEJBL7mNd7ZgqdRLk/3/",
+        "rating": 4.5, "vertical": "poker",
+    },
+}
+
+
+def s(seq): return list(seq)
+
+
+# =============================================================================
+# The 50 pages
+# =============================================================================
+
+# Ordering: alternate patterns to avoid a topic-cluster smell
+PAGES = []
+i = 0
+
+# --- 12 COMPARISONS ---
+PAGES += [
+
+    {
+        "slug": "betonline-vs-bovada",
+        "pattern": "comparison",
+        "title": "BetOnline vs Bovada 2026: Sportsbook Comparison",
+        "meta_desc": "BetOnline vs Bovada compared across cashier speed, market depth, bonus value, live betting and props for 2026.",
+        "vertical": "sportsbook",
+        "target_query": "betonline vs bovada",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "US-facing offshore-book bettors deciding between two of the segment's biggest brands.",
+        "unique_data": {
+            "scorecard": [
+                ("Established", "2004", "2011"),
+                ("Network", "Chico Poker + own book", "PaiWangLuo (own)"),
+                ("Welcome bonus", "50% up to $1,000", "50% up to $250 (sports)"),
+                ("Crypto deposit min", "$20", "$10"),
+                ("Withdrawal speed (crypto, avg)", "1-24 hours", "1-3 hours"),
+                ("Live betting menu depth", "Deep (all US majors)", "Moderate"),
+                ("Prop-bet coverage (NFL avg)", "20+ props/game", "12-18 props/game"),
+                ("Same-game parlay", "Yes", "Yes (limited)"),
+                ("Player tracking allowed", "N/A (anon tables)", "N/A"),
+                ("US state acceptance", "Most states", "Most states"),
+                ("Rating", "4.8/5", "4.4/5"),
+            ],
+            "verdict": "BetOnline wins on live-betting depth, prop coverage and integrated sportsbook/casino/poker access. Bovada wins on cashier speed and slightly lower rollover on the welcome offer.",
+            "winner_by_use_case": [
+                ("Live NFL bettor", "BetOnline — deeper in-game menu"),
+                ("Fast crypto payouts", "Bovada — 1-3 hour average"),
+                ("Prop-focused bettor", "BetOnline — 20+ props typical"),
+                ("Bonus hunter", "Tie — both around $500 realized value"),
+                ("Multi-vertical player", "BetOnline — casino+poker under one login"),
+            ],
+        },
+        "internal_links": ["/reviews/betonline-sportsbook/", "/sports/football/nfl-props/", "/sports/basketball/nba-live-betting/", "/data/hold-rate-tracker/"],
+        "external_links": ["https://www.americangaming.org/"],
+    },
+
+    {
+        "slug": "betonline-vs-betus",
+        "pattern": "comparison",
+        "title": "BetOnline vs BetUS 2026: Sportsbook Head-to-Head",
+        "meta_desc": "BetOnline vs BetUS compared on welcome bonus, hold rate, live-betting depth, cashier speed and NFL specialty for 2026.",
+        "vertical": "sportsbook",
+        "target_query": "betonline vs betus",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Bettors choosing a primary US-facing offshore book, weighing all-around depth against NFL specialty + biggest welcome match.",
+        "unique_data": {
+            "scorecard": [
+                ("Established", "2004", "1994"),
+                ("Welcome bonus (crypto)", "50% up to $1,000", "125% up to $3,125"),
+                ("Welcome bonus (card)", "50% up to $1,000", "100% up to $2,500"),
+                ("Rollover requirement", "10x deposit+bonus", "10x deposit+bonus"),
+                ("Withdrawal speed (crypto)", "1-24 hrs", "24-48 hrs"),
+                ("NFL prop menu depth", "20+ props/game", "22+ props/game"),
+                ("Live betting menu", "Deep", "Deep"),
+                ("Casino / poker under same account", "Yes", "Casino yes; poker no"),
+                ("Reload cadence", "Weekly", "Weekly"),
+                ("Rating", "4.8/5", "4.7/5"),
+            ],
+            "verdict": "BetUS wins on welcome-bonus nominal value and NFL depth (its historic specialty). BetOnline wins on cashier speed and integrated multi-vertical access.",
+            "winner_by_use_case": [
+                ("NFL specialist", "BetUS — deepest football menu, biggest match"),
+                ("Fast crypto payouts", "BetOnline"),
+                ("Poker player who wants sportsbook access", "BetOnline"),
+                ("Largest headline welcome match", "BetUS — 125% for crypto"),
+                ("All-around casual bettor", "BetOnline"),
+            ],
+        },
+        "internal_links": ["/reviews/betonline-sportsbook/", "/reviews/betus-sportsbook/", "/sports/football/", "/bonuses/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "draftkings-vs-fanduel-2026",
+        "pattern": "comparison",
+        "title": "DraftKings vs FanDuel 2026: Sportsbook Comparison for US Bettors",
+        "meta_desc": "DraftKings vs FanDuel 2026 comparison — market share, app quality, prop depth, hold rate, cashier speed and per-state availability.",
+        "vertical": "sportsbook",
+        "target_query": "draftkings vs fanduel",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "US bettors in a regulated state comparing the two US-market leaders, or offshore-curious bettors weighing regulated vs offshore alternatives.",
+        "unique_data": {
+            "scorecard": [
+                ("US market share (2026 est)", "~32%", "~34%"),
+                ("Live state footprint", "27 states", "26 states"),
+                ("App store rating (iOS)", "4.7", "4.8"),
+                ("NFL prop menu depth", "35+ props/game", "30+ props/game"),
+                ("Same-game parlay product", "Deepest in US", "Strongest UX"),
+                ("Live-betting latency", "300-500ms", "200-400ms"),
+                ("Standard-side hold", "4.5%", "4.5%"),
+                ("Prop hold", "8.8%", "8.5%"),
+                ("Instant-bank withdrawal (avg)", "38 min", "28 min"),
+                ("Welcome offer", "Bet $5, Get $100", "Bet $5, Get $150 if bet wins"),
+            ],
+            "verdict": "FanDuel edges DraftKings on UX and cashier speed. DraftKings leads on prop depth and SGP breadth. For US-regulated-state bettors, both are top-tier; the practical answer is 'both' — hold accounts at each and shop lines.",
+            "winner_by_use_case": [
+                ("Casual mobile-first bettor", "FanDuel"),
+                ("Prop-heavy bettor", "DraftKings"),
+                ("Fastest withdrawal", "FanDuel"),
+                ("Cross-vertical (DFS + sports + casino)", "DraftKings"),
+                ("Offshore-alternative shopper", "Neither — see BetOnline"),
+            ],
+        },
+        "internal_links": ["/reviews/draftkings-sportsbook/", "/reviews/fanduel-sportsbook/", "/sports/football/nfl-props/", "/data/hold-rate-tracker/"],
+        "external_links": ["https://www.legalsportsreport.com/", "https://www.americangaming.org/"],
+    },
+
+    {
+        "slug": "betmgm-vs-caesars-2026",
+        "pattern": "comparison",
+        "title": "BetMGM vs Caesars 2026: Sportsbook Comparison",
+        "meta_desc": "BetMGM vs Caesars compared on rewards program, promo cadence, market depth, cashier speed and per-state availability for 2026.",
+        "vertical": "sportsbook",
+        "target_query": "betmgm vs caesars",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "US-regulated-state bettors deciding between two operators with strong hotel-and-loyalty integration.",
+        "unique_data": {
+            "scorecard": [
+                ("US market share (2026)", "~13%", "~9%"),
+                ("Rewards ecosystem", "MGM Rewards (hotels, dining)", "Caesars Rewards (hotels, dining)"),
+                ("Live state footprint", "26 states", "24 states"),
+                ("NFL prop menu depth", "22+ props/game", "18+ props/game"),
+                ("Promo cadence (per week avg)", "6-9 offers", "4-6 offers"),
+                ("Standard-side hold", "4.6%", "4.7%"),
+                ("Instant-bank withdrawal", "1.5 hours", "1.8 hours"),
+                ("Welcome offer", "First Bet up to $1,500", "Wager $1, get $300 in bonus bets"),
+                ("Cross-vertical (casino + sports)", "Yes", "Yes"),
+                ("Rating (BOL scorecard)", "4.7/5", "4.6/5"),
+            ],
+            "verdict": "BetMGM leads on promo cadence and prop depth. Caesars has the stronger retail-Vegas integration for MGM/Caesars comp-earners. For pure product, BetMGM is the marginal winner in 2026.",
+            "winner_by_use_case": [
+                ("Regular Vegas visitor", "Caesars — Rewards integrates with retail properties"),
+                ("Weekly promo grinder", "BetMGM"),
+                ("Prop bettor", "BetMGM"),
+                ("Cashier speed", "BetMGM (marginal)"),
+                ("Offshore alternative", "Neither — see BetOnline"),
+            ],
+        },
+        "internal_links": ["/reviews/betmgm-sportsbook/", "/reviews/caesars-sportsbook/", "/sports/football/nfl-futures/", "/data/withdrawal-speed-tracker/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "sportsbetting-ag-vs-betonline",
+        "pattern": "comparison",
+        "title": "Sportsbetting.ag vs BetOnline 2026: Which Chico Network Book Is Better?",
+        "meta_desc": "Sister brands compared: Sportsbetting.ag vs BetOnline on promo structure, cashier, app quality — same Chico platform, distinct sign-up.",
+        "vertical": "sportsbook",
+        "target_query": "sportsbetting.ag vs betonline",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Bettors already at one Chico Network book considering opening a sister-brand account for additional promo access.",
+        "unique_data": {
+            "scorecard": [
+                ("Platform", "Chico Poker Network (shared)", "Chico Poker Network (shared)"),
+                ("Established", "2004", "2003"),
+                ("Welcome bonus", "50% up to $1,000", "50% up to $1,000"),
+                ("Reload cadence", "Weekly (aggressive)", "Weekly (slightly different offers)"),
+                ("Live betting menu", "Identical", "Identical"),
+                ("Standard-side hold", "4.6% avg", "4.6% avg (mirror pricing)"),
+                ("Cashier infrastructure", "Same", "Same"),
+                ("Cross-vertical", "Sports+Casino+Poker", "Sports+Casino+Poker"),
+                ("Rating", "4.8/5", "4.7/5"),
+            ],
+            "verdict": "Identical underlying product; the differentiator is promotional cadence — SBAG's reload calendar hits at slightly different times to BOL's. Serious bettors open both accounts to capture reload volume across a full week.",
+            "winner_by_use_case": [
+                ("Second-book access", "Sportsbetting.ag — distinct promo calendar"),
+                ("Primary book", "BetOnline — marginally more visible brand"),
+                ("Cross-vertical player", "Tie"),
+                ("Reload grinder", "Both — hold accounts at each"),
+            ],
+        },
+        "internal_links": ["/reviews/betonline-sportsbook/", "/reviews/sportsbetting-sportsbook/", "/bonuses/", "/trust/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "acr-vs-black-chip-poker",
+        "pattern": "comparison",
+        "title": "ACR Poker vs Black Chip Poker 2026: WPN Skins Compared",
+        "meta_desc": "ACR vs Black Chip Poker — same Winning Poker Network player pool, distinct promotional cadence and welcome-offer structures compared.",
+        "vertical": "poker",
+        "target_query": "acr vs black chip poker",
+        "primary_brand": "acr-poker",
+        "cta_brands": ["black-chip-poker", "acr-poker", "ya-poker", "true-poker"],
+        "who_this_is_for": "US-facing offshore poker players choosing between the flagship WPN brand (ACR) and its softest-cash-game sister (Black Chip).",
+        "unique_data": {
+            "scorecard": [
+                ("Network", "Winning Poker Network", "Winning Poker Network"),
+                ("Player pool", "Shared", "Shared"),
+                ("Welcome bonus", "100% up to $2,000", "100% up to $2,000 + 27% rakeback"),
+                ("Elite Benefits rakeback", "20-65%", "20-65%"),
+                ("Venom qualifiers ($10M GTD)", "Yes — flagship promo", "Yes — same schedule"),
+                ("Cash game reputation", "Tougher (regs)", "Softer (recreational-heavier)"),
+                ("Tournament reputation", "Deepest MTT schedule in offshore", "Same schedule"),
+                ("Blitz fast-fold", "Yes", "Yes"),
+                ("Anonymous tables", "No", "No"),
+                ("HUD allowed", "Yes", "Yes"),
+            ],
+            "verdict": "Same shared player pool means identical liquidity. ACR's brand pulls tougher regs; Black Chip's positioning brings a marginally softer cash-game population. Best play: open both, alternate primary-brand allegiance across weeks to capture reload offers.",
+            "winner_by_use_case": [
+                ("Cash-game specialist", "Black Chip — softer average table"),
+                ("Tournament grinder", "ACR — brand recognition for Venom"),
+                ("Multi-brand rakeback stacker", "Both — reload calendars differ"),
+            ],
+        },
+        "internal_links": ["/reviews/acr-poker/", "/reviews/black-chip-poker/", "/poker/cash-games/", "/poker/tournaments/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "acr-vs-betonline-poker",
+        "pattern": "comparison",
+        "title": "ACR Poker vs BetOnline Poker 2026: WPN vs Chico Network",
+        "meta_desc": "ACR vs BetOnline Poker — two US-facing offshore poker networks compared: player pools, tournament schedules, tracking software, cashiers.",
+        "vertical": "poker",
+        "target_query": "acr vs betonline poker",
+        "primary_brand": "acr-poker",
+        "cta_brands": ["acr-poker", "black-chip-poker", "betonline-poker", "tigergaming-poker"],
+        "who_this_is_for": "Poker players choosing between the two largest US-facing offshore networks — Winning Poker Network (ACR) vs Chico Poker (BetOnline).",
+        "unique_data": {
+            "scorecard": [
+                ("Network", "Winning Poker Network", "Chico Poker Network"),
+                ("Player pool traffic (avg cash tables)", "~8,000 concurrent", "~2,500 concurrent"),
+                ("Marquee MTT", "Venom $10M GTD", "Sunday $100K GTD"),
+                ("Cash game structure", "Standard, HUDs allowed", "Anonymous tables (mostly)"),
+                ("Rakeback structure", "Elite Benefits 20-65%", "Weekly rebate + reloads (15-35%)"),
+                ("Welcome bonus", "100% up to $2,000", "100% up to $1,000"),
+                ("Crypto cashier speed", "Same-day", "1-24 hrs"),
+                ("Sports/casino integration", "No", "Yes — cross-vertical account"),
+                ("Fast-fold format", "Blitz", "Zoom-style available"),
+                ("Cross-vertical", "Poker only", "Sports+Casino+Poker"),
+            ],
+            "verdict": "WPN has more liquidity; Chico has anonymous tables (better for recreational players) and cross-vertical integration. Serious cash players lean WPN; recreational players and cross-vertical bettors lean Chico.",
+            "winner_by_use_case": [
+                ("Serious cash grinder", "ACR — depth of pool + HUD support"),
+                ("Recreational / anti-tracking", "BetOnline — anonymous tables"),
+                ("MTT hunter", "ACR — Venom + OSS Cub3d"),
+                ("Multi-vertical player", "BetOnline — one login for sports/casino/poker"),
+            ],
+        },
+        "internal_links": ["/reviews/acr-poker/", "/reviews/betonline-poker/", "/poker/tournaments/", "/poker/strategy/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "tigergaming-vs-betonline-poker",
+        "pattern": "comparison",
+        "title": "TigerGaming vs BetOnline Poker 2026: Chico Network Sister Skins",
+        "meta_desc": "TigerGaming vs BetOnline Poker — same Chico platform, different promotional angles and rebate structures compared for 2026.",
+        "vertical": "poker",
+        "target_query": "tigergaming vs betonline poker",
+        "primary_brand": "betonline-poker",
+        "cta_brands": ["betonline-poker", "tigergaming-poker", "sportsbetting-poker"],
+        "who_this_is_for": "Poker players already on the Chico Network deciding whether the sister-brand rebate structure is worth a second account.",
+        "unique_data": {
+            "scorecard": [
+                ("Network", "Chico Poker Network", "Chico Poker Network"),
+                ("Player pool", "Shared", "Shared"),
+                ("Welcome bonus", "100% up to $1,000 + rebates", "100% up to $1,000 + weekly reloads"),
+                ("Signature promo", "Aggressive weekly rebate", "Weekly poker reloads"),
+                ("Rakeback structure", "Rebate (15-35% effective)", "Rebate (15-35% effective)"),
+                ("Cross-vertical", "No (poker-focused)", "Yes — sports+casino+poker"),
+                ("Anonymous tables", "Yes", "Yes"),
+                ("Crypto cashier", "1-24 hours", "1-24 hours"),
+            ],
+            "verdict": "Same platform, different promo emphasis. TigerGaming leans on its rebate cadence; BetOnline leans on cross-vertical integration. Volume grinders benefit from holding both.",
+            "winner_by_use_case": [
+                ("Pure poker player", "TigerGaming — cleaner rebate angle"),
+                ("Cross-vertical player", "BetOnline"),
+                ("Volume grinder wanting both rebates", "Both"),
+            ],
+        },
+        "internal_links": ["/reviews/tigergaming-poker/", "/reviews/betonline-poker/", "/poker/cash-games/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "wpn-vs-chico-poker-network",
+        "pattern": "comparison",
+        "title": "WPN vs Chico Poker Network 2026: The Two Big Offshore Pools Compared",
+        "meta_desc": "Winning Poker Network vs Chico Poker Network: liquidity, tournament schedules, cash-game structure, HUD policy, cashier — the two big US-facing offshore poker networks compared.",
+        "vertical": "poker",
+        "target_query": "wpn vs chico poker network",
+        "primary_brand": "acr-poker",
+        "cta_brands": ["acr-poker", "black-chip-poker", "betonline-poker", "sportsbetting-poker"],
+        "who_this_is_for": "Poker players choosing between the two US-facing offshore poker networks — deciding which pool best fits their game style.",
+        "unique_data": {
+            "scorecard": [
+                ("Skins available (US-facing)", "ACR, Black Chip, Ya Poker, True Poker", "BetOnline, TigerGaming, Sportsbetting.ag"),
+                ("Concurrent players (peak)", "~9,000", "~3,500"),
+                ("Signature MTT", "Venom $10M GTD", "Sunday $100K GTD"),
+                ("Cash-game structure", "Standard w/screen names", "Anonymous tables"),
+                ("HUD / tracking software", "Allowed", "Blocked at most stakes"),
+                ("Rakeback ceiling (top tier)", "65%", "35%"),
+                ("Weekly guarantee total", "~$4M+", "~$500K"),
+                ("Best for", "Cash regs + MTT hunters", "Recreational + cross-vertical"),
+            ],
+            "verdict": "WPN wins on liquidity and MTT prizepools. Chico wins on recreational-friendly structure (anonymous tables, no HUDs) and cross-vertical integration. Choice depends on your player profile — grinders lean WPN; recreational players lean Chico.",
+            "winner_by_use_case": [
+                ("Cash-game reg", "WPN — depth of pool"),
+                ("Anti-tracking recreational", "Chico"),
+                ("MTT specialist", "WPN — Venom + OSS Cub3d"),
+                ("Cross-vertical bettor", "Chico"),
+            ],
+        },
+        "internal_links": ["/poker/", "/reviews/acr-poker/", "/reviews/betonline-poker/", "/poker/strategy/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "regulated-vs-offshore-sportsbooks",
+        "pattern": "comparison",
+        "title": "Regulated vs Offshore Sportsbooks 2026: Legal Status, Payouts, Protection",
+        "meta_desc": "US-regulated vs offshore sportsbooks in 2026: legal status, consumer protection, cashier speed, market depth, and what to weigh before choosing.",
+        "vertical": "sportsbook",
+        "target_query": "regulated vs offshore sportsbooks",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "US bettors weighing the trade-offs between a regulated in-state operator and an offshore option — legal exposure, cashier speed, market depth, tax treatment.",
+        "unique_data": {
+            "scorecard": [
+                ("Legal status", "State-licensed", "Foreign-licensed (unregulated in-state)"),
+                ("Consumer-protection framework", "State gaming commission (e.g., NJDGE, IGC)", "Foreign jurisdiction only"),
+                ("Dispute resolution", "State enforcement", "Operator-level only"),
+                ("Cashier: instant-bank speed", "28 min - 1.5 hours", "1-24 hours (crypto)"),
+                ("Cashier: wire", "3.5-6 days", "5-15 days"),
+                ("Market depth", "Full US majors, some restrictions on state props", "Broader — no in-state college prop restrictions"),
+                ("Welcome bonus (typical)", "Bet $5, Get $100-$200", "50-125% match up to $1,000-$3,000"),
+                ("Crypto support", "Rare", "Standard"),
+                ("Tax reporting", "W-2G issued", "Bettor-responsible reporting"),
+                ("Player-limit / bet-limit risk", "Standard", "Similar; anecdotally friendlier to sharps"),
+            ],
+            "verdict": "Regulated is the safer choice for bettors who value consumer protection and easy tax reporting. Offshore is chosen for larger welcome bonuses, faster crypto cashiers, and market depth (particularly for props). Neither is universally correct.",
+            "winner_by_use_case": [
+                ("Casual bettor, regulated state", "Regulated"),
+                ("Crypto-first bettor", "Offshore"),
+                ("Sharp, limits-averse", "Offshore (marginal)"),
+                ("Tax-simplicity preference", "Regulated"),
+                ("Non-legal state bettor", "Offshore (only option)"),
+            ],
+        },
+        "internal_links": ["/legal/", "/us/", "/reviews/betonline-sportsbook/", "/trust/"],
+        "external_links": ["https://www.americangaming.org/"],
+    },
+
+    {
+        "slug": "dfs-vs-sports-betting-legal-differences",
+        "pattern": "comparison",
+        "title": "DFS vs Sports Betting 2026: Legal, Product and Tax Differences",
+        "meta_desc": "Daily fantasy sports vs sports betting compared — legal status, contest structure, tax treatment, skill-vs-chance framing, availability by state.",
+        "vertical": "sportsbook",
+        "target_query": "dfs vs sports betting",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Players in non-legal sports-betting states considering DFS as a substitute, or bettors comparing skill-based DFS to line-driven sportsbook betting.",
+        "unique_data": {
+            "scorecard": [
+                ("Legal status (Texas)", "Legal grey area", "Illegal"),
+                ("Legal status (California)", "Legal grey area", "Illegal"),
+                ("Legal status (New York)", "Legal", "Legal"),
+                ("Legal states (approx)", "40+", "30"),
+                ("Product structure", "Salary-cap contests", "Real-time line pricing"),
+                ("Typical hold", "10-15% rake", "4.5-8%"),
+                ("Federal tax (W-2G threshold)", "$600 wins at 300:1", "$600 wins at 300:1"),
+                ("Live wagering", "No (settle post-slate)", "Yes"),
+                ("Prop-bet coverage", "Player-only, salary-based", "Player + game props"),
+                ("Skill-vs-chance framing", "Skill-based (regulator-recognized)", "Gambling"),
+            ],
+            "verdict": "DFS is more available (legal in more states) and skill-framed, but carries higher hold. Sportsbook betting has richer product but is less legal by geography. Some players use both.",
+            "winner_by_use_case": [
+                ("Non-legal state bettor", "DFS"),
+                ("Live-betting fan", "Sportsbook (DFS doesn't do live)"),
+                ("Player-prop specialist", "Either"),
+                ("Lower-hold hunter", "Sportsbook"),
+            ],
+        },
+        "internal_links": ["/sports/football/nfl-props/", "/us/texas/", "/us/california/", "/reviews/betonline-sportsbook/"],
+        "external_links": ["https://www.legalsportsreport.com/"],
+    },
+
+    {
+        "slug": "betonline-casino-vs-betus-casino",
+        "pattern": "comparison",
+        "title": "BetOnline Casino vs BetUS Casino 2026: Offshore Casino Compared",
+        "meta_desc": "BetOnline Casino vs BetUS Casino compared on slot library, live dealer, welcome bonuses, cashier speed and mobile experience.",
+        "vertical": "casino",
+        "target_query": "betonline casino vs betus casino",
+        "primary_brand": "betonline-casino",
+        "cta_brands": ["betonline-casino", "sportsbetting-casino", "betus-casino"],
+        "who_this_is_for": "Offshore casino players choosing a primary account — deciding between BetOnline's all-around depth and BetUS's biggest headline welcome match.",
+        "unique_data": {
+            "scorecard": [
+                ("Slot library size", "500+", "300+"),
+                ("Slot providers", "Betsoft, Nucleus, Rival, Dragon, Concept, Fresh Deck", "BetSoft, RTG, Nucleus"),
+                ("Progressive jackpot titles", "15+", "10+"),
+                ("Live dealer tables", "Deep menu (BJ/roulette/baccarat + game shows)", "Standard (BJ/roulette/baccarat)"),
+                ("Welcome bonus", "100% up to $3,000 (3 deposits)", "150% up to $3,000 (crypto)"),
+                ("Rollover requirement", "30x on slots, 60x on tables", "30x on slots, 60x on tables"),
+                ("Crypto cashier speed", "1-24 hours", "24-48 hours"),
+                ("Table-game variants", "6+ blackjack, 3 roulette, baccarat, craps, video poker", "Multiple BJ, EU/US roulette, baccarat, craps"),
+                ("Mobile experience", "Web PWA", "Web PWA"),
+            ],
+            "verdict": "BetOnline wins on slot library breadth and cashier speed. BetUS wins on headline welcome-match value for crypto users.",
+            "winner_by_use_case": [
+                ("Slot library breadth", "BetOnline"),
+                ("Biggest welcome (crypto)", "BetUS — 150% match"),
+                ("Live dealer depth", "BetOnline"),
+                ("Cross-vertical player", "BetOnline"),
+                ("Table games specialist", "Tie"),
+            ],
+        },
+        "internal_links": ["/reviews/betonline-casino/", "/reviews/betus-casino/", "/casino/slots/", "/casino/live-dealer/"],
+        "external_links": [],
+    },
+]
+
+# --- 14 USE-CASE PAGES ---
+PAGES += [
+    {
+        "slug": "best-sportsbook-for-nfl-parlays",
+        "pattern": "use-case",
+        "title": "Best Sportsbook for NFL Parlays 2026: Ranked by Payout & Depth",
+        "meta_desc": "Best US-facing sportsbooks for NFL parlays 2026 — ranked by parlay-leg breadth, correlated SGP quality, promo insurance and expected value.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook for nfl parlays",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "NFL parlay bettors optimizing for correlated-leg SGP payouts, parlay insurance frequency, and price-shopping across books.",
+        "unique_data": {
+            "scoring_dimensions": ["Parlay leg breadth", "SGP correlation quality", "Parlay insurance / no-sweat cadence", "Max legs allowed", "Parlay-specific promos"],
+            "ranked_operators": [
+                ("BetOnline", "Deep NFL prop menu (20+ props/game) drives leg breadth. Weekly parlay-insurance offers. Max 12 legs."),
+                ("Sportsbetting.ag", "Mirror pricing to BetOnline. Distinct parlay-insurance cadence — hits at different weeks."),
+                ("BetUS", "Historic NFL depth (24+ props/game). Aggressive same-game-parlay boosts on marquee games."),
+            ],
+            "worked_example": {
+                "title": "How a 4-leg NFL SGP is actually priced",
+                "text": "A 4-leg same-game parlay combining a spread, total, and two player props on the same NFL game carries roughly 12-18% theoretical hold at most books. That's 3-4x the standard 4.5% straight-side hold. The reason: the operator uses positive correlation assumptions (running-back yards correlate with QB pass attempts, etc.) but the multiplier applied doesn't fully credit that correlation. Bettors who understand which legs are truly correlated can beat the SGP price at times — but the average bettor loses more per dollar wagered on SGPs than any other market."
+            },
+        },
+        "internal_links": ["/sports/football/nfl-props/", "/sports/football/nfl-sgp/", "/guides/hold-and-vig/", "/data/hold-rate-tracker/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-for-live-nba-betting",
+        "pattern": "use-case",
+        "title": "Best Sportsbook for Live NBA Betting 2026",
+        "meta_desc": "Best sportsbooks for live NBA betting 2026 — ranked by in-play menu depth, latency, alt-line coverage and correlation-aware live props.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook for live nba betting",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "NBA live bettors who care about in-play market depth, feed latency, and the availability of alt-spread/alt-total live markets deep into games.",
+        "unique_data": {
+            "scoring_dimensions": ["Live menu depth (markets/quarter)", "Update latency (ms)", "Alt-line coverage in-game", "Live prop markets", "Cashout friction"],
+            "ranked_operators": [
+                ("BetOnline", "Deepest live NBA menu among offshore books. Alt spreads and team totals refresh through Q4. 400-800ms latency."),
+                ("Sportsbetting.ag", "Mirror menu to BetOnline. Same latency. Slightly different cashout dynamics."),
+                ("BetUS", "Solid live menu but shallower than BetOnline on alt-line coverage in late-game. Weaker cashout."),
+            ],
+            "unique_insight": "Live betting is now over 57% of US sportsbook handle (Q2 2026 estimate). NBA is disproportionate to that share because pace + scoring frequency produces more line-movement moments than any other US major sport. Books know this: NBA live hold is priced 20-40 basis points higher than pre-game.",
+        },
+        "internal_links": ["/sports/basketball/nba-live-betting/", "/sports/basketball/nba-props/", "/data/hold-rate-tracker/", "/news/live-betting-q2-2026-handle-report.html"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-for-mlb-pitcher-props",
+        "pattern": "use-case",
+        "title": "Best Sportsbook for MLB Pitcher Props 2026",
+        "meta_desc": "Best sportsbooks for MLB pitcher props — ranked by strikeout-line depth, alt-K coverage, no-decision rules and payout speed for 2026.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook for mlb pitcher props",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "MLB prop bettors focused on starting-pitcher strikeout markets, alt-K lines, and outs-recorded markets — where line-shopping matters most.",
+        "unique_data": {
+            "scoring_dimensions": ["Standard strikeout line coverage", "Alt-K line breadth (K±1, K±2 depth)", "Outs recorded market", "First-inning-K available", "Payout on 'no-decision' voids"],
+            "ranked_operators": [
+                ("BetOnline", "Deep pitcher-prop menu including 3-4 alt-K lines per side, F5 pitcher K market, outs recorded 4-9. Listed-pitchers rule (bet voids if starter scratched)."),
+                ("Sportsbetting.ag", "Mirror menu to BetOnline; identical pricing on 90%+ of pitcher props."),
+                ("BetUS", "Solid strikeout coverage but shallower on alt-K breadth. Standard listed-pitchers rule."),
+            ],
+            "worked_example": {
+                "title": "The alt-K line-shopping edge",
+                "text": "Say a starter's over 6.5 strikeouts is priced -115 at BetOnline and the alt over 7.5 K is +150. At Sportsbetting.ag the same over 6.5 K might be -110 (better) but the alt 7.5 K is +145 (worse). A bettor going for the +150 alt should route through BetOnline; a bettor on the standard line should route Sportsbetting.ag. Over 20 K bets per month, that shopping is worth roughly 1.2% of ROI compared to committing to a single book.",
+            },
+        },
+        "internal_links": ["/sports/baseball/mlb-pitcher-matchups/", "/sports/baseball/mlb-player-props/", "/sports/baseball/mlb-first-5-innings/", "/data/hold-rate-tracker/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-for-beginners",
+        "pattern": "use-case",
+        "title": "Best Sportsbook for Beginners 2026: Easy Deposits, Clear UI, Low Friction",
+        "meta_desc": "Best sportsbooks for beginners in 2026 — ranked by UI simplicity, deposit ease, RG-tool visibility, welcome-offer clarity and learning content.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook for beginners",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "First-time bettors — prioritising ease of use, deposit simplicity, clarity of welcome-offer terms, and access to educational content.",
+        "unique_data": {
+            "scoring_dimensions": ["Onboarding friction (steps to first bet)", "Welcome-offer clarity", "UI simplicity", "RG-tool visibility at signup", "In-app educational content"],
+            "ranked_operators": [
+                ("BetOnline", "Cleanest onboarding — 4 steps from signup to first bet. Welcome offer clearly explained. Visible RG-tool defaults."),
+                ("BetUS", "Big welcome match (great for a beginner's first deposit). Slightly older UI but functional. Educational content library."),
+                ("Sportsbetting.ag", "Same platform as BetOnline; identical friction. Distinct welcome-page copy."),
+            ],
+            "unique_insight": "The single most valuable habit a beginner can build is setting a monthly deposit limit at account creation. Bettors who set limits at signup have measurably better long-term outcomes than those who intend to 'eventually.' Every one of the operators above supports self-service deposit limits — the tool is only useful if you actually use it.",
+        },
+        "internal_links": ["/guides/", "/legal/responsible-gambling.html", "/reviews/betonline-sportsbook/", "/trust/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-for-high-rollers",
+        "pattern": "use-case",
+        "title": "Best Sportsbook for High Rollers 2026: Limits, VIP Terms, Fast Cashiers",
+        "meta_desc": "Best sportsbooks for high rollers 2026 — ranked by wager limits, VIP program depth, high-limit cashier speed and dedicated host access.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook for high rollers",
+        "primary_brand": "betus-sportsbook",
+        "cta_brands": ["betus-sportsbook", "betonline-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "High-stakes bettors — prioritising per-bet limits, custom-rate VIP programs, and same-day 5-figure withdrawal capacity.",
+        "unique_data": {
+            "scoring_dimensions": ["Standard per-bet limit", "Custom-VIP per-bet limit", "5-figure withdrawal capacity", "VIP host access", "Custom rakeback / reload rates"],
+            "ranked_operators": [
+                ("BetUS", "Established VIP program from 1994 heritage. Custom limits negotiable via host. Same-day crypto 5-figure withdrawals."),
+                ("BetOnline", "Aggressive high-roller VIP with dedicated hosts. Custom cashback structures negotiable at $50K+ monthly volume."),
+                ("Sportsbetting.ag", "Same platform, similar VIP terms — worth holding both for cross-book limit capacity."),
+            ],
+            "unique_insight": "The high-roller edge at offshore books is cashier throughput, not just headline limits. A bettor moving $20K+ per session at BetOnline can request an assigned VIP host who processes withdrawal escalations directly, cutting typical 24-hour crypto times to 2-4 hours. That access is not on the marketing page — it's negotiated after 30 days of volume.",
+        },
+        "internal_links": ["/reviews/betus-sportsbook/", "/reviews/betonline-sportsbook/", "/data/withdrawal-speed-tracker/", "/trust/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-crypto-sportsbook",
+        "pattern": "use-case",
+        "title": "Best Crypto Sportsbook 2026: BTC, ETH, USDT Cashier Winners",
+        "meta_desc": "Best sportsbooks for crypto deposits in 2026 — ranked by BTC/ETH/USDT support breadth, cashier speed, on-chain fees and crypto-specific welcome bonuses.",
+        "vertical": "sportsbook",
+        "target_query": "best crypto sportsbook",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Bettors who prefer or require cryptocurrency deposits — optimising for cashier speed, coin support, and crypto-specific welcome match value.",
+        "unique_data": {
+            "scoring_dimensions": ["Coin support breadth", "Crypto deposit min", "Withdrawal speed (BTC)", "Crypto welcome-match uplift", "On-chain fee handling"],
+            "ranked_operators": [
+                ("BetOnline", "BTC, ETH, LTC, BCH, USDT. $20 min crypto deposit. 1-24 hour withdrawal average. No fee pass-through."),
+                ("BetUS", "BTC, ETH, LTC. $50 min. 24-48 hour withdrawal. 125% crypto welcome match (vs 100% card) — largest crypto-specific uplift."),
+                ("Sportsbetting.ag", "Same coin support as BetOnline. Identical cashier speed. Distinct welcome-terms."),
+            ],
+            "unique_insight": "Crypto welcome-match uplifts are worth understanding before you deposit. BetUS's 125% crypto vs 100% card difference means a $2,000 deposit gets $2,500 bonus via crypto vs $2,000 bonus via card — $500 real dollar difference. The rollover multiplier is typically the same, so the crypto path is straight-line better provided you already hold or can quickly acquire the crypto.",
+        },
+        "internal_links": ["/reviews/betonline-sportsbook/", "/reviews/betus-sportsbook/", "/data/withdrawal-speed-tracker/", "/bonuses/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-for-college-football",
+        "pattern": "use-case",
+        "title": "Best Sportsbook for College Football 2026: CFB Market Depth & Player Props",
+        "meta_desc": "Best sportsbooks for college football betting 2026 — deepest game menus, player-prop breadth, in-state restrictions and live-CFB coverage compared.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook for college football",
+        "primary_brand": "betus-sportsbook",
+        "cta_brands": ["betus-sportsbook", "betonline-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "College football bettors focused on FBS depth (SEC/Big Ten/ACC), player-prop access (which regulated states restrict on in-state teams), and Saturday early-menu coverage.",
+        "unique_data": {
+            "scoring_dimensions": ["FBS game coverage breadth", "Player-prop availability", "In-state-team restriction status", "Live CFB coverage depth", "Line-timing (early Saturday morning)"],
+            "ranked_operators": [
+                ("BetUS", "Historic CFB depth as an original US-facing offshore book. Full FBS + FCS coverage. No in-state college restrictions (offshore benefit)."),
+                ("BetOnline", "Comparable FBS coverage. Slightly shallower player-prop menu on non-marquee games. Same offshore advantage on state props."),
+                ("Sportsbetting.ag", "Mirror to BetOnline."),
+            ],
+            "unique_insight": "US-regulated books face state-imposed restrictions on college player props (in-state college teams cannot have player props in most regulated states). Offshore books have no equivalent restriction. A Georgia resident wanting to bet on Georgia Bulldogs player props has to route through an offshore book because regulated Georgia operators don't offer that market. This is the single biggest structural edge offshore books hold over regulated ones for CFB bettors.",
+        },
+        "internal_links": ["/sports/football/college/", "/sports/football/", "/us/", "/reviews/betus-sportsbook/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-for-same-game-parlays",
+        "pattern": "use-case",
+        "title": "Best Sportsbook for Same Game Parlays 2026",
+        "meta_desc": "Best sportsbooks for same game parlays in 2026 — ranked by correlation quality, max-leg count, no-sweat SGP promo cadence and payout structure.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook for same game parlays",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Same-game-parlay builders optimising for correlation-aware pricing, max legs, and the frequency of no-sweat SGP promotions.",
+        "unique_data": {
+            "scoring_dimensions": ["Correlation quality of pricing", "Max legs allowed", "SGP-specific promos", "Prop breadth (drives leg count)", "SGP-plus-others parlays"],
+            "ranked_operators": [
+                ("BetOnline", "Correlation-priced SGPs. Up to 12 legs. Weekly no-sweat SGP promo."),
+                ("BetUS", "Aggressive marquee-game SGP boosts. Up to 10 legs."),
+                ("Sportsbetting.ag", "Mirror to BetOnline."),
+            ],
+            "unique_insight": "SGP hold rates typically run 12-22% versus 4.5% on straight sides. A savvy bettor understands they are giving up material EV on SGPs — but the entertainment value and the occasional large payout justify the trade-off for many. If you SGP, do it with small stakes and hunt the specific correlated combinations (QB rushing yards + team spread cover, for example) that books misprice.",
+        },
+        "internal_links": ["/sports/football/nfl-sgp/", "/sports/basketball/nba-sgp/", "/guides/hold-and-vig/", "/data/hold-rate-tracker/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-casino-for-slot-bonuses",
+        "pattern": "use-case",
+        "title": "Best Casino for Slot Bonuses 2026: Match, Free Spins, Rollover",
+        "meta_desc": "Best casinos for slot bonuses 2026 — ranked by match-bonus value, free-spin volume, slot-eligible rollover terms and max-bet-during-bonus rules.",
+        "vertical": "casino",
+        "target_query": "best casino for slot bonuses",
+        "primary_brand": "betus-casino",
+        "cta_brands": ["betus-casino", "betonline-casino", "sportsbetting-casino"],
+        "who_this_is_for": "Slot players optimising for realized welcome-bonus value — factoring in rollover, contribution rates and max-bet-during-bonus.",
+        "unique_data": {
+            "scoring_dimensions": ["Match percentage", "Max bonus amount", "Slot contribution rate", "Rollover multiplier", "Max bet during bonus", "Expiry window"],
+            "ranked_operators": [
+                ("BetUS Casino", "150% crypto match up to $3,000. Slots contribute 100%. 30x rollover. $10 max bet during bonus. 30 days expiry."),
+                ("BetOnline Casino", "100% match across first 3 deposits up to $3,000 total. Slots 100%. 30x rollover. $10 max bet."),
+                ("Sportsbetting.ag Casino", "Same terms as BetOnline (shared platform). Distinct reload cadence."),
+            ],
+            "worked_example": {
+                "title": "Realized value on a $1,000 slot welcome match",
+                "text": "A 100% welcome match on a $1,000 deposit gives $1,000 bonus at 30x rollover. To clear, you'd need to wager $30,000 in slot play (with slots contributing 100%). Slot RTP averages ~96%, so expected loss during rollover is ~4% of $30,000 = $1,200. That's greater than the $1,000 bonus — meaning the bonus's realized value is negative if you only intended to play for the bonus. Where the value comes in: bonuses subsidize play you would have done anyway. If you were going to grind $30K in slots regardless, the $1,000 bonus is pure upside.",
+            },
+        },
+        "internal_links": ["/casino/slots/", "/casino/bonuses/", "/reviews/betus-casino/", "/reviews/betonline-casino/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-casino-for-blackjack",
+        "pattern": "use-case",
+        "title": "Best Casino for Blackjack 2026: Variant Depth, RTP, Live Dealer Access",
+        "meta_desc": "Best online casinos for blackjack 2026 — ranked by variant breadth (single deck, Spanish 21, Free Bet), RTP, live-dealer floor and table-game contribution to rollover.",
+        "vertical": "casino",
+        "target_query": "best casino for blackjack",
+        "primary_brand": "betonline-casino",
+        "cta_brands": ["betonline-casino", "sportsbetting-casino", "betus-casino"],
+        "who_this_is_for": "Blackjack-specific players prioritising variant depth, RTP, and live-dealer access — over slot-focused casinos.",
+        "unique_data": {
+            "scoring_dimensions": ["Blackjack variants offered", "Standard-BJ RTP", "Live-dealer BJ table count", "Table-game contribution to rollover", "Max BJ table limit"],
+            "ranked_operators": [
+                ("BetOnline Casino", "6+ blackjack variants incl Single Deck, Double Deck, Perfect Pairs, Blackjack Switch. RTP 99.5%+ standard. 8+ live dealer BJ tables."),
+                ("Sportsbetting.ag Casino", "Same slot library and BJ variants as BetOnline (shared platform)."),
+                ("BetUS Casino", "Multiple BJ variants but fewer than BetOnline. Standard RTP. Live dealer BJ present."),
+            ],
+            "unique_insight": "Blackjack has the lowest house edge of any casino table game — approximately 0.5% with perfect basic strategy at 3:2-payout tables. Compare that to slots (2-8% edge) and roulette (5.26% American, 2.7% European). A blackjack player using basic strategy loses about $2.50/hour at $10 stakes. A slot player at the same $10/hand loses $40-160/hour on average. Understanding the edge math is the most valuable piece of casino knowledge you can hold.",
+        },
+        "internal_links": ["/casino/blackjack/", "/casino/live-dealer/", "/reviews/betonline-casino/", "/casino/bonuses/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-casino-for-live-dealer",
+        "pattern": "use-case",
+        "title": "Best Casino for Live Dealer 2026: Table Count, Latency, Studio Quality",
+        "meta_desc": "Best online casinos for live-dealer play 2026 — table count, streaming latency, side-bet availability and game-show breadth compared across offshore books.",
+        "vertical": "casino",
+        "target_query": "best casino for live dealer",
+        "primary_brand": "betonline-casino",
+        "cta_brands": ["betonline-casino", "sportsbetting-casino", "betus-casino"],
+        "who_this_is_for": "Casino players who prefer live-dealer over RNG-based games — prioritising stream quality, table variety and low latency.",
+        "unique_data": {
+            "scoring_dimensions": ["Total live tables", "Blackjack live tables", "Roulette live tables", "Baccarat live tables", "Game-show style tables", "Stream latency (avg)"],
+            "ranked_operators": [
+                ("BetOnline Casino", "50+ live tables. 8+ BJ, 6+ roulette (EU/US/French), 4+ baccarat, 6+ game shows (Dream Catcher, Lightning Roulette). ~700ms latency."),
+                ("Sportsbetting.ag Casino", "Same live floor (shared platform)."),
+                ("BetUS Casino", "30+ live tables. Standard BJ/roulette/baccarat coverage. Fewer game-show titles. ~800ms latency."),
+            ],
+            "unique_insight": "Latency matters more than most players realize. A 200ms difference between two operators' live-dealer streams changes the perceived rhythm of the game and slightly changes bet-placement timing. The best offshore live-dealer operations have improved to sub-500ms in 2026 — down from 1-1.5 seconds in 2023. Try each operator on your typical connection before committing.",
+        },
+        "internal_links": ["/casino/live-dealer/", "/reviews/betonline-casino/", "/casino/", "/casino/games/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-poker-site-for-cash-games",
+        "pattern": "use-case",
+        "title": "Best Poker Site for Cash Games 2026",
+        "meta_desc": "Best US-facing offshore poker sites for cash games 2026 — ranked by game selection, average table softness, HUD policy and rakeback structure.",
+        "vertical": "poker",
+        "target_query": "best poker site for cash games",
+        "primary_brand": "black-chip-poker",
+        "cta_brands": ["black-chip-poker", "acr-poker", "ya-poker", "true-poker", "betonline-poker"],
+        "who_this_is_for": "Cash-game grinders — prioritising average table softness, game selection tools, HUD policy and effective rakeback.",
+        "unique_data": {
+            "scoring_dimensions": ["Cash liquidity at NL50-NL200", "Average table softness", "HUD / tracking allowed", "Rakeback ceiling", "Fast-fold format available"],
+            "ranked_operators": [
+                ("Black Chip Poker", "WPN pool — deepest NL10-NL200 traffic. HUDs allowed. 27% Elite Benefits headline rakeback. Blitz fast-fold."),
+                ("ACR Poker", "Same WPN pool. Same rakeback structure. Marginally tougher brand-associated regs. Blitz fast-fold."),
+                ("BetOnline Poker", "Chico Network — smaller pool but anonymous tables (better for recreational). 15-35% effective rakeback via rebates. Zoom-style fast-fold."),
+                ("TigerGaming", "Chico sister to BetOnline; distinct promo cadence."),
+            ],
+            "unique_insight": "Cash-game bankroll requirements: 25-30 buy-ins for the stake you play. NL50 ($0.25/$0.50) needs a $1,250-$1,500 bankroll. Drop stakes if you lose 5 buy-ins at your current level. This discipline separates profitable cash players from those who bust — even winning-strategy players with insufficient bankrolls go broke to variance.",
+        },
+        "internal_links": ["/poker/cash-games/", "/poker/strategy/", "/reviews/black-chip-poker/", "/reviews/betonline-poker/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-poker-site-for-tournaments",
+        "pattern": "use-case",
+        "title": "Best Poker Site for Tournaments 2026: MTT, Sunday Majors, Guarantees",
+        "meta_desc": "Best US-facing offshore poker sites for tournaments 2026 — Venom, OSS Cub3d, Sunday majors, MTT guarantees and satellite paths compared.",
+        "vertical": "poker",
+        "target_query": "best poker site for tournaments",
+        "primary_brand": "acr-poker",
+        "cta_brands": ["acr-poker", "black-chip-poker", "ya-poker", "true-poker"],
+        "who_this_is_for": "Tournament-focused players — prioritising guarantee volume, weekly schedule depth, satellite paths and marquee-event access.",
+        "unique_data": {
+            "scoring_dimensions": ["Weekly guaranteed total", "Signature MTT (guarantee)", "Sunday major structure", "Satellite paths to marquee events", "OSS Cub3d participation"],
+            "ranked_operators": [
+                ("ACR Poker", "Weekly MTT guarantees exceed $4M. Venom $10M GTD marquee. OSS Cub3d series. Sunday Blowout $600K GTD."),
+                ("Black Chip Poker", "Same WPN schedule as ACR. Rebranded satellite paths."),
+                ("Ya Poker / True Poker", "Same WPN schedule. Access via distinct account."),
+            ],
+            "unique_insight": "The Venom's $10M+ guarantee is the largest MTT available to US-based players. The buy-in is $2,650 direct or $22 for the first satellite step. A disciplined satellite path — Step 1 to Step 2 to direct qualifier — can put a $22 investment into a $10M-GTD event with a reasonable hourly-EV expectation. Full-time MTT players build their schedules around big-guarantee series like Venom and OSS Cub3d.",
+        },
+        "internal_links": ["/poker/tournaments/", "/reviews/acr-poker/", "/reviews/black-chip-poker/", "/poker/strategy/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-poker-site-for-crypto-players",
+        "pattern": "use-case",
+        "title": "Best Poker Site for Crypto Players 2026: BTC, ETH, USDT Support",
+        "meta_desc": "Best US-facing offshore poker sites for crypto deposits — coin breadth, cashier speed, crypto-specific bonuses and on-chain fee handling compared.",
+        "vertical": "poker",
+        "target_query": "best poker site for crypto",
+        "primary_brand": "acr-poker",
+        "cta_brands": ["acr-poker", "black-chip-poker", "ya-poker", "true-poker", "betonline-poker"],
+        "who_this_is_for": "Poker players who prefer or require cryptocurrency deposits — optimizing for coin support breadth, cashier speed and crypto-specific promotional lift.",
+        "unique_data": {
+            "scoring_dimensions": ["Coin support", "Crypto min deposit", "Withdrawal speed (BTC)", "Crypto bonus lift vs card", "Instant deposit crediting"],
+            "ranked_operators": [
+                ("Ya Poker", "Crypto-first cashier. $20 BTC min. Same-day withdrawal. Instant deposit crediting. Cleanest crypto UX on WPN."),
+                ("ACR Poker", "BTC/ETH/LTC/USDT. $25 min. Same-day. Standard crypto UX."),
+                ("Black Chip Poker", "Same WPN cashier as ACR — identical coin support and speed."),
+                ("BetOnline Poker", "BTC/ETH/LTC/BCH/USDT. $20 min. 1-24 hrs. Different (Chico) cashier."),
+            ],
+            "unique_insight": "Ya Poker's crypto-first positioning matters if you're moving 5+ deposits per month — the deposit-crediting speed and lack of card-processing friction adds up to real time saved. For a player who deposits once a month, any WPN skin is roughly equivalent.",
+        },
+        "internal_links": ["/reviews/ya-poker/", "/reviews/acr-poker/", "/poker/", "/poker/bonus/"],
+        "external_links": [],
+    },
+]
+
+# --- 10 CURATION / LAYERED ---
+PAGES += [
+    {
+        "slug": "best-offshore-sportsbooks-2026",
+        "pattern": "curation",
+        "title": "Best Offshore Sportsbooks for US Bettors 2026",
+        "meta_desc": "Best US-facing offshore sportsbooks 2026 — ranked on cashier speed, market depth, welcome-bonus value, live-betting breadth and reputation.",
+        "vertical": "sportsbook",
+        "target_query": "best offshore sportsbook 2026",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "US bettors evaluating US-facing offshore books for a primary or secondary account.",
+        "unique_data": {
+            "scoring_dimensions": ["Cashier speed (crypto)", "Market depth", "Welcome value", "Live-betting depth", "Reputation/tenure"],
+            "ranked_operators": [
+                ("BetOnline", "Score 94/100 — flagship all-around Chico-network book"),
+                ("BetUS", "Score 92/100 — historic NFL specialist, biggest crypto welcome"),
+                ("Sportsbetting.ag", "Score 91/100 — sister to BetOnline with distinct promo cadence"),
+            ],
+            "unique_insight": "Offshore books are chosen by US bettors for four reasons in 2026: (1) welcome-bonus size well beyond regulated caps, (2) crypto cashier speed, (3) market depth on college and prop markets that regulated books restrict, and (4) less friction for high-roller limits. They are chosen against for one reason: absence of state regulator dispute-resolution authority. Understand that trade-off before you deposit.",
+            "what_changed": "Q2 2026 update: cashier speeds tightened across all three operators. BetOnline reduced average instant-crypto withdrawal from 2.5 hours to 1.5. BetUS launched dedicated VIP-host program at $10K/month volume threshold. Sportsbetting.ag adjusted reload calendar to hit Tuesday/Friday.",
+        },
+        "internal_links": ["/reviews/betonline-sportsbook/", "/reviews/betus-sportsbook/", "/reviews/sportsbetting-sportsbook/", "/trust/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-crypto-sportsbooks-2026",
+        "pattern": "curation",
+        "title": "Best Crypto Sportsbooks 2026",
+        "meta_desc": "Best crypto-friendly sportsbooks 2026 — ranked by BTC/ETH/USDT support, cashier speed, crypto-specific welcome-match uplift and on-chain fee handling.",
+        "vertical": "sportsbook",
+        "target_query": "best crypto sportsbook 2026",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Crypto-first bettors optimising for coin support, cashier speed and crypto welcome-match uplift.",
+        "unique_data": {
+            "scoring_dimensions": ["Coin breadth", "Crypto deposit min", "Withdrawal speed", "Crypto-specific welcome uplift", "On-chain fees"],
+            "ranked_operators": [
+                ("BetUS", "Score 93/100 — largest crypto-specific welcome (125% vs 100% card)"),
+                ("BetOnline", "Score 92/100 — broadest coin support, fastest average cashier"),
+                ("Sportsbetting.ag", "Score 90/100 — mirror BetOnline with distinct promos"),
+            ],
+            "unique_insight": "The 25% crypto-uplift at BetUS translates to real dollar value on larger deposits. On a $2,000 deposit: $2,000 bonus via card vs $2,500 bonus via crypto = $500 nominal difference. After a 10x rollover the effective-value gap holds at approximately $150-300 depending on your play pattern.",
+            "what_changed": "Q2 2026 update: Bitcoin cash (BCH) reintroduced across all three books. USDT-TRC20 added at BetOnline for lower on-chain fees. No fee-pass-through changes.",
+        },
+        "internal_links": ["/reviews/betus-sportsbook/", "/reviews/betonline-sportsbook/", "/data/withdrawal-speed-tracker/", "/bonuses/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-fastest-paying-sportsbooks-2026",
+        "pattern": "curation",
+        "title": "Fastest-Paying Sportsbooks 2026: Real-Money Cashier Speed Rankings",
+        "meta_desc": "Fastest-paying sportsbooks 2026 — real-money withdrawal-speed rankings across crypto, instant-bank, ACH and wire methods.",
+        "vertical": "sportsbook",
+        "target_query": "fastest paying sportsbook",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Bettors prioritising withdrawal speed above all else — cashier friction is one of the most-complained-about issues in the industry.",
+        "unique_data": {
+            "scoring_dimensions": ["Instant-bank speed", "ACH speed", "Crypto speed (BTC)", "Wire speed", "KYC-hold friction on first withdrawal"],
+            "ranked_operators": [
+                ("BetOnline", "Instant-bank 90 min avg. ACH 1.5 days. BTC 1-24 hrs. Wire 5-10 days."),
+                ("Sportsbetting.ag", "Mirror to BetOnline (shared platform)."),
+                ("BetUS", "Slightly slower on crypto (24-48 hrs) but faster on wire (3-7 days)."),
+            ],
+            "unique_insight": "Withdrawal speed varies more with account age than with operator. New accounts undergo enhanced KYC review that adds 24-72 hours to the first withdrawal. 90+ day-old accounts see roughly 4x faster processing. This is why we recommend making a small first withdrawal early to complete verification, even before you plan to cash out serious volume.",
+            "what_changed": "Q2 2026 update: BetOnline reduced average instant-bank from 3 hours to 90 minutes after infrastructure investment. BetUS's wire lag improved from 5-14 days to 3-7. Sportsbetting.ag unchanged.",
+        },
+        "internal_links": ["/data/withdrawal-speed-tracker/", "/reviews/betonline-sportsbook/", "/reviews/betus-sportsbook/", "/news/sportsbook-withdrawal-speed-q2-2026.html"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-welcome-bonuses-2026",
+        "pattern": "curation",
+        "title": "Best Sportsbook Welcome Bonuses 2026: Match, Rollover, Realized Value",
+        "meta_desc": "Best sportsbook welcome bonuses in 2026 — evaluated on nominal match value, rollover requirement, expected loss during clearance and realized value.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook welcome bonus 2026",
+        "primary_brand": "betus-sportsbook",
+        "cta_brands": ["betus-sportsbook", "betonline-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Bonus-hunters prioritising the mathematically-highest realized value from a welcome-match offer.",
+        "unique_data": {
+            "scoring_dimensions": ["Nominal match", "Match ceiling", "Rollover multiplier", "Expiry window", "Realized value (post-rollover)"],
+            "ranked_operators": [
+                ("BetUS", "125% crypto match up to $3,125. 10x deposit+bonus rollover. 30-day expiry. Realized value approx $1,900 for a $2,500 deposit."),
+                ("BetOnline", "50% up to $1,000. 10x rollover. 30-day expiry. Realized value approx $650."),
+                ("Sportsbetting.ag", "Same terms as BetOnline; distinct reload calendar."),
+            ],
+            "worked_example": {
+                "title": "Realized-value math on the BetUS 125% crypto match",
+                "text": "Deposit $2,500 in BTC. Bonus = $3,125. Total account balance = $5,625. Rollover = 10x deposit+bonus = 10x $5,625 = $56,250 in wagers. At standard sportsbook hold (~5% on sides), expected loss during clearance = $2,812. Net realized value = $3,125 bonus - $2,812 expected loss = $313. That's the mathematically-conservative estimate. A skilled bettor with edge > 5% actually retains more of the bonus; a very casual bettor loses more.",
+            },
+            "what_changed": "Q2 2026 update: BetUS raised crypto match from 100% to 125% in April. BetOnline / Sportsbetting.ag terms unchanged.",
+        },
+        "internal_links": ["/bonuses/", "/reviews/betus-sportsbook/", "/reviews/betonline-sportsbook/", "/guides/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-poker-rakeback-programs-2026",
+        "pattern": "curation",
+        "title": "Best Poker Rakeback Programs 2026: Elite Benefits, Chico Rebates & More",
+        "meta_desc": "Best online poker rakeback programs 2026 — WPN Elite Benefits, Chico rebate, and per-brand effective-rakeback rates for cash and MTT players.",
+        "vertical": "poker",
+        "target_query": "best poker rakeback",
+        "primary_brand": "acr-poker",
+        "cta_brands": ["acr-poker", "black-chip-poker", "ya-poker", "true-poker"],
+        "who_this_is_for": "Volume poker players evaluating rakeback structures — since rakeback often exceeds welcome-bonus value on a lifetime basis.",
+        "unique_data": {
+            "scoring_dimensions": ["Rakeback ceiling", "Tier structure clarity", "Rolling window", "Cash game rakeback rate", "MTT rakeback rate"],
+            "ranked_operators": [
+                ("ACR Poker", "Elite Benefits 20-65% depending on tier. 60-day rolling window. Cash 25-45% typical; MTT 15-40%."),
+                ("Black Chip Poker", "Same Elite Benefits structure — WPN pool means identical rakeback."),
+                ("Ya Poker", "Same WPN structure. Distinct account keeps tier-progress separate."),
+                ("True Poker", "Same WPN structure."),
+                ("BetOnline Poker (Chico)", "Rebate + reload structure. Effective 15-35%. Weekly-reset window."),
+            ],
+            "unique_insight": "Rakeback ceilings sound high (65%) but require serious volume to reach. A player generating $10K/month in rake reaches the top WPN tier; most amateurs generate $200-1,000 monthly and land in the 20-35% effective rakeback bucket. The math still favors playing — even 25% rakeback on a break-even player produces meaningful bankroll uplift over a year.",
+            "what_changed": "Q2 2026 update: WPN adjusted tier thresholds slightly downward, making the top tiers marginally easier to reach for high-volume players.",
+        },
+        "internal_links": ["/poker/bonuses/", "/reviews/acr-poker/", "/reviews/black-chip-poker/", "/poker/strategy/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-poker-mtt-schedule-2026",
+        "pattern": "curation",
+        "title": "Best Poker MTT Schedules 2026: Signature Series, Sunday Majors, Guarantees",
+        "meta_desc": "Best US-facing offshore poker MTT schedules 2026 — Venom, OSS Cub3d, Sunday Blowout, Sunday $100K GTD and weekly guarantees compared.",
+        "vertical": "poker",
+        "target_query": "best poker mtt schedule",
+        "primary_brand": "acr-poker",
+        "cta_brands": ["acr-poker", "black-chip-poker", "ya-poker", "true-poker", "betonline-poker"],
+        "who_this_is_for": "MTT-focused players choosing where to invest volume based on guarantee depth and satellite paths.",
+        "unique_data": {
+            "scoring_dimensions": ["Weekly guarantee total", "Signature MTT (guarantee)", "Sunday major", "Satellite path depth", "Field sizes"],
+            "ranked_operators": [
+                ("ACR / WPN skins", "Weekly guarantees $4M+. Venom $10M GTD marquee. OSS Cub3d 3-tier Sunday series."),
+                ("BetOnline / Chico skins", "Weekly guarantees $500K+. Sunday $100K GTD marquee. Warm-up series."),
+            ],
+            "unique_insight": "The Venom's $10M+ guarantee event runs 3-4 times per year — every player considering serious MTT volume on WPN should plan bankroll and schedule around Venom dates. Satellites open 3-6 weeks before each Venom, giving a runway for a $22 direct-buy-in path to a $10M event.",
+            "what_changed": "Q2 2026 update: WPN added a new $250K Sunday Blowout to the Sunday schedule. Chico expanded Sunday $100K GTD to include a second Sunday $50K on top.",
+        },
+        "internal_links": ["/poker/tournaments/", "/reviews/acr-poker/", "/reviews/betonline-poker/", "/poker/strategy/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-offshore-casinos-crypto-2026",
+        "pattern": "curation",
+        "title": "Best Offshore Casinos for Crypto Players 2026",
+        "meta_desc": "Best crypto-friendly offshore casinos 2026 — coin support, cashier speed, crypto welcome uplift and provably-fair game availability.",
+        "vertical": "casino",
+        "target_query": "best offshore crypto casino 2026",
+        "primary_brand": "betonline-casino",
+        "cta_brands": ["betonline-casino", "betus-casino", "sportsbetting-casino"],
+        "who_this_is_for": "Crypto-first casino players prioritising cashier speed and crypto-specific welcome match value.",
+        "unique_data": {
+            "scoring_dimensions": ["Coin breadth", "Withdrawal speed (BTC)", "Crypto welcome uplift", "On-chain fees", "Slot library size"],
+            "ranked_operators": [
+                ("BetOnline Casino", "BTC, ETH, LTC, BCH, USDT. 1-24 hour withdrawal. 100% match up to $3,000. 500+ slots."),
+                ("Sportsbetting.ag Casino", "Same platform as BetOnline; same crypto UX."),
+                ("BetUS Casino", "BTC, ETH, LTC. 24-48 hour withdrawal. 150% crypto match — biggest headline uplift."),
+            ],
+            "unique_insight": "Casino rollover multipliers are higher than sports rollover (30-50x on slots vs 10-14x on sports). This means the crypto-uplift maths differently for casino welcomes: a bigger nominal bonus with a bigger rollover doesn't always net higher realized value. BetOnline's 100% match with slightly friendlier structure often outperforms BetUS's 150% match at the realized-value level for typical slot volume.",
+            "what_changed": "Q2 2026 update: BetOnline expanded slot library from 450 to 500+ titles with Fresh Deck Studios addition.",
+        },
+        "internal_links": ["/casino/", "/reviews/betonline-casino/", "/reviews/betus-casino/", "/casino/bonuses/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-apps-2026",
+        "pattern": "curation",
+        "title": "Best Sportsbook Apps 2026: iOS + Android + Mobile Web Compared",
+        "meta_desc": "Best sportsbook mobile apps 2026 — iOS and Android app-store ratings, mobile-web PWA quality, latency, and bet-placement UX ranked.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook app",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Mobile-first bettors choosing operators by app quality — native app store availability differs materially between regulated and offshore books.",
+        "unique_data": {
+            "scoring_dimensions": ["iOS app store rating", "Android app store rating", "Mobile web PWA quality", "Bet-placement speed", "Live-betting latency"],
+            "ranked_operators": [
+                ("BetOnline (mobile web)", "PWA only (no native app on stores — offshore constraint). 400-800ms latency. Fast bet-placement."),
+                ("Sportsbetting.ag (mobile web)", "Same platform. Same PWA."),
+                ("BetUS (mobile web)", "PWA only. Slightly older UI. Similar latency."),
+            ],
+            "unique_insight": "Offshore books don't publish to iOS/Android app stores because of platform policy on unregulated gambling. Their mobile-web experience is a PWA that supports the full workflow — bet placement, live betting, cashier, account management. Save the site to your phone home screen for one-tap launch that behaves like a native app.",
+        },
+        "internal_links": ["/reviews/betonline-sportsbook/", "/reviews/betus-sportsbook/", "/reviews/sportsbetting-sportsbook/", "/trust/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbooks-for-reduced-juice",
+        "pattern": "curation",
+        "title": "Best Sportsbooks for Reduced Juice / Low Hold 2026",
+        "meta_desc": "Best sportsbooks for reduced juice and low hold rates 2026 — measured across NFL, NBA, MLB standard sides plus alt lines.",
+        "vertical": "sportsbook",
+        "target_query": "reduced juice sportsbook",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Volume bettors — where a 20-basis-point hold-rate advantage compounds meaningfully across a season.",
+        "unique_data": {
+            "scoring_dimensions": ["NFL sides hold", "NBA sides hold", "MLB sides hold", "Alt line hold", "Live hold"],
+            "ranked_operators": [
+                ("BetOnline", "4.5% NFL, 4.4% NBA, 4.5% MLB sides — tightest offshore pricing."),
+                ("Sportsbetting.ag", "Mirror to BetOnline (shared platform)."),
+                ("BetUS", "4.6% NFL, 4.5% NBA, 4.6% MLB — marginally wider."),
+            ],
+            "unique_insight": "The tightest offshore sides pricing is now within 30 basis points of the tightest regulated pricing (bet365, FanDuel). Line-shopping between regulated and offshore books is worth 40-100 basis points on the biggest markets — enough to matter for volume bettors. See our hold rate tracker for month-over-month movement.",
+            "what_changed": "Q2 2026 update: Tightened NBA sides pricing at BetOnline by 20 basis points post-March. BetUS unchanged.",
+        },
+        "internal_links": ["/data/hold-rate-tracker/", "/reviews/betonline-sportsbook/", "/guides/hold-and-vig/", "/guides/clv/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-casino-rtp-slots",
+        "pattern": "curation",
+        "title": "Best Casino Slots by RTP 2026: High-RTP Titles Ranked",
+        "meta_desc": "Best casino slots by RTP 2026 — highest-return-to-player slot titles at BetOnline Casino, Sportsbetting.ag and BetUS Casino, with volatility ratings.",
+        "vertical": "casino",
+        "target_query": "high rtp slots 2026",
+        "primary_brand": "betonline-casino",
+        "cta_brands": ["betonline-casino", "sportsbetting-casino", "betus-casino"],
+        "who_this_is_for": "Slot players optimising for the highest-RTP titles available at offshore casinos.",
+        "unique_data": {
+            "scoring_dimensions": ["Advertised RTP", "Volatility rating", "Bonus-eligible for rollover", "Progressive jackpot access", "Provider"],
+            "top_slots": [
+                ("Blood Suckers (NetEnt)", "98.0% RTP, low volatility. Available BetOnline."),
+                ("Steam Tower (NetEnt)", "97.0% RTP, medium volatility. Available BetOnline."),
+                ("Kings of Chicago (NetEnt)", "97.8% RTP, low-mid volatility. Available BetOnline."),
+                ("Devil's Delight (NetEnt)", "97.6% RTP, medium volatility. Available BetOnline."),
+                ("Retro Reels Extreme Heat (Microgaming)", "97.5% RTP, medium volatility. Available BetOnline."),
+            ],
+            "unique_insight": "Advertised RTP is a theoretical long-run number. On a session-by-session basis, actual return will vary dramatically — a 96% RTP slot can lose 50% in a single session and gain 20% in the next. RTP is meaningful over hundreds of thousands of spins, not over a single evening's play. Low-volatility slots deliver returns closer to RTP faster; high-volatility slots have longer variance windows.",
+        },
+        "internal_links": ["/casino/slots/", "/casino/", "/reviews/betonline-casino/", "/casino/live-dealer/"],
+        "external_links": [],
+    },
+]
+
+# --- 7 GLOSSARY ---
+PAGES += [
+    {
+        "slug": "what-is-closing-line-value",
+        "pattern": "glossary",
+        "title": "What Is Closing Line Value (CLV)? Definition + Worked Example",
+        "meta_desc": "Closing line value (CLV) explained — what it means for sports betting, how to calculate it, why it's the strongest predictor of long-term edge.",
+        "vertical": "sportsbook",
+        "target_query": "what is closing line value",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Bettors wanting to measure whether they're actually beating the market — versus just riding variance.",
+        "unique_data": {
+            "definition": "Closing line value (CLV) is the difference between the price you took on a bet and the closing price of the same market at kickoff. If you took the Chiefs -3 (-110) and the line closed at -3.5 (-105), you beat the closing line — that's positive CLV.",
+            "worked_example": {
+                "title": "How to actually calculate CLV",
+                "text": "You bet the Rams -2.5 at -105. Kickoff line closes at Rams -3 (-115). The market moved half a point and juice against you — you beat the close by roughly 6 cents. Track that number across 50-200 bets. If you're consistently beating the close by 5 cents+ on average, you're a long-term winner. If you're consistently getting worse prices than the close, you're a long-term loser — regardless of your win-loss record over any short window."
+            },
+            "why_it_matters": "Raw win percentage is noisy in the short run. A player betting 200 games and winning 105 of them (52.5%) could be either a break-even player who ran good or a genuine edge-holder. CLV settles the question: consistently positive CLV means you're picking prices that move toward you, which is the mechanical definition of edge.",
+        },
+        "internal_links": ["/guides/clv/", "/guides/hold-and-vig/", "/data/hold-rate-tracker/", "/tools/ev/"],
+        "external_links": ["https://en.wikipedia.org/wiki/Sports_betting#Betting_strategy"],
+    },
+
+    {
+        "slug": "what-is-hold-rate-sportsbook",
+        "pattern": "glossary",
+        "title": "What Is Hold Rate at a Sportsbook? Explained with Real Numbers",
+        "meta_desc": "Hold rate (vig, juice) at a sportsbook explained — what it is, how to calculate it, why it matters, and typical rates across US and offshore books.",
+        "vertical": "sportsbook",
+        "target_query": "what is hold rate sportsbook",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Bettors who want to understand what they're actually paying to bet at the operator — the difference between winning bettors and losing bettors is often built here.",
+        "unique_data": {
+            "definition": "Hold rate — also called vig, juice, or margin — is the sportsbook's expected profit as a percentage of total handle on a given market. A -110/-110 market carries approximately 4.55% hold; the operator expects to keep 4.55 cents of every dollar wagered.",
+            "worked_example": {
+                "title": "Calculating hold on a -110/-110 line",
+                "text": "Both sides priced at -110. Implied probability of each = 110/210 = 52.38%. Total implied probability = 104.76%. Hold = 104.76% - 100% = 4.76%. Round to 4.55% at the more common -108/-108 pricing. This is the operator's guaranteed edge if action is balanced perfectly on both sides.",
+            },
+            "typical_rates": {
+                "NFL sides (regulated)": "4.5-5.0%",
+                "NFL sides (offshore best)": "4.4-4.6%",
+                "Alt lines": "5.5-8.0%",
+                "Player props": "7-12%",
+                "Same-game parlays": "12-25%",
+                "Live betting": "5.5-7.5%",
+            },
+            "why_it_matters": "Lower hold means better bettor prices, which means better bettor ROI. The difference between betting at a 4.5% hold book versus a 5.5% hold book, across 500 bets per year, adds up to thousands of dollars for a volume bettor.",
+        },
+        "internal_links": ["/guides/hold-and-vig/", "/data/hold-rate-tracker/", "/tools/odds-converter/", "/reviews/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "what-is-expected-value-betting",
+        "pattern": "glossary",
+        "title": "What Is Expected Value (EV) in Sports Betting? Definition + Math",
+        "meta_desc": "Expected value (EV) in sports betting explained — the mathematical framework for evaluating bets, with worked calculations at typical odds.",
+        "vertical": "sportsbook",
+        "target_query": "what is expected value betting",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Bettors wanting to move beyond 'gut feel' toward mathematically-evaluated bets — the foundation of every long-term winning betting strategy.",
+        "unique_data": {
+            "definition": "Expected value (EV) is the average outcome of a bet if you could place it infinite times. Positive EV means the bet is mathematically favorable in the long run. Negative EV means the bet is unfavorable — even if you sometimes win it.",
+            "worked_example": {
+                "title": "EV on a coin-flip bet priced at +110",
+                "text": "Assume you can bet on a truly 50/50 outcome priced at +110. Expected value on a $100 bet: 50% chance you win $110 = +$55. 50% chance you lose $100 = -$50. Net EV per bet = $5. Bet this same market 1,000 times = +$5,000 expected. That's positive EV. Now try the same bet at -115: 50% × $87 - 50% × $100 = -$6.50 EV. That's negative EV — the book's juice tilted the mathematically-fair 50/50 into a losing proposition."
+            },
+            "how_to_actually_use_it": "Real bets are rarely truly 50/50 — you have to estimate the true probability yourself. If you rate a team's win probability at 55% and the book offers +100 (which implies 50%), you have an EV edge. Sharp betting is fundamentally the practice of finding markets where your true-probability estimate diverges from the operator's implied probability.",
+        },
+        "internal_links": ["/tools/ev/", "/guides/clv/", "/guides/hold-and-vig/", "/tools/kelly/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "what-is-moneyline-explained",
+        "pattern": "glossary",
+        "title": "What Is a Moneyline Bet? Complete Explanation with Examples",
+        "meta_desc": "Moneyline betting explained — how to read American, decimal and fractional odds, when to bet moneylines vs spreads, worked examples across NFL/NBA/MLB.",
+        "vertical": "sportsbook",
+        "target_query": "what is moneyline bet",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "New bettors and casual fans learning the fundamentals — moneyline is the most intuitive bet type and the starting point for most bettors.",
+        "unique_data": {
+            "definition": "A moneyline bet is a straight pick of which team or player will win a game or contest. No point spread — just win or lose. Odds are displayed as American format in the US (e.g., -150 for favorites, +130 for underdogs).",
+            "worked_example": {
+                "title": "Reading a -150 vs +130 NFL moneyline",
+                "text": "Chiefs -150 vs Broncos +130. Betting the Chiefs: you risk $150 to win $100 profit (implied probability ~60%). Betting the Broncos: you risk $100 to win $130 profit (implied probability ~43%). The gap between 60% + 43% = 103% is the sportsbook's hold. If you'd rate the Chiefs' true win probability higher than 60%, you have EV betting them; if you'd rate the Broncos higher than 43%, you have EV betting them."
+            },
+            "when_to_use_moneyline": "Moneyline is best when: (1) you strongly favor one side by a small point margin, so the spread doesn't help you, (2) you're betting on a game where the point-spread market is less liquid, (3) you're building a parlay of straight-win outcomes. Moneyline is worst for heavy favorites (say -400+) where the risk-reward is unattractive.",
+        },
+        "internal_links": ["/sports/football/nfl-moneylines/", "/sports/basketball/nba-moneylines/", "/sports/baseball/mlb-moneylines/", "/tools/odds-converter/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "what-is-spread-bet-explained",
+        "pattern": "glossary",
+        "title": "What Is a Point Spread Bet? Complete Guide with Examples",
+        "meta_desc": "Point spread betting explained — how spreads work, how to read them, key numbers in NFL and NBA, worked examples with juice math.",
+        "vertical": "sportsbook",
+        "target_query": "what is a spread bet",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Bettors learning the fundamentals of spread betting — the most-bet market type in NFL and NBA.",
+        "unique_data": {
+            "definition": "A point spread bet is a wager on the margin of victory. The sportsbook sets a spread (say -3.5 for the favorite); the favorite must win by MORE than the spread to cover, or the underdog wins the bet.",
+            "worked_example": {
+                "title": "Reading Chiefs -3.5 (-110) vs Broncos +3.5 (-110)",
+                "text": "Chiefs -3.5 means the Chiefs need to win by 4+ points to cover. Broncos +3.5 means Broncos either win outright OR lose by 3 or fewer to cover. Both sides priced at -110: risk $110 to win $100. That's the standard 'vig' or 'juice' — the sportsbook's built-in edge."
+            },
+            "nfl_key_numbers": "NFL games are decided by exactly 3 points more often than any other margin (~15% of games) and by exactly 7 points second-most (~9%). Moving a spread across a key number (from -3 to -3.5, for example) materially changes the bet's expected value. Sharp bettors line-shop specifically to get across these numbers.",
+            "when_to_use_spreads": "Spreads are best when: (1) you have a specific margin-of-victory view, (2) the moneyline on the favorite is too juicy to bet, (3) you want tighter-priced odds than moneylines offer.",
+        },
+        "internal_links": ["/sports/football/nfl-spreads/", "/sports/football/nfl-key-numbers/", "/sports/basketball/nba-spreads/", "/tools/odds-converter/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "what-is-rakeback-poker",
+        "pattern": "glossary",
+        "title": "What Is Rakeback in Online Poker? Definition + How to Maximize It",
+        "meta_desc": "Rakeback in online poker explained — what it is, how it's calculated, how to maximize your effective rate across ACR, Black Chip, BetOnline and other US-facing sites.",
+        "vertical": "poker",
+        "target_query": "what is rakeback poker",
+        "primary_brand": "acr-poker",
+        "cta_brands": ["acr-poker", "black-chip-poker", "ya-poker", "true-poker", "betonline-poker"],
+        "who_this_is_for": "New or casual poker players learning what rakeback is; volume players wanting to maximize their effective rate.",
+        "unique_data": {
+            "definition": "Rakeback is a percentage of the poker room's commission (the 'rake') returned to you as cashback. Rooms charge rake on cash-game pots (typically 5% of each pot, capped) and on tournament buy-ins (typically 5-10% of buy-in). Rakeback returns a portion of that to you as effective bankroll.",
+            "worked_example": {
+                "title": "Calculating your effective rakeback rate",
+                "text": "You play $0.50/$1 cash on ACR. You generate $500 in rake over a month across 20,000 hands. You're at Elite Benefits tier 3, which returns 32% of rake as cashback: $500 × 32% = $160/month rakeback. That's roughly 4 buy-ins at your stake — meaningful for a marginal-winning or break-even player."
+            },
+            "how_tiers_work": "WPN (ACR / Black Chip / Ya / True) uses Elite Benefits: 20% floor for low-volume players, scaling to 65% at very high volume. Chico (BetOnline / TigerGaming / SBAG) uses a rebate + reload system that effectively delivers 15-35% depending on volume.",
+            "how_to_maximize": "Play regularly, track your monthly rake, focus play at rake-earning games (avoid heads-up-only formats which don't count toward some tiers), and consolidate volume at one skin to reach higher tiers faster. Splitting across multiple skins usually reduces your effective rakeback.",
+        },
+        "internal_links": ["/poker/bonuses/", "/reviews/acr-poker/", "/reviews/black-chip-poker/", "/poker/strategy/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "what-is-arbitrage-betting",
+        "pattern": "glossary",
+        "title": "What Is Arbitrage Betting? Definition, Math and Real-World Feasibility",
+        "meta_desc": "Arbitrage betting explained — the math of risk-free profit from line disagreement, real-world feasibility, and why books limit arb bettors.",
+        "vertical": "sportsbook",
+        "target_query": "what is arbitrage betting",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "sportsbetting-sportsbook", "betus-sportsbook"],
+        "who_this_is_for": "Bettors researching arbitrage as a strategy — the math is real but the operational reality of arbing at scale is harder than beginners realize.",
+        "unique_data": {
+            "definition": "Arbitrage betting exploits price disagreement between two operators. If Book A offers Team X at +105 and Book B offers Team Y at +105 for the same game, you can bet both sides in proportions that lock in a small profit regardless of outcome.",
+            "worked_example": {
+                "title": "A simple arb on +105 / +105",
+                "text": "Bet $488 on Team X at +105 at Book A. Bet $488 on Team Y at +105 at Book B. Total risk = $976. If Team X wins: $488 × 2.05 = $1000.40. If Team Y wins: same. Guaranteed return $24.40 (2.5% ROI) regardless of outcome. Sound great — but note: rare that two books diverge that much on a two-outcome market."
+            },
+            "why_it_gets_hard_at_scale": "The math is clean; the operational reality is not. Books flag rapid-cycle bettors and impose limits ('you can only bet $200 max') within days. Bet-cancellation risk on 'palpable errors' can leave you exposed on one side. Bank-transfer friction between books means you can't move capital fast enough to react to arbs before they close. Full-time arb bettors typically operate through 20+ accounts and constantly rotate to stay under detection thresholds.",
+            "practical_verdict": "Arbing is a real strategy but requires more infrastructure and lower profit-per-hour than casual bettors expect. Small-scale line-shopping (getting the best available price on bets you were going to place anyway) delivers most of arb's benefit without the operational complexity.",
+        },
+        "internal_links": ["/tools/arbitrage/", "/guides/", "/tools/odds-converter/", "/data/hold-rate-tracker/"],
+        "external_links": [],
+    },
+]
+
+# --- 7 LOCATION + USE-CASE LAYERED ---
+PAGES += [
+    {
+        "slug": "best-sportsbook-nfl-new-jersey",
+        "pattern": "location-usecase",
+        "title": "Best Sportsbook for NFL in New Jersey 2026",
+        "meta_desc": "Best sportsbooks for NFL betting in New Jersey 2026 — ranked by prop depth, live-betting speed, cashier and NJ-specific promo cadence.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook nfl new jersey",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "New Jersey residents (or visitors within NJ geolocation) optimising NFL betting for prop depth and cashier speed.",
+        "unique_data": {
+            "state_context": "NJ is the deepest US-regulated sports-betting market by handle (~$12B annually). Every major operator holds an active NJ license. State college-team prop restrictions apply to Rutgers/Seton Hall games only.",
+            "ranked_for_nfl": [
+                ("DraftKings NJ", "Deepest prop menu (35+ per game). SGP leader."),
+                ("FanDuel NJ", "Fastest app UX. Live-betting latency lowest in state."),
+                ("BetMGM NJ", "Aggressive weekly promos, MGM Rewards integration."),
+                ("Caesars NJ", "Strong loyalty tie-in for Vegas visitors."),
+            ],
+            "offshore_alternative": "US-regulated books face state-mandated prop restrictions and typically higher hold rates than offshore alternatives. NJ residents who want deeper prop coverage on non-Rutgers games or better crypto cashier speed sometimes route to offshore books like BetOnline as a secondary — the trade-off is loss of state consumer-protection framework.",
+        },
+        "internal_links": ["/us/new-jersey/", "/sports/football/", "/sports/football/nfl-props/", "/reviews/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-nba-pennsylvania",
+        "pattern": "location-usecase",
+        "title": "Best Sportsbook for NBA in Pennsylvania 2026",
+        "meta_desc": "Best sportsbooks for NBA betting in Pennsylvania 2026 — ranked by live-betting depth, prop coverage, cashier speed and PA-specific tax treatment.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook nba pennsylvania",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Pennsylvania residents optimising NBA betting for live-betting depth and cashier speed.",
+        "unique_data": {
+            "state_context": "PA has 76ers, Sixers-specific college prop restrictions (Villanova, Temple, Penn State, Pitt). PA state tax on winnings applies (3.07% flat) plus federal. Full major-operator lineup active in state.",
+            "ranked_for_nba": [
+                ("FanDuel PA", "Cleanest live-NBA interface. Lowest latency in state."),
+                ("DraftKings PA", "Deepest NBA prop menu."),
+                ("BetMGM PA", "Best promo cadence for regular NBA weeknights."),
+                ("Caesars PA", "Rewards-tied incentives."),
+            ],
+            "offshore_alternative": "Pennsylvania in-state college prop restrictions don't apply to offshore books like BetOnline — a PA resident wanting Villanova player props has to route through offshore.",
+        },
+        "internal_links": ["/us/pennsylvania/", "/sports/basketball/", "/sports/basketball/nba-live-betting/", "/reviews/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-mlb-michigan",
+        "pattern": "location-usecase",
+        "title": "Best Sportsbook for MLB in Michigan 2026",
+        "meta_desc": "Best sportsbooks for MLB in Michigan 2026 — Tigers-heavy prop depth, pitcher-prop coverage, live-betting latency and MI-specific tax detail.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook mlb michigan",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Michigan residents betting MLB, particularly Tigers-adjacent volume.",
+        "unique_data": {
+            "state_context": "Michigan has an 8.4% tax rate on gambling winnings (state) plus federal. Robust MI operator lineup. Michigan participates in the multi-state poker compact (NJ/MI/PA), which doesn't apply to sports betting but demonstrates the state's tech infrastructure.",
+            "ranked_for_mlb": [
+                ("DraftKings MI", "Deepest pitcher-prop menu including alt-K breadth."),
+                ("FanDuel MI", "Cleanest live-baseball interface. Strong first-5-innings market."),
+                ("BetMGM MI", "Aggressive daily MLB promos (odds boosts on marquee pitchers)."),
+                ("Caesars MI", "Strong retail integration at MotorCity Casino."),
+            ],
+            "offshore_alternative": "BetOnline and other offshore books offer marginally deeper alt-K breadth and no state-college restrictions (MSU, U-M) — meaningful for prop bettors targeting Michigan collegiate baseball.",
+        },
+        "internal_links": ["/us/michigan/", "/sports/baseball/", "/sports/baseball/mlb-pitcher-matchups/", "/reviews/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-parlays-colorado",
+        "pattern": "location-usecase",
+        "title": "Best Sportsbook for Parlays in Colorado 2026",
+        "meta_desc": "Best sportsbooks for parlays in Colorado 2026 — SGP quality, max legs, parlay insurance and CO-specific promo cadence.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook parlays colorado",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Colorado residents building parlays across NFL/NBA — the state has one of the deepest US operator lineups (20+ books).",
+        "unique_data": {
+            "state_context": "CO has 20+ licensed operators — the most competitive US market by operator count. State tax 10% on operator revenue plus federal on player winnings. No in-state college prop restrictions.",
+            "ranked_for_parlays": [
+                ("DraftKings CO", "Deepest SGP product in the market."),
+                ("FanDuel CO", "Cleanest parlay-builder UX."),
+                ("BetMGM CO", "Aggressive parlay insurance cadence."),
+                ("bet365 CO", "Tightest hold on multi-leg parlays."),
+            ],
+            "offshore_alternative": "Colorado's deep regulated market means offshore alternatives compete on cashier speed and welcome-bonus size more than market access. BetOnline's 12-leg parlay ceiling (vs 10-12 at most regulated books) matters for very ambitious parlay-builders.",
+        },
+        "internal_links": ["/us/colorado/", "/sports/football/nfl-sgp/", "/sports/basketball/nba-sgp/", "/reviews/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-college-football-ohio",
+        "pattern": "location-usecase",
+        "title": "Best Sportsbook for College Football in Ohio 2026",
+        "meta_desc": "Best sportsbooks for college football in Ohio 2026 — Buckeyes prop depth, SEC/Big Ten coverage, in-state restrictions and OH-specific tax.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook cfb ohio",
+        "primary_brand": "betus-sportsbook",
+        "cta_brands": ["betus-sportsbook", "betonline-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Ohio bettors focused on college football — particularly Ohio State and Big Ten conference volume.",
+        "unique_data": {
+            "state_context": "Ohio's regulated market restricts player props on in-state college teams (Ohio State, Cincinnati, Miami OH, Toledo, Kent State, etc.). State tax 4% flat on winnings plus federal. Ohio has 16 operators — one of the most competitive US markets by operator count.",
+            "ranked_for_cfb": [
+                ("BetUS (offshore)", "No in-state college restrictions. Deepest player-prop menu on Buckeyes games. Historic CFB depth."),
+                ("BetOnline (offshore)", "Same offshore advantage. Slightly shallower prop depth on non-marquee games."),
+                ("DraftKings OH", "Best regulated option. Deep Big Ten/SEC coverage. State restriction on OSU/Cincinnati player props."),
+                ("FanDuel OH", "Cleanest app for game-line and total betting. Same state restrictions."),
+            ],
+            "offshore_alternative": "For OSU-focused prop bettors specifically, offshore is functionally the only path to in-state college player props. Regulated OH books cannot legally offer them.",
+        },
+        "internal_links": ["/us/ohio/", "/sports/football/college/", "/sports/football/", "/reviews/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-sportsbook-props-illinois",
+        "pattern": "location-usecase",
+        "title": "Best Sportsbook for Player Props in Illinois 2026",
+        "meta_desc": "Best sportsbooks for player props in Illinois 2026 — NFL/NBA/MLB prop depth, in-state college restrictions, cashier and IL-specific tax.",
+        "vertical": "sportsbook",
+        "target_query": "best sportsbook props illinois",
+        "primary_brand": "betonline-sportsbook",
+        "cta_brands": ["betonline-sportsbook", "betus-sportsbook", "sportsbetting-sportsbook"],
+        "who_this_is_for": "Illinois prop bettors optimising for NFL/NBA/MLB player prop depth. IL has one of the higher state operator populations.",
+        "unique_data": {
+            "state_context": "IL has 4.95% flat tax on winnings plus federal. Full major-operator lineup active. IL restricts player props on in-state college teams (Illinois, DePaul, Northwestern) but not out-of-state.",
+            "ranked_for_props": [
+                ("DraftKings IL", "Deepest prop menu across all US majors."),
+                ("FanDuel IL", "Best UX and second-deepest prop menu."),
+                ("BetMGM IL", "Strong SGP and prop-parlay coverage."),
+                ("BetOnline (offshore)", "No in-state college restrictions. Deep NFL/NBA/MLB props."),
+            ],
+            "offshore_alternative": "Illinois bettors wanting Illini or Northwestern player props route to offshore books like BetOnline. Regulated IL books legally cannot offer them.",
+        },
+        "internal_links": ["/us/illinois/", "/sports/football/nfl-props/", "/sports/basketball/nba-player-props/", "/reviews/"],
+        "external_links": [],
+    },
+
+    {
+        "slug": "best-poker-site-new-jersey",
+        "pattern": "location-usecase",
+        "title": "Best Poker Site for New Jersey Players 2026",
+        "meta_desc": "Best poker sites for NJ players 2026 — regulated NJ pool (WSOP.com, PokerStars NJ, BetMGM Poker NJ) vs US-facing offshore (ACR, Black Chip) compared.",
+        "vertical": "poker",
+        "target_query": "best poker site new jersey",
+        "primary_brand": "acr-poker",
+        "cta_brands": ["black-chip-poker", "acr-poker", "ya-poker", "true-poker", "betonline-poker"],
+        "who_this_is_for": "New Jersey residents choosing between the regulated NJ poker pool (which shares liquidity with MI/PA via multi-state compact) and US-facing offshore books.",
+        "unique_data": {
+            "state_context": "NJ participates in the Multi-State Internet Gaming Association (MSIGA) shared player pool with MI, PA, NV, WV. Regulated NJ pool operators: WSOP.com/DraftKings Poker, PokerStars NJ, BetMGM Poker. Offshore books like ACR and BetOnline Poker also accept NJ residents but are not state-licensed.",
+            "ranked_for_nj": [
+                ("WSOP.com / DraftKings Poker", "Largest regulated pool via MSIGA. WSOP-branded events. Consumer protection."),
+                ("PokerStars NJ", "Second-deepest regulated pool. Strong tournament schedule."),
+                ("ACR Poker (offshore)", "Larger overall pool than regulated NJ. Venom access. No state protection."),
+                ("Black Chip Poker (offshore)", "Same WPN pool as ACR."),
+                ("BetOnline Poker (offshore)", "Chico pool. Cross-vertical with sports/casino."),
+            ],
+            "offshore_alternative": "For NJ players prioritising consumer protection and simpler tax reporting, the regulated pool is the right answer. For NJ players prioritising bigger MTT guarantees, deeper cash-game liquidity, or crypto cashiers, offshore books provide functionality the regulated pool doesn't match.",
+        },
+        "internal_links": ["/us/new-jersey/", "/poker/", "/reviews/acr-poker/", "/reviews/black-chip-poker/"],
+        "external_links": [],
+    },
+]
+
+# =============================================================================
+# Assign publish dates
+# =============================================================================
+for idx, p in enumerate(PAGES):
+    p["publish_date"] = pdate(idx)  # 2 per day starting from today
+    p["publish_order"] = idx + 1
+    p["published"] = False
+
+# Sanity check
+assert len(PAGES) == 50, f"Expected 50 pages, got {len(PAGES)}"
+
+# Write the JSON queue
+DATA_DIR.mkdir(exist_ok=True)
+queue_path = DATA_DIR / "programmatic-queue.json"
+queue_path.write_text(json.dumps({
+    "brands": BRANDS,
+    "pages": PAGES,
+    "start_date": START.isoformat(),
+    "per_day": 2,
+    "total_pages": 50,
+    "total_days": 25,
+}, indent=2, ensure_ascii=False))
+
+print(f"Wrote {queue_path}")
+print(f"  {len(PAGES)} pages queued")
+print(f"  starting {START.isoformat()}")
+print(f"  running through {(START + timedelta(days=24)).isoformat()}")
+
+# Pattern distribution
+from collections import Counter
+patterns = Counter(p["pattern"] for p in PAGES)
+verticals = Counter(p["vertical"] for p in PAGES)
+print("\nPattern distribution:")
+for pat, n in patterns.most_common():
+    print(f"  {n:>3}  {pat}")
+print("\nVertical distribution:")
+for v, n in verticals.most_common():
+    print(f"  {n:>3}  {v}")

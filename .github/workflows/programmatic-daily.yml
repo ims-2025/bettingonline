@@ -1,0 +1,54 @@
+name: Programmatic SEO Daily Publisher
+
+# Publishes 2 pages per day from data/programmatic-queue.json.
+# Runs at 07:00 UTC to avoid collision with the daily-news workflow at 06:00.
+# Each publication commit deploys via Vercel auto-webhook.
+
+on:
+  schedule:
+    # Every day at 07:00 UTC
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'Pages to publish this run (default 2)'
+        required: false
+        default: '2'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Configure git identity
+        run: |
+          git config user.email "editorial-bot@bettingonline.org"
+          git config user.name "BettingOnline.org Editorial Bot"
+
+      - name: Publish today's programmatic pages
+        run: |
+          COUNT="${{ github.event.inputs.count || '2' }}"
+          python3 scripts/programmatic-publish.py --count "$COUNT"
+          # The script commits internally; push here.
+
+      - name: Push
+        run: |
+          git push origin HEAD || echo "Nothing to push (queue might be empty)"
+
+      - name: Report
+        run: |
+          echo "Programmatic daily run complete."
+          git log -1 --oneline
