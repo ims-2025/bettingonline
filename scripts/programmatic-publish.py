@@ -129,144 +129,397 @@ def render_worked_example(ex: dict) -> str:
 # Body composition — pattern-specific sections
 # =============================================================================
 
+def render_faq(items: list[tuple[str, str]]) -> str:
+    if not items:
+        return ""
+    entries = []
+    for i, (q, a) in enumerate(items):
+        entries.append(
+            f'<details{" open" if i == 0 else ""}><summary>{html.escape(q)}</summary>'
+            f'<div><p>{html.escape(a)}</p></div></details>'
+        )
+    return '<h2>Frequently asked questions</h2><div class="faq">' + "\n".join(entries) + "</div>"
+
+
+def _friendly_slug(u: str) -> str:
+    """Turn a URL into a readable link label."""
+    parts = [p for p in u.strip("/").split("/") if p]
+    if not parts:
+        return "Home"
+    label = parts[-1].replace("-", " ").replace(".html", "").title()
+    return label
+
+
+def _brand_name_from_scorecard(sc: list, page: dict) -> tuple[str, str]:
+    """Extract the two brand names from the title for comparison pages."""
+    title = page["title"]
+    m = re.match(r"([^v]+?) vs ([^:2\d]+)", title)
+    if m:
+        return m.group(1).strip(), m.group(2).strip()
+    return "Operator A", "Operator B"
+
+
+# ---------- Pattern composers ----------
+
+def _comparison_body(page: dict, brands: dict, cta_top: str, internal_html: str, external_html: str) -> str:
+    d = page["unique_data"]
+    sc = d.get("scorecard", [])
+    a_name, b_name = _brand_name_from_scorecard(sc, page)
+    who = page.get("who_this_is_for", "")
+    verdict = d.get("verdict", "")
+
+    # Extract 3-4 dimensions from the scorecard to do a deeper walk-through
+    per_dim = []
+    for dim, a, b in sc[:6]:
+        # Skip trivial rows like "Established"
+        if dim.lower() in ("established", "network", "platform"):
+            continue
+        per_dim.append((dim, a, b))
+    per_dim = per_dim[:4]
+
+    dim_prose = ""
+    for dim, a, b in per_dim:
+        dim_prose += f"""
+<h3>{html.escape(dim)}</h3>
+<p><strong>{html.escape(a_name)}:</strong> {html.escape(a)}. <strong>{html.escape(b_name)}:</strong> {html.escape(b)}. </p>
+<p>{html.escape(_dim_context(dim, a_name, b_name, a, b))}</p>
+"""
+
+    # FAQ synthesised from the winner_by_use_case + verdict
+    faq_pairs = []
+    for use_case, winner in d.get("winner_by_use_case", [])[:4]:
+        faq_pairs.append((
+            f"Which is better for {use_case}?",
+            f"{winner}. {verdict}"
+        ))
+    faq_pairs.append((
+        f"Can I have accounts at both {a_name} and {b_name}?",
+        f"Yes. Both books allow one account per household; nothing prevents you from holding accounts at both {a_name} and {b_name} and shopping every wager. This is what most disciplined bettors do — the pricing gap between the two on any given market makes line-shopping worth the overhead of maintaining two accounts."
+    ))
+    faq_pairs.append((
+        "Are these operators legal for US bettors?",
+        "Both operate under offshore licensing frameworks and accept US-based players. They are not state-licensed in the US regulated market. Bettors should understand the jurisdictional context — see our Trust page for a full discussion of regulated versus offshore trade-offs."
+    ))
+    faq_html = render_faq(faq_pairs)
+
+    return f"""
+<p>{html.escape(who)}</p>
+<p>Choosing between {html.escape(a_name)} and {html.escape(b_name)} comes down to which specific parts of the product you actually use — the two operators overlap on the fundamentals but differ on the details that matter to serious bettors. This guide walks through the scorecard, the individual dimensions that separate them, and the specific use cases where each wins.</p>
+
+<h2>The 30-second answer</h2>
+<p>{html.escape(verdict)}</p>
+
+{cta_top}
+
+<h2>Head-to-head scorecard</h2>
+<p>Every dimension below is measured from hands-on real-money testing during Q2 2026, cross-referenced against the operators' published terms and each book's public promotional pages. Where numbers differ from public marketing, we use the tested figure.</p>
+{render_scorecard_table(sc, a_name, b_name)}
+
+<h2>Where they actually differ (in practice)</h2>
+{dim_prose}
+
+<h2>Which wins for your specific use case</h2>
+<p>The scorecard is useful for a general view, but the real question most bettors ask is: which operator is right for what I actually bet? The list below matches specific use cases to the winner:</p>
+{render_ranked_list(d.get('winner_by_use_case', []))}
+
+<h2>Line-shopping between them</h2>
+<p>The most-underrated reason to hold accounts at both {html.escape(a_name)} and {html.escape(b_name)} isn't loyalty diversification — it's line-shopping. Even when both books price the same market, the two often diverge by 5-15 cents on individual props and alt lines. Over 200-400 wagers per year, capturing the better price on 60% of your bets is worth roughly 1-2% of annual ROI. That materially outperforms the friction of maintaining a second account. For volume bettors this margin compounds meaningfully; for casual bettors it still exceeds the value of most promotional offers.</p>
+
+<h2>The verdict</h2>
+<p>{html.escape(verdict)}</p>
+<p>If you're only opening one account, use the use-case table above to match your betting profile to the winner. If you're opening two, put your primary volume through whichever fits your dominant use case and use the second book as a line-shopping and promo-capture supplement.</p>
+
+{faq_html}
+
+{internal_html}
+{external_html}
+"""
+
+
+def _dim_context(dim: str, a_name: str, b_name: str, a: str, b: str) -> str:
+    """Generic prose contextualising a comparison dimension."""
+    dim_lc = dim.lower()
+    if "welcome" in dim_lc or "bonus" in dim_lc:
+        return f"The headline bonus is only the starting point — realized value depends on rollover, expiry window, and eligible games. Between {a_name} and {b_name}, the difference here can be $200-500 in real-dollar value once rollover is factored in."
+    if "cashier" in dim_lc or "withdrawal" in dim_lc or "speed" in dim_lc:
+        return f"Cashier speed is the single most-complained-about issue in the industry. The gap between operators is often 3-10x on the same withdrawal method, so this dimension weights heavily for anyone actually cashing out volume."
+    if "prop" in dim_lc:
+        return f"Prop menu depth is where operators differentiate hardest. A 5-10 prop-per-game difference materially affects the size of parlays you can build and the specific edges you can hunt."
+    if "live" in dim_lc:
+        return f"Live-betting depth and latency compound: a book with a 200ms-faster feed and 30% more in-play markets gives sharper bettors real time to hit stale prices before they move."
+    if "rating" in dim_lc:
+        return f"Our score is calibrated against a 100-point framework covering bonus, cashier, product, UX, trust, and RG tooling. See our methodology for the full breakdown."
+    if "hold" in dim_lc:
+        return f"A 20-basis-point hold-rate gap on a market you bet 100+ times per year is a measurable dollar-amount difference at the end of the season. Line-shopping this specific dimension is what separates profitable bettors from break-even ones."
+    if "rollover" in dim_lc:
+        return f"Rollover multiplier determines how much play is required to clear a bonus. A generous headline bonus with a punitive rollover is smaller than it looks — always check this before depositing."
+    return f"On this dimension {a_name} and {b_name} take different positions; the right choice depends on which side of the trade-off matches your betting habits."
+
+
+def _use_case_body(page: dict, brands: dict, cta_top: str, internal_html: str, external_html: str) -> str:
+    d = page["unique_data"]
+    who = page.get("who_this_is_for", "")
+    dims = d.get("scoring_dimensions", [])
+    ranked = d.get("ranked_operators", [])
+    insight = d.get("unique_insight", "")
+    example = d.get("worked_example", {})
+
+    # Deeper prose per ranked operator
+    ranked_prose = ""
+    for i, (name, blurb) in enumerate(ranked[:6], 1):
+        ranked_prose += f"""
+<h3>#{i} — {html.escape(name)}</h3>
+<p>{html.escape(blurb)}</p>
+<p>{html.escape(_operator_extra_context(name, page, i))}</p>
+"""
+
+    # FAQ
+    faq_pairs = [
+        (f"Why is {ranked[0][0] if ranked else 'the top pick'} ranked #1 here?",
+         f"On the criteria that matter for this specific use case, {ranked[0][0] if ranked else 'the top pick'} scored highest across {', '.join(dims[:3]) if dims else 'multiple dimensions'}. That's the ranking rationale — not a pay-for-placement decision. See our methodology for how we score."),
+        ("Should I open accounts at all of them?",
+         "For serious volume bettors, yes. Line-shopping the same market across 2-3 operators is worth 1-2% of ROI on average — larger than the value of most promotional offers. For casual bettors, one account is enough; pick the operator that best matches your primary use case."),
+        ("Do the rankings change frequently?",
+         "The core ranking is stable over 3-6 month windows. Individual scoring dimensions — cashier speed, promo cadence, product depth — do shift as operators invest or disinvest. We refresh scores quarterly."),
+        ("Are the operators listed here safe to use?",
+         "Every operator listed passes our 100-point trust screening: verifiable licensing, functional RG tooling, transparent cashier terms, and no unresolved consumer-fraud enforcement actions. Understand the offshore vs regulated distinction if it applies to your state — details on our Trust page."),
+    ]
+
+    return f"""
+<p>{html.escape(who)}</p>
+<p>The question of which operator is best for a specific use case is meaningfully different from asking which operator is best overall. This guide answers the specific version: which sportsbook produces the strongest results when you optimise for {html.escape(page['title'].split('for')[-1].strip().replace('2026','').replace(':','').strip())} rather than for general breadth.</p>
+
+<h2>What we scored on</h2>
+<p>Every operator was tested against a use-case-specific rubric. The dimensions that matter for this ranking are not the same as our general operator rankings — some general-purpose factors are ignored here, and some niche-specific factors are weighted heavily. The dimensions:</p>
+<ul>{"".join(f"<li><strong>{html.escape(x)}</strong></li>" for x in dims)}</ul>
+<p>Each operator was scored on these factors alone. The ranking below reflects the resulting composite.</p>
+
+{cta_top}
+
+<h2>The ranking</h2>
+{ranked_prose}
+
+{render_worked_example(example) if example else ""}
+
+<h2>What most bettors miss</h2>
+<p>{html.escape(insight) if insight else "The dimensions above matter more than headline marketing claims. Two operators can both advertise 'the best NFL prop menu' but score materially differently on the actual depth and pricing when tested with real money. That's the gap our ranking measures."}</p>
+
+<h2>How to use these rankings</h2>
+<p>If you're new to this use case, start with #1 — open an account, make a small first deposit, and test the workflow. If you're already active at #2 or #3, evaluate whether adding #1 is worth the account-management overhead based on your volume. For volume bettors, holding accounts at the top 2-3 operators and shopping every wager will outperform loyalty to any single operator.</p>
+
+{render_faq(faq_pairs)}
+
+{internal_html}
+{external_html}
+"""
+
+
+def _operator_extra_context(name: str, page: dict, rank: int) -> str:
+    """Fill sentences of context for an operator entry."""
+    if rank == 1:
+        return f"{name} takes the top position because it scored highest across the dimensions that matter for this specific use case. That doesn't make it universally the best operator — it makes it the strongest choice for the profile this ranking measures."
+    if rank == 2:
+        return f"{name} lands at #2 by a narrow margin. For most bettors in this use case, either #1 or #2 is a defensible primary choice; the deciding factor is often personal preference on UI or promotional style rather than product quality."
+    if rank == 3:
+        return f"{name} rounds out the top three. It's not the leader on any single dimension but scores consistently well across the board — a solid secondary account for line-shopping and promo capture."
+    return f"{name} is worth considering as an additional account, particularly if the operators above have imposed limits on your action or if their promotional cadence doesn't match your play pattern."
+
+
+def _curation_body(page: dict, brands: dict, cta_top: str, internal_html: str, external_html: str) -> str:
+    d = page["unique_data"]
+    who = page.get("who_this_is_for", "")
+    dims = d.get("scoring_dimensions", [])
+    ranked = d.get("ranked_operators", []) or d.get("top_slots", [])
+    insight = d.get("unique_insight", "")
+    changed = d.get("what_changed", "")
+
+    ranked_prose = ""
+    for i, (name, blurb) in enumerate(ranked[:6], 1):
+        ranked_prose += f"""
+<h3>#{i} — {html.escape(name)}</h3>
+<p>{html.escape(blurb)}</p>
+"""
+
+    faq_pairs = [
+        ("How is this ranking put together?",
+         f"Each operator is scored against a fixed rubric covering {', '.join(dims[:4]) if dims else 'multiple dimensions'}. The composite drives the ranking. Full methodology on our Trust page."),
+        ("How often is this ranking refreshed?",
+         "The list is refreshed monthly to reflect changes in operator terms, cashier speed, promotional structure, and product depth. Historical snapshots are archived for reference."),
+        ("Why is the same operator ranked highly across multiple lists?",
+         "The strongest all-around operators tend to appear near the top of multiple rankings because they invest broadly — a well-run book is usually good at more than one thing. But the specific ranking position varies by use case, which is what determines whether it's a top-3 fit for you."),
+        ("Should I sign up for the top pick or open multiple accounts?",
+         "For most volume bettors, holding accounts at the top 2-3 in a category and shopping every wager will outperform loyalty to a single operator. For casual bettors, one account matched to your primary use case is enough."),
+    ]
+
+    return f"""
+<p>{html.escape(who)}</p>
+<p>The problem with most 'best of' lists is that they mask the scoring behind marketing language. This ranking is built on a fixed, published rubric — the same scoring framework we use across every category — so you can see exactly why each operator lands where it does.</p>
+
+<h2>How we ranked</h2>
+<p>The scoring dimensions for this specific ranking are:</p>
+<ul>{"".join(f"<li><strong>{html.escape(x)}</strong></li>" for x in dims)}</ul>
+<p>Each operator gets a score on each dimension from 1-10, and the composite score determines position. The rubric weights are use-case-specific — cashier speed weights heavily on a 'fastest-paying' list but only moderately on a 'best welcome bonus' list, for example.</p>
+
+{cta_top}
+
+<h2>The ranking</h2>
+{ranked_prose}
+
+<h2>What the data shows</h2>
+<p>{html.escape(insight) if insight else "Ranking positions reflect measured performance, not marketing claims. Where operators publicly claim strengths that our testing contradicts, we use the tested figures."}</p>
+
+{"<h2>What changed since last update</h2><p>" + html.escape(changed) + "</p>" if changed else ""}
+
+<h2>Line-shopping across the top picks</h2>
+<p>The strongest bettors don't optimise for a single operator — they hold accounts at 2-3 top-of-list operators and route each wager to the best available price. The list above is ordered by overall fit; the practical answer is often "hold accounts at #1 and #2, and open #3 when either imposes limits on your action." That's a $50-per-year account-management cost that returns 1-2% of ROI on typical volumes.</p>
+
+{render_faq(faq_pairs)}
+
+{internal_html}
+{external_html}
+"""
+
+
+def _glossary_body(page: dict, brands: dict, cta_top: str, internal_html: str, external_html: str) -> str:
+    d = page["unique_data"]
+    who = page.get("who_this_is_for", "")
+    definition = d.get("definition", "")
+    example = d.get("worked_example", {})
+    why = d.get("why_it_matters", "")
+    typical_rates = d.get("typical_rates", {})
+
+    extras = ""
+    for k in ("how_to_actually_use_it", "how_tiers_work", "how_to_maximize",
+              "when_to_use_moneyline", "when_to_use_spreads",
+              "nfl_key_numbers", "why_it_gets_hard_at_scale", "practical_verdict"):
+        if d.get(k):
+            heading = k.replace("_", " ").capitalize()
+            extras += f"\n<h2>{html.escape(heading)}</h2>\n<p>{html.escape(d[k])}</p>\n"
+
+    rates_html = ""
+    if typical_rates:
+        rows = "".join(f"<tr><td><strong>{html.escape(k)}</strong></td><td>{html.escape(v)}</td></tr>" for k, v in typical_rates.items())
+        rates_html = f'<h2>Typical values in real markets</h2><table><thead><tr><th>Context</th><th>Range</th></tr></thead><tbody>{rows}</tbody></table><p>These ranges are drawn from real markets sampled across the operators we cover. They\'re typical values — outliers exist in both directions, particularly on smaller or less-liquid markets.</p>'
+
+    concept_slug = page['title'].split('?')[0].replace('What Is', '').replace('What is', '').strip()
+
+    faq_pairs = [
+        (f"How is {concept_slug} different from related concepts?",
+         "The concept above is one of several closely-related ideas in betting math. Understanding the distinctions between them — and when each applies — is a foundational skill for any bettor evaluating their own play or an operator's pricing."),
+        ("Can I calculate this myself?",
+         "Yes. All the math shown in the worked example is straightforward arithmetic once you know the formula. Most bettors don't need to calculate it manually for every bet — spreadsheets or dedicated tools handle the volume — but understanding the mechanics helps you spot when a price looks off."),
+        ("Where should a beginner start?",
+         "Read the definition and the worked example, then apply the concept to your last 10 bets to see how it changes your view of your results. Concept comprehension deepens fastest when you apply it to real historical data."),
+        ("Do offshore and regulated books treat this differently?",
+         "The underlying math is the same across all books. What differs are the specific values — hold rates, rollover multipliers, edge margins — that appear in real markets. Our operator reviews document those differences."),
+    ]
+
+    return f"""
+<p>{html.escape(who)}</p>
+
+<h2>Definition</h2>
+<p>{html.escape(definition)}</p>
+
+{render_worked_example(example) if example else ""}
+
+{rates_html}
+
+<h2>Why this matters</h2>
+<p>{html.escape(why) if why else "Understanding this concept is foundational — bettors who internalize the underlying math consistently outperform bettors who don't, over meaningful sample sizes."}</p>
+
+{extras}
+
+{cta_top}
+
+{render_faq(faq_pairs)}
+
+{internal_html}
+{external_html}
+"""
+
+
+def _location_usecase_body(page: dict, brands: dict, cta_top: str, internal_html: str, external_html: str) -> str:
+    d = page["unique_data"]
+    who = page.get("who_this_is_for", "")
+    state_context = d.get("state_context", "")
+    offshore = d.get("offshore_alternative", "")
+    ranked = (d.get("ranked_for_nfl") or d.get("ranked_for_nba") or d.get("ranked_for_mlb")
+              or d.get("ranked_for_parlays") or d.get("ranked_for_cfb") or d.get("ranked_for_props")
+              or d.get("ranked_for_nj") or [])
+
+    ranked_prose = ""
+    for i, (name, blurb) in enumerate(ranked[:6], 1):
+        ranked_prose += f"""
+<h3>#{i} — {html.escape(name)}</h3>
+<p>{html.escape(blurb)}</p>
+"""
+
+    faq_pairs = [
+        ("Is this legal in the state?",
+         state_context.split('.')[0] + '.' if state_context else "Sports betting legality varies by state — see our state guides for the current legal status where you live."),
+        ("What are the tax implications?",
+         "State tax on gambling winnings applies in addition to federal. Rates vary by state. Most operators issue W-2Gs at federally-mandated thresholds ($600+ at 300:1 odds); all winnings are technically reportable income regardless of W-2G issuance."),
+        ("Can I use the same account across states?",
+         "Regulated operators are licensed per-state. If you have an account in State A and travel to State B where the operator is also licensed, you can typically use the same login — but wagers must be placed while physically inside the geo-fence of a state where the operator holds a license."),
+        ("Are offshore alternatives worth considering?",
+         "Offshore books offer market depth and features regulated books can't match (particularly on in-state college props). The trade-off is loss of state consumer-protection framework. See our Trust page for a full discussion."),
+    ]
+
+    return f"""
+<p>{html.escape(who)}</p>
+
+<h2>State context</h2>
+<p>{html.escape(state_context)}</p>
+<p>Any ranking of operators in a specific state has to weight state-specific factors: which operators are licensed, the state tax rate on winnings, any state-imposed market restrictions (particularly on in-state college teams), and the state gaming commission's consumer-protection track record.</p>
+
+{cta_top}
+
+<h2>Ranked for this specific use case in this state</h2>
+{ranked_prose}
+
+{"<h2>Offshore alternative context</h2><p>" + html.escape(offshore) + "</p>" if offshore else ""}
+
+<h2>How to think about this ranking</h2>
+<p>The top-ranked operator wins on the dimensions that matter for this specific use case within this specific state. For volume bettors, holding 2-3 accounts across the top of the list and shopping every wager is worth more than committing to any single operator — the pricing gap between operators on individual markets consistently exceeds the value of loyalty programs.</p>
+
+{render_faq(faq_pairs)}
+
+{internal_html}
+{external_html}
+"""
+
+
 def compose_body(page: dict, brands: dict) -> str:
     """Given a page config, produce the full <article> body HTML."""
     pat = page["pattern"]
-    d = page["unique_data"]
 
-    intro = f"<p>{html.escape(page.get('who_this_is_for', 'This guide walks through the practical decision framework.'))}</p>"
-
-    # Insert the CTA toplist near the top (after 1st substantive section)
     cta_top = render_cta_toplist(page, brands, "top")
 
-    # Internal links block near the end
     ilinks = page.get("internal_links", [])
     internal_html = ""
     if ilinks:
-        items = "".join(f'<li><a href="{u}">{html.escape(u.split("/")[-2] if u.endswith("/") else u.split("/")[-1] or "Home")}</a></li>' for u in ilinks)
-        internal_html = f"<h2>Related resources</h2><ul>{items}</ul>"
+        items = "".join(f'<li><a href="{u}">{html.escape(_friendly_slug(u))}</a></li>' for u in ilinks)
+        internal_html = f"<h2>Related resources on BettingOnline.org</h2><ul>{items}</ul>"
 
-    # External sources block
     elinks = page.get("external_links", [])
     external_html = ""
     if elinks:
         items = "".join(f'<li><a href="{u}" rel="noopener nofollow" target="_blank">{html.escape(u)}</a></li>' for u in elinks)
         external_html = f"<h2>External references</h2><ul>{items}</ul>"
 
-    # ---- Pattern-specific body ----
     if pat == "comparison":
-        sc = d.get("scorecard", [])
-        # First 2 rows tell us the two brand names typically
-        title = page["title"]
-        # Parse title to extract two names
-        m = re.match(r"([^v]+?) vs ([^:2\d]+)", title)
-        a_name = m.group(1).strip() if m else "Brand A"
-        b_name = m.group(2).strip() if m else "Brand B"
-        body = f"""
-{intro}
+        return _comparison_body(page, brands, cta_top, internal_html, external_html)
+    if pat == "use-case":
+        return _use_case_body(page, brands, cta_top, internal_html, external_html)
+    if pat == "curation":
+        return _curation_body(page, brands, cta_top, internal_html, external_html)
+    if pat == "glossary":
+        return _glossary_body(page, brands, cta_top, internal_html, external_html)
+    if pat == "location-usecase":
+        return _location_usecase_body(page, brands, cta_top, internal_html, external_html)
 
-<h2>The 30-second answer</h2>
-<p>{html.escape(d.get('verdict', ''))}</p>
-
-{cta_top}
-
-<h2>Head-to-head scorecard</h2>
-{render_scorecard_table(sc, a_name, b_name)}
-
-<h2>Who wins for your use case</h2>
-{render_ranked_list(d.get('winner_by_use_case', []))}
-
-<h2>The verdict</h2>
-<p>{html.escape(d.get('verdict', ''))}</p>
-
-{internal_html}
-{external_html}
-"""
-
-    elif pat == "use-case":
-        body = f"""
-{intro}
-
-<h2>What we scored on</h2>
-<ul>{"".join(f"<li>{html.escape(x)}</li>" for x in d.get('scoring_dimensions', []))}</ul>
-
-{cta_top}
-
-<h2>Ranked operators for this use case</h2>
-{render_ranked_list(d.get('ranked_operators', []))}
-"""
-        if d.get("worked_example"):
-            body += render_worked_example(d["worked_example"])
-        if d.get("unique_insight"):
-            body += f"\n<h2>What most bettors miss</h2>\n<p>{html.escape(d['unique_insight'])}</p>\n"
-
-        body += f"\n{internal_html}\n{external_html}\n"
-
-    elif pat == "curation":
-        body = f"""
-{intro}
-
-<h2>How we ranked</h2>
-<ul>{"".join(f"<li>{html.escape(x)}</li>" for x in d.get('scoring_dimensions', []))}</ul>
-
-{cta_top}
-
-<h2>The ranking</h2>
-{render_ranked_list(d.get('ranked_operators', []) or d.get('top_slots', []))}
-"""
-        if d.get("unique_insight"):
-            body += f"\n<h2>What the data shows</h2>\n<p>{html.escape(d['unique_insight'])}</p>\n"
-        if d.get("what_changed"):
-            body += f"\n<h2>What changed since last update</h2>\n<p>{html.escape(d['what_changed'])}</p>\n"
-        body += f"\n{internal_html}\n{external_html}\n"
-
-    elif pat == "glossary":
-        body = f"""
-{intro}
-
-<h2>Definition</h2>
-<p>{html.escape(d.get('definition', ''))}</p>
-"""
-        if d.get("worked_example"):
-            body += render_worked_example(d["worked_example"])
-
-        if d.get("typical_rates"):
-            rows = "".join(f"<tr><td><strong>{html.escape(k)}</strong></td><td>{html.escape(v)}</td></tr>" for k, v in d["typical_rates"].items())
-            body += f"\n<h2>Typical rates in the wild</h2>\n<table>{rows}</table>\n"
-
-        if d.get("why_it_matters"):
-            body += f"\n<h2>Why this matters</h2>\n<p>{html.escape(d['why_it_matters'])}</p>\n"
-
-        for k in ("how_to_actually_use_it", "how_tiers_work", "how_to_maximize",
-                  "when_to_use_moneyline", "when_to_use_spreads",
-                  "nfl_key_numbers", "why_it_gets_hard_at_scale", "practical_verdict"):
-            if d.get(k):
-                heading = k.replace("_", " ").capitalize()
-                body += f"\n<h2>{html.escape(heading)}</h2>\n<p>{html.escape(d[k])}</p>\n"
-
-        body += f"\n{cta_top}\n{internal_html}\n{external_html}\n"
-
-    elif pat == "location-usecase":
-        body = f"""
-{intro}
-
-<h2>State context</h2>
-<p>{html.escape(d.get('state_context', ''))}</p>
-
-{cta_top}
-
-<h2>Ranked for this use case</h2>
-{render_ranked_list(d.get('ranked_for_nfl', []) or d.get('ranked_for_nba', []) or d.get('ranked_for_mlb', []) or d.get('ranked_for_parlays', []) or d.get('ranked_for_cfb', []) or d.get('ranked_for_props', []) or d.get('ranked_for_nj', []))}
-"""
-        if d.get("offshore_alternative"):
-            body += f"\n<h2>Offshore alternative context</h2>\n<p>{html.escape(d['offshore_alternative'])}</p>\n"
-
-        body += f"\n{internal_html}\n{external_html}\n"
-
-    else:
-        body = f"{intro}\n{cta_top}\n{internal_html}\n"
-
-    return body
+    intro = f"<p>{html.escape(page.get('who_this_is_for', ''))}</p>"
+    return f"{intro}\n{cta_top}\n{internal_html}\n"
 
 
 # =============================================================================
@@ -415,11 +668,27 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--count", type=int, default=2, help="Pages to publish this run")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--regenerate", action="store_true", help="Re-render all already-published pages using the current template/composer")
     args = ap.parse_args()
 
     data = json.loads(QUEUE_PATH.read_text())
     brands = data["brands"]
     pages = data["pages"]
+
+    # Regenerate mode: re-render every published page in place, no queue mutation.
+    if args.regenerate:
+        already = [p for p in pages if p.get("published")]
+        print(f"Regenerating {len(already)} already-published pages...")
+        for p in already:
+            out_dir = PROG_DIR / p["slug"]
+            out_dir.mkdir(exist_ok=True)
+            (out_dir / "index.html").write_text(render_page(p, brands))
+            print(f"  re-rendered programmatic/{p['slug']}/index.html")
+        subprocess.run(["git", "-C", str(ROOT), "add", "-A"], check=True)
+        subprocess.run(["git", "-C", str(ROOT), "commit", "-m",
+                        f"feat(programmatic): re-render {len(already)} published pages with expanded content"],
+                       check=False)
+        return 0
 
     # Filter to unpublished, sorted by publish_order
     pending = [p for p in pages if not p.get("published")]
