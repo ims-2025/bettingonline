@@ -28,8 +28,20 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 QUEUE_PATH = ROOT / "data" / "programmatic-queue.json"
-PROG_DIR = ROOT / "programmatic"
 SITEMAP = ROOT / "sitemap.xml"
+
+
+def target_folder(pattern: str) -> str:
+    """Map a pattern type to the URL folder where its pages should live.
+
+    Comparisons extend the existing /compare/ hub (already contains
+    draftkings-vs-fanduel, betmgm-vs-caesars, etc.).
+    Everything else extends the existing /guides/ hub.
+    Location-usecase pages are use-case content — belong in /guides/.
+    """
+    if pattern == "comparison":
+        return "compare"
+    return "guides"
 TODAY_ISO = date.today().isoformat()
 TODAY_HUMAN = date.today().strftime("%B %-d, %Y")
 
@@ -536,20 +548,20 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/main.min.css?v=20260509c">
-  <link rel="canonical" href="https://www.bettingonline.org/programmatic/{slug}/">
+  <link rel="stylesheet" href="../../assets/css/main.min.css?v=20260509c">
+  <link rel="canonical" href="https://www.bettingonline.org/{folder}/{slug}/">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="BettingOnline.org">
   <meta property="og:title" content="{title_esc}">
   <meta property="og:description" content="{meta_desc_esc}">
-  <meta property="og:url" content="https://www.bettingonline.org/programmatic/{slug}/">
+  <meta property="og:url" content="https://www.bettingonline.org/{folder}/{slug}/">
   <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-default.png">
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">{breadcrumb_json}</script>
   <script type="application/ld+json">{article_json}</script>
-  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
-  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.svg">
-  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../../manifest.json">
   <meta name="theme-color" content="#1e5cff">
 </head>
 <body>
@@ -557,7 +569,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 
   <section class="page-hero" style="padding-bottom:32px">
     <div class="container">
-      <div class="crumbs"><a href="../">Home</a><span class="sep">/</span><a href="../{vertical_hub}/">{vertical_label}</a><span class="sep">/</span><span>{title_crumb_esc}</span></div>
+      <div class="crumbs"><a href="../../">Home</a><span class="sep">/</span><a href="../../{vertical_hub}/">{vertical_label}</a><span class="sep">/</span><span>{title_crumb_esc}</span></div>
       <span class="eyebrow">{category_label} · Updated {date_human}</span>
       <h1 style="margin-top:14px">{title_esc}</h1>
     </div>
@@ -570,14 +582,14 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
       </article>
 
       <div style="padding:24px 20px;border-top:1px solid var(--border);margin-top:32px">
-        <p class="byline muted" style="font-size:.9rem;margin:0 0 8px">Reviewed by <strong>BettingOnline.org Editorial Team</strong> · Last updated {date_human} · <a href="../trust/">Trust &amp; Transparency</a></p>
-        <p class="muted" style="font-size:.82rem;margin:0">18+ / 21+ where required. Affiliate disclosure: we may earn a commission from qualifying signups. Read our <a href="../methodology/">methodology</a>, <a href="../editorial-standards/">editorial standards</a>, and <a href="../legal/disclosure.html">full affiliate disclosure</a>. <a href="../legal/responsible-gambling.html">Bet responsibly.</a></p>
+        <p class="byline muted" style="font-size:.9rem;margin:0 0 8px">Reviewed by <strong>BettingOnline.org Editorial Team</strong> · Last updated {date_human} · <a href="../../trust/">Trust &amp; Transparency</a></p>
+        <p class="muted" style="font-size:.82rem;margin:0">18+ / 21+ where required. Affiliate disclosure: we may earn a commission from qualifying signups. Read our <a href="../../methodology/">methodology</a>, <a href="../../editorial-standards/">editorial standards</a>, and <a href="../../legal/disclosure.html">full affiliate disclosure</a>. <a href="../../legal/responsible-gambling.html">Bet responsibly.</a></p>
       </div>
     </div>
   </section>
 
   <div data-site-footer></div>
-  <script defer src="../assets/js/main.js?v=20260509c"></script>
+  <script defer src="../../assets/js/main.js?v=20260509c"></script>
 </body>
 </html>
 """
@@ -602,18 +614,20 @@ def render_page(page: dict, brands: dict) -> str:
         "location-usecase": "State + use-case guide",
     }.get(page["pattern"], "Guide")
 
+    folder = target_folder(page["pattern"])
+
     breadcrumb = {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bettingonline.org/"},
             {"@type": "ListItem", "position": 2, "name": vertical_label, "item": f"https://www.bettingonline.org/{vertical_hub}/"},
-            {"@type": "ListItem", "position": 3, "name": title, "item": f"https://www.bettingonline.org/programmatic/{page['slug']}/"},
+            {"@type": "ListItem", "position": 3, "name": title, "item": f"https://www.bettingonline.org/{folder}/{page['slug']}/"},
         ]
     }
     article_meta = {
         "@context": "https://schema.org", "@type": "Article",
         "headline": title, "description": meta_desc,
-        "url": f"https://www.bettingonline.org/programmatic/{page['slug']}/",
+        "url": f"https://www.bettingonline.org/{folder}/{page['slug']}/",
         "image": "https://www.bettingonline.org/assets/img/og-default.png",
         "author": {"@type": "Organization", "name": "BettingOnline.org Editorial Team", "url": "https://www.bettingonline.org/about/"},
         "publisher": {"@type": "Organization", "name": "BettingOnline.org",
@@ -626,6 +640,7 @@ def render_page(page: dict, brands: dict) -> str:
         meta_desc_esc=html.escape(meta_desc),
         title_crumb_esc=html.escape(title.split(":")[0][:60]),
         slug=page["slug"],
+        folder=folder,
         vertical_hub=vertical_hub,
         vertical_label=vertical_label,
         category_label=category_label,
@@ -640,13 +655,21 @@ def render_page(page: dict, brands: dict) -> str:
 # Sitemap update
 # =============================================================================
 
-def add_to_sitemap(slugs: list[str]) -> None:
+def add_to_sitemap(entries: list[tuple[str, str]]) -> None:
+    """Add pages to sitemap. entries = [(folder, slug), ...]"""
     if not SITEMAP.exists():
         return
     text = SITEMAP.read_text()
+    # Purge any stale /programmatic/ URLs from prior runs
+    text = re.sub(
+        r'\s*<url>\s*<loc>https://www\.bettingonline\.org/programmatic/[^<]+</loc>.*?</url>',
+        "",
+        text,
+        flags=re.S,
+    )
     additions = []
-    for slug in slugs:
-        loc = f"https://www.bettingonline.org/programmatic/{slug}/"
+    for folder, slug in entries:
+        loc = f"https://www.bettingonline.org/{folder}/{slug}/"
         if loc in text:
             continue
         additions.append(f"""  <url>
@@ -657,7 +680,7 @@ def add_to_sitemap(slugs: list[str]) -> None:
   </url>""")
     if additions:
         text = text.replace("</urlset>", "\n".join(additions) + "\n</urlset>")
-        SITEMAP.write_text(text)
+    SITEMAP.write_text(text)
 
 
 # =============================================================================
@@ -676,17 +699,34 @@ def main() -> int:
     pages = data["pages"]
 
     # Regenerate mode: re-render every published page in place, no queue mutation.
+    # Also migrates from any old /programmatic/ folder to the pattern-appropriate
+    # /compare/ or /guides/ folder, and refreshes the sitemap accordingly.
     if args.regenerate:
         already = [p for p in pages if p.get("published")]
         print(f"Regenerating {len(already)} already-published pages...")
+        entries = []
         for p in already:
-            out_dir = PROG_DIR / p["slug"]
-            out_dir.mkdir(exist_ok=True)
+            folder = target_folder(p["pattern"])
+            out_dir = ROOT / folder / p["slug"]
+            out_dir.mkdir(parents=True, exist_ok=True)
             (out_dir / "index.html").write_text(render_page(p, brands))
-            print(f"  re-rendered programmatic/{p['slug']}/index.html")
+            entries.append((folder, p["slug"]))
+            # Remove any stale /programmatic/ file
+            stale = ROOT / "programmatic" / p["slug"]
+            if stale.exists():
+                import shutil
+                shutil.rmtree(stale)
+            print(f"  wrote {folder}/{p['slug']}/index.html")
+
+        # If /programmatic/ folder is now empty, remove it
+        prog_dir = ROOT / "programmatic"
+        if prog_dir.exists() and not any(prog_dir.iterdir()):
+            prog_dir.rmdir()
+
+        add_to_sitemap(entries)
         subprocess.run(["git", "-C", str(ROOT), "add", "-A"], check=True)
         subprocess.run(["git", "-C", str(ROOT), "commit", "-m",
-                        f"feat(programmatic): re-render {len(already)} published pages with expanded content"],
+                        f"feat(content): republish {len(already)} pages under /compare/ + /guides/, fix asset paths, expand content"],
                        check=False)
         return 0
 
@@ -703,14 +743,15 @@ def main() -> int:
 
     if args.dry_run:
         for p in to_publish:
-            print(f"  [{p['publish_order']}] {p['slug']}  ({p['pattern']}, {p['vertical']})")
+            folder = target_folder(p["pattern"])
+            print(f"  [{p['publish_order']}] /{folder}/{p['slug']}/   ({p['pattern']}, {p['vertical']})")
         return 0
 
-    PROG_DIR.mkdir(exist_ok=True)
-    published_slugs = []
+    published_entries = []
     for p in to_publish:
-        out_dir = PROG_DIR / p["slug"]
-        out_dir.mkdir(exist_ok=True)
+        folder = target_folder(p["pattern"])
+        out_dir = ROOT / folder / p["slug"]
+        out_dir.mkdir(parents=True, exist_ok=True)
         html_out = render_page(p, brands)
         (out_dir / "index.html").write_text(html_out)
         # Mark published in the source queue object
@@ -718,8 +759,8 @@ def main() -> int:
             if orig["slug"] == p["slug"]:
                 orig["published"] = True
                 orig["published_at"] = datetime.now(timezone.utc).isoformat()
-        published_slugs.append(p["slug"])
-        print(f"  wrote programmatic/{p['slug']}/index.html")
+        published_entries.append((folder, p["slug"]))
+        print(f"  wrote {folder}/{p['slug']}/index.html")
 
     # Persist updated queue
     data["pages"] = pages
@@ -727,15 +768,16 @@ def main() -> int:
     print(f"  queue updated ({sum(1 for x in pages if x.get('published'))} / {len(pages)} published)")
 
     # Sitemap update
-    add_to_sitemap(published_slugs)
+    add_to_sitemap(published_entries)
     print(f"  sitemap updated")
 
     # Commit
     subprocess.run(["git", "-C", str(ROOT), "add", "-A"], check=True)
-    slugs_str = " + ".join(published_slugs[:3])
-    if len(published_slugs) > 3:
-        slugs_str += f" (+{len(published_slugs) - 3} more)"
-    msg = f"feat(programmatic): publish {len(published_slugs)} pages — {slugs_str}"
+    labels = [f"/{f}/{s}/" for f, s in published_entries[:3]]
+    slugs_str = " + ".join(labels)
+    if len(published_entries) > 3:
+        slugs_str += f" (+{len(published_entries) - 3} more)"
+    msg = f"feat(content): publish {len(published_entries)} new pages — {slugs_str}"
     subprocess.run(["git", "-C", str(ROOT), "commit", "-m", msg], check=False)
 
     return 0
