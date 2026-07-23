@@ -461,7 +461,8 @@
       ],
       "publish_date": "2026-07-23",
       "publish_order": 3,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-23T09:21:50.709463+00:00"
     },
     {
       "slug": "betmgm-vs-caesars-2026",
@@ -563,7 +564,8 @@
       "external_links": [],
       "publish_date": "2026-07-23",
       "publish_order": 4,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-23T09:21:50.709686+00:00"
     },
     {
       "slug": "sportsbetting-ag-vs-betonline",
