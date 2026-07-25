@@ -854,7 +854,8 @@
       "external_links": [],
       "publish_date": "2026-07-25",
       "publish_order": 7,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-25T08:56:57.393972+00:00"
     },
     {
       "slug": "tigergaming-vs-betonline-poker",
@@ -937,7 +938,8 @@
       "external_links": [],
       "publish_date": "2026-07-25",
       "publish_order": 8,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-25T08:56:57.394285+00:00"
     },
     {
       "slug": "wpn-vs-chico-poker-network",
