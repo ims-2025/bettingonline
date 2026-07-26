@@ -1028,7 +1028,8 @@
       "external_links": [],
       "publish_date": "2026-07-26",
       "publish_order": 9,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-26T09:08:33.962265+00:00"
     },
     {
       "slug": "regulated-vs-offshore-sportsbooks",
@@ -1132,7 +1133,8 @@
       ],
       "publish_date": "2026-07-26",
       "publish_order": 10,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-26T09:08:33.962583+00:00"
     },
     {
       "slug": "dfs-vs-sports-betting-legal-differences",
