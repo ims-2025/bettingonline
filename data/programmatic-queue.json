@@ -1234,7 +1234,8 @@
       ],
       "publish_date": "2026-07-27",
       "publish_order": 11,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-27T10:37:00.661734+00:00"
     },
     {
       "slug": "betonline-casino-vs-betus-casino",
@@ -1331,7 +1332,8 @@
       "external_links": [],
       "publish_date": "2026-07-27",
       "publish_order": 12,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-27T10:37:00.662045+00:00"
     },
     {
       "slug": "best-sportsbook-for-nfl-parlays",
