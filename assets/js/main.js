@@ -668,9 +668,36 @@ window.BO_CALC = (function () {
     banner.querySelector('[data-cookie-action="reject"]').addEventListener('click', function(){ dismiss('rejected'); });
   }
 
+  // ---- Auto-freshness marker ----
+  // Any element with [data-current-month] gets filled with "MonthName YYYY"
+  // at page load. Use this for freshness signals that should always reflect
+  // the current calendar month, e.g. leaderboard-freshness stamps.
+  //   <span data-current-month></span>                → "July 2026"
+  //   <span data-current-month="short"></span>        → "Jul 2026"
+  //   <span data-current-month="year"></span>         → "2026"
+  //   <span data-current-month="month"></span>        → "July"
+  function fillCurrentMonth() {
+    var now = new Date();
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var short  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var m = now.getMonth();
+    var y = now.getFullYear();
+    var nodes = document.querySelectorAll('[data-current-month]');
+    for (var i = 0; i < nodes.length; i++) {
+      var mode = nodes[i].getAttribute('data-current-month') || '';
+      var out;
+      if (mode === 'short')       out = short[m] + ' ' + y;
+      else if (mode === 'year')   out = String(y);
+      else if (mode === 'month')  out = months[m];
+      else                        out = months[m] + ' ' + y;
+      nodes[i].textContent = out;
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', build);
+    document.addEventListener('DOMContentLoaded', function () { build(); fillCurrentMonth(); });
   } else {
     build();
+    fillCurrentMonth();
   }
 })();
