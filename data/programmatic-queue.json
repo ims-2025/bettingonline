@@ -1385,7 +1385,8 @@
       "external_links": [],
       "publish_date": "2026-07-28",
       "publish_order": 13,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-28T09:32:28.592740+00:00"
     },
     {
       "slug": "best-sportsbook-for-live-nba-betting",
@@ -1434,7 +1435,8 @@
       "external_links": [],
       "publish_date": "2026-07-28",
       "publish_order": 14,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-28T09:32:28.593019+00:00"
     },
     {
       "slug": "best-sportsbook-for-mlb-pitcher-props",
