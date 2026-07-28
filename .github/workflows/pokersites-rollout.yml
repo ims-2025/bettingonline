@@ -1,0 +1,41 @@
+name: pokersites.org 4-week rollout
+
+# Runs both rollout scripts daily. Each script self-guards on its own
+# target date and is idempotent — safe to run repeatedly. Once both
+# have fired their one-shot additions, subsequent runs are no-ops.
+
+on:
+  schedule:
+    - cron: '15 6 * * *'   # 06:15 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rollout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Configure git identity
+        run: |
+          git config user.email "editorial-bot@bettingonline.org"
+          git config user.name "BettingOnline.org Editorial Bot"
+
+      - name: Week 2 — strategy-page link (fires 2026-08-04)
+        run: python3 scripts/rollout-week2-poker-strategy.py
+
+      - name: Week 3 — publish directory resource (fires 2026-08-11)
+        run: python3 scripts/rollout-week3-directory-resource.py
+
+      - name: Push
+        run: |
+          git push origin HEAD || echo "Nothing to push"

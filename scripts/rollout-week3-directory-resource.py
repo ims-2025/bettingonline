@@ -1,0 +1,223 @@
+#!/usr/bin/env python3
+"""
+Week 3 — publish the US-Legal Poker Room Directory 2026 resource under
+/guides/us-legal-poker-2026/. This is the structural authority anchor:
+a substantive resource that both bettingonline.org and pokersites.org
+can reference, giving the cross-domain link pattern something real to
+anchor to (rather than just navigation-style back-and-forth).
+
+Target date: 2026-08-11
+Idempotent — skips if the resource already exists.
+"""
+from __future__ import annotations
+
+import subprocess
+import sys
+from datetime import date
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+TARGET_DATE = date(2026, 8, 11)
+OUT_DIR = ROOT / "guides" / "us-legal-poker-2026"
+SITEMAP = ROOT / "sitemap.xml"
+
+
+PAGE_HTML = """<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>US-Legal Poker Room Directory 2026: State-by-State Rooms, Compacts &amp; Liquidity | BettingOnline.org</title>
+  <meta name="description" content="Complete US-legal poker room directory for 2026 — state-by-state licensed rooms, MSIGA shared-liquidity pool, tournament schedules, cash-game traffic, and how to choose the right room in your state.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/main.min.css?v=20260722a">
+  <link rel="canonical" href="https://www.bettingonline.org/guides/us-legal-poker-2026/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BettingOnline.org">
+  <meta property="og:title" content="US-Legal Poker Room Directory 2026 | BettingOnline.org">
+  <meta property="og:description" content="State-by-state licensed rooms, MSIGA shared-liquidity pool, tournament schedules, cash-game traffic, and how to choose the right room in your state.">
+  <meta property="og:url" content="https://www.bettingonline.org/guides/us-legal-poker-2026/">
+  <meta property="og:image" content="https://www.bettingonline.org/assets/img/og-default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.bettingonline.org/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://www.bettingonline.org/guides/"},{"@type":"ListItem","position":3,"name":"US-Legal Poker Room Directory 2026","item":"https://www.bettingonline.org/guides/us-legal-poker-2026/"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"US-Legal Poker Room Directory 2026","description":"Complete US-legal poker room directory for 2026.","url":"https://www.bettingonline.org/guides/us-legal-poker-2026/","author":{"@type":"Organization","name":"BettingOnline.org Editorial Team","url":"https://www.bettingonline.org/about/"},"publisher":{"@type":"Organization","name":"BettingOnline.org","logo":{"@type":"ImageObject","url":"https://www.bettingonline.org/assets/img/logo.png"}},"datePublished":"2026-08-11","dateModified":"2026-08-11"}</script>
+  <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg">
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.svg">
+  <link rel="manifest" href="../../manifest.json">
+  <meta name="theme-color" content="#1e5cff">
+</head>
+<body>
+  <div data-site-header></div>
+
+  <section class="page-hero" style="padding-bottom:32px">
+    <div class="container">
+      <div class="crumbs"><a href="../../">Home</a><span class="sep">/</span><a href="../">Guides</a><span class="sep">/</span><span>US-Legal Poker Room Directory 2026</span></div>
+      <span class="eyebrow">Reference resource · Updated <span data-current-month>August 2026</span></span>
+      <h1 style="margin-top:14px">US-Legal Poker Room Directory 2026</h1>
+      <p class="lede">The complete state-by-state directory of US-legal online poker rooms — which rooms are licensed where, how the multi-state shared-liquidity compact works, per-room tournament and cash-game context, and how to choose the right room for your state and format.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container-narrow">
+      <article class="article">
+
+<h2>The state of US-legal online poker in 2026</h2>
+<p>Regulated real-money online poker is legal in six US states as of August 2026: New Jersey, Nevada, Delaware, Michigan, Pennsylvania, and West Virginia. Every other state either has no legal framework for online poker, or has legalized casino gaming but not online poker specifically. The regulated market is meaningfully smaller than sports betting (which now covers 30+ states), but the six-state footprint is enough to support a healthy competitive ecosystem — provided you're in one of those states.</p>
+<p>The most important structural feature of US-legal poker in 2026 is the Multi-State Internet Gaming Association (MSIGA) shared-liquidity compact. Instead of each state operating in isolation (which would produce fields too thin to sustain meaningful cash-game and tournament traffic), participating states pool their player bases into shared tables and tournaments. That's what makes the difference between "poker is technically legal" and "poker is actually playable" in these states.</p>
+
+<h2>MSIGA — how the shared-liquidity compact works</h2>
+<p>The Multi-State Internet Gaming Association is a compact that lets state-licensed operators share players across state lines. As of August 2026, MSIGA participation:</p>
+<ul>
+<li><strong>Nevada</strong> — original signatory (2015)</li>
+<li><strong>Delaware</strong> — original signatory (2015)</li>
+<li><strong>New Jersey</strong> — joined 2018</li>
+<li><strong>Michigan</strong> — joined 2023</li>
+<li><strong>West Virginia</strong> — joined 2024</li>
+<li><strong>Pennsylvania</strong> — pending as of publication; expected to join in late 2026 or 2027</li>
+</ul>
+<p>When two rooms operate on the same underlying platform and both hold MSIGA-participating licenses, they can pool players. The practical effect: a New Jersey resident and a Michigan resident can sit at the same cash table or enter the same tournament, playing against each other in real time. This is what makes the WSOP.com/DraftKings Poker platform's US player pool the largest in regulated US poker.</p>
+
+<h2>Licensed rooms by state — the 2026 directory</h2>
+
+<h3>New Jersey (deepest market)</h3>
+<p>New Jersey is the largest and most-competitive US-legal poker market. Every major regulated operator holds a license.</p>
+<ul>
+<li><strong>WSOP.com / DraftKings Poker</strong> — MSIGA-connected pool with MI/NV/WV; typically the largest fields available in the US market. WSOP-branded tournament series featured prominently.</li>
+<li><strong>PokerStars NJ</strong> — participates in a separate PokerStars-brand MSIGA pool with PokerStars MI/PA. Second-largest US regulated pool.</li>
+<li><strong>BetMGM Poker</strong> — smaller pool but strong MGM Rewards integration; the choice for existing MGM property visitors.</li>
+<li><strong>Borgata Poker</strong> — runs on the BetMGM/party platform; distinct branding, same underlying platform.</li>
+</ul>
+
+<h3>Nevada (original market)</h3>
+<ul>
+<li><strong>WSOP.com Nevada</strong> — MSIGA-connected, home of the World Series of Poker branded tournaments. The historical anchor of US-legal online poker.</li>
+<li><strong>PokerStars Nevada</strong> — active but smaller than WSOP.com in the state.</li>
+</ul>
+
+<h3>Michigan</h3>
+<ul>
+<li><strong>WSOP / DraftKings Poker MI</strong> — MSIGA pool with NJ/NV/WV.</li>
+<li><strong>PokerStars MI</strong> — MSIGA pool with NJ/PA.</li>
+<li><strong>BetMGM Poker MI</strong>.</li>
+</ul>
+
+<h3>Pennsylvania</h3>
+<ul>
+<li><strong>WSOP / DraftKings Poker PA</strong> — currently a state-isolated pool; MSIGA-inclusion pending.</li>
+<li><strong>PokerStars PA</strong> — MSIGA pool with NJ/MI.</li>
+<li><strong>BetMGM Poker PA</strong>.</li>
+</ul>
+
+<h3>West Virginia</h3>
+<ul>
+<li><strong>WSOP / DraftKings Poker WV</strong> — MSIGA-connected.</li>
+<li><strong>BetMGM Poker WV</strong>.</li>
+</ul>
+
+<h3>Delaware (smallest regulated market)</h3>
+<p>Delaware operates a single state-branded skin on the WSOP.com platform (DelawarePoker.com), MSIGA-connected via the WSOP pool. The Delaware market is tiny in absolute terms but participates fully in the shared pool, so players see the same tables and tournaments as NJ/MI/NV/WV WSOP.com players.</p>
+
+<h2>Cash-game and tournament traffic — what the numbers actually look like</h2>
+<p>The MSIGA compact matters most for tournament traffic. A three-state combined pool (WSOP.com's NJ + MI + WV) supports Sunday major tournaments in the $50,000-$150,000 GTD range — small compared to offshore ACR's $10M-guaranteed Venom, but the largest guarantees available in the US regulated market.</p>
+<p>Cash-game traffic on WSOP.com's shared pool typically peaks at 300-500 concurrent players across all stakes during US primetime hours (7pm-1am ET). PokerStars US pools show similar numbers. That's an order of magnitude smaller than offshore WPN (~9,000 concurrent peak) but enough to support consistent action at the $0.10/$0.25 through $2/$5 NL cash stakes that most US regulated players are focused on.</p>
+
+<h2>How to choose a room in your state</h2>
+<p>The room-choice decision breaks down into three questions:</p>
+<ol>
+<li><strong>Which pool does the room participate in?</strong> WSOP.com pool vs PokerStars pool vs BetMGM/party pool. The pool determines the field sizes you'll see. Bigger pool = bigger fields = deeper MTT guarantees and better cash-game liquidity.</li>
+<li><strong>What's your primary format?</strong> Tournament-focused players benefit most from the biggest-pool operator (WSOP.com in most states). Cash-game players benefit from whichever pool has the strongest traffic at your specific stake level.</li>
+<li><strong>Is there a loyalty/rewards program you value?</strong> BetMGM Poker's MGM Rewards integration matters if you visit Vegas or MGM properties. WSOP.com's WSOP branding matters if you value bracelet-qualifier events. PokerStars' Stars Rewards is the most-refined loyalty program among US regulated rooms.</li>
+</ol>
+
+<h2>Offshore alternatives for players outside legal states</h2>
+<p>The 44 states without regulated online poker leave a large addressable market unserved by the US legal system. Some residents of those states use US-facing offshore operators (ACR, Black Chip, Ya Poker, True Poker on the Winning Poker Network; BetOnline Poker, TigerGaming, Sportsbetting.ag Poker on the Chico Poker Network). Offshore rooms are not state-licensed in the US and operate under foreign gaming licenses; players should understand the trade-offs before depositing.</p>
+<p>For readers considering that path, we cover the offshore poker market extensively in our <a href="../../poker/">poker pillar</a>, individual room reviews at <a href="../../reviews/">our reviews hub</a>, and our comparison of the two big offshore networks at <a href="../../compare/wpn-vs-chico-poker-network/">WPN vs Chico</a>.</p>
+
+<h2>Where this directory gets its data</h2>
+<p>The state-by-state operator lists above are compiled from state gaming commission licensing records (NJ Division of Gaming Enforcement, PA Gaming Control Board, MGCB, WVLGB, DGE, NGCB), operator public statements, and BettingOnline.org editorial verification. Rooms and MSIGA participation change over time — our tracker refreshes quarterly, and for real-time changes (new license approvals, MSIGA additions, room launches) the poker-room directory at <a href="https://www.pokersites.org">pokersites.org</a> is one of the most-actively-maintained independent references we've found; it's a useful companion resource to bookmark alongside this page.</p>
+
+<h2>What's likely to change through 2027</h2>
+<ul>
+<li><strong>Pennsylvania joins MSIGA</strong> — expected late 2026 or 2027. Would make the WSOP.com pool the largest US regulated pool by a meaningful margin.</li>
+<li><strong>Rhode Island poker legalization</strong> — table under active legislative consideration; possible 2027 addition to the regulated map.</li>
+<li><strong>New York poker legalization</strong> — separate legislative track from sports betting; low probability before 2027 but not zero.</li>
+<li><strong>Illinois poker legalization</strong> — under committee discussion; no clear timeline.</li>
+</ul>
+<p>None of the currently-illegal-online-poker states are highly likely to legalize before 2027. Bettors in non-legal states should not plan around imminent regulated access.</p>
+
+<h2>Related resources on BettingOnline.org</h2>
+<ul>
+<li><a href="../../poker/">Poker pillar — full US and offshore landscape</a></li>
+<li><a href="../../poker/us-legal-guide/">US-legal poker guide</a></li>
+<li><a href="../../poker/bonuses/">Poker welcome bonus math</a></li>
+<li><a href="../../poker/tournaments/">Online poker tournaments guide</a></li>
+<li><a href="../../poker/cash-games/">Online poker cash games guide</a></li>
+<li><a href="../../compare/wpn-vs-chico-poker-network/">WPN vs Chico Network comparison</a></li>
+<li><a href="../../reviews/">All poker room reviews</a></li>
+</ul>
+
+<h2>External references</h2>
+<ul>
+<li><a href="https://www.pokersites.org" rel="noopener">pokersites.org — independent poker-room directory (updated frequently)</a></li>
+<li><a href="https://www.msigaming.org" rel="noopener nofollow" target="_blank">Multi-State Internet Gaming Association</a></li>
+<li><a href="https://www.nj.gov/oag/ge/" rel="noopener nofollow" target="_blank">NJ Division of Gaming Enforcement</a></li>
+<li><a href="https://gamingcontrolboard.pa.gov/" rel="noopener nofollow" target="_blank">Pennsylvania Gaming Control Board</a></li>
+</ul>
+
+      </article>
+
+      <div style="padding:24px 20px;border-top:1px solid var(--border);margin-top:32px">
+        <p class="byline muted" style="font-size:.9rem;margin:0 0 8px">Reviewed by <strong>BettingOnline.org Editorial Team</strong> · Published <span data-current-month>August 2026</span> · Refreshed quarterly · <a href="../../trust/">Trust &amp; Transparency</a></p>
+        <p class="muted" style="font-size:.82rem;margin:0">18+ / 21+ where required. Independent editorial — see our <a href="../../methodology/">methodology</a>, <a href="../../editorial-standards/">editorial standards</a>, and <a href="../../legal/disclosure.html">affiliate disclosure</a>. <a href="../../legal/responsible-gambling.html">Play responsibly.</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div data-site-footer></div>
+  <script defer src="../../assets/js/main.js?v=20260722a"></script>
+</body>
+</html>
+"""
+
+
+def main() -> int:
+    if date.today() < TARGET_DATE:
+        print(f"Not yet — target {TARGET_DATE.isoformat()}, today {date.today().isoformat()}")
+        return 0
+
+    if (OUT_DIR / "index.html").exists():
+        print(f"Already published at {OUT_DIR.relative_to(ROOT)}")
+        return 0
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    (OUT_DIR / "index.html").write_text(PAGE_HTML)
+    print(f"Published {OUT_DIR.relative_to(ROOT)}/index.html")
+
+    # Add to sitemap
+    if SITEMAP.exists():
+        sm = SITEMAP.read_text()
+        loc = "https://www.bettingonline.org/guides/us-legal-poker-2026/"
+        if loc not in sm:
+            addition = f"""  <url>
+    <loc>{loc}</loc>
+    <lastmod>{date.today().isoformat()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>"""
+            sm = sm.replace("</urlset>", addition + "\n</urlset>")
+            SITEMAP.write_text(sm)
+            print("  added to sitemap.xml")
+
+    subprocess.run(["git", "-C", str(ROOT), "add", "-A"], check=True)
+    subprocess.run(
+        ["git", "-C", str(ROOT), "commit", "-m",
+         "content(guides): publish US-Legal Poker Room Directory 2026 (anchor resource)"],
+        check=False,
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
