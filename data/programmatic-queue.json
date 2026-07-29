@@ -1488,7 +1488,8 @@
       "external_links": [],
       "publish_date": "2026-07-29",
       "publish_order": 15,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-29T09:34:12.310556+00:00"
     },
     {
       "slug": "best-sportsbook-for-beginners",
@@ -1537,7 +1538,8 @@
       "external_links": [],
       "publish_date": "2026-07-29",
       "publish_order": 16,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-29T09:34:12.310731+00:00"
     },
     {
       "slug": "best-sportsbook-for-high-rollers",
