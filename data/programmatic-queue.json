@@ -1588,7 +1588,8 @@
       "external_links": [],
       "publish_date": "2026-07-30",
       "publish_order": 17,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-30T09:26:22.269042+00:00"
     },
     {
       "slug": "best-crypto-sportsbook",
@@ -1637,7 +1638,8 @@
       "external_links": [],
       "publish_date": "2026-07-30",
       "publish_order": 18,
-      "published": false
+      "published": true,
+      "published_at": "2026-07-30T09:26:22.269339+00:00"
     },
     {
       "slug": "best-sportsbook-for-college-football",
