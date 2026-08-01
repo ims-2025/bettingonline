@@ -1792,7 +1792,8 @@
       "external_links": [],
       "publish_date": "2026-08-01",
       "publish_order": 21,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-01T09:01:56.109469+00:00"
     },
     {
       "slug": "best-casino-for-blackjack",
@@ -1841,7 +1842,8 @@
       "external_links": [],
       "publish_date": "2026-08-01",
       "publish_order": 22,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-01T09:01:56.109700+00:00"
     },
     {
       "slug": "best-casino-for-live-dealer",
