@@ -1893,7 +1893,8 @@
       "external_links": [],
       "publish_date": "2026-08-02",
       "publish_order": 23,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-02T09:05:57.227578+00:00"
     },
     {
       "slug": "best-poker-site-for-cash-games",
@@ -1948,7 +1949,8 @@
       "external_links": [],
       "publish_date": "2026-08-02",
       "publish_order": 24,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-02T09:05:57.227867+00:00"
     },
     {
       "slug": "best-poker-site-for-tournaments",
