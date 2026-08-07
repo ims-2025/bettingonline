@@ -2423,7 +2423,8 @@
       "external_links": [],
       "publish_date": "2026-08-07",
       "publish_order": 33,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-07T08:10:02.489063+00:00"
     },
     {
       "slug": "best-sportsbook-apps-2026",
@@ -2472,7 +2473,8 @@
       "external_links": [],
       "publish_date": "2026-08-07",
       "publish_order": 34,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-07T08:10:02.489284+00:00"
     },
     {
       "slug": "best-sportsbooks-for-reduced-juice",
