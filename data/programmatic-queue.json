@@ -2618,7 +2618,8 @@
       ],
       "publish_date": "2026-08-09",
       "publish_order": 37,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-09T07:49:02.354203+00:00"
     },
     {
       "slug": "what-is-hold-rate-sportsbook",
@@ -2659,7 +2660,8 @@
       "external_links": [],
       "publish_date": "2026-08-09",
       "publish_order": 38,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-09T07:49:02.354496+00:00"
     },
     {
       "slug": "what-is-expected-value-betting",
