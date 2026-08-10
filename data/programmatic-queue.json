@@ -2694,7 +2694,8 @@
       "external_links": [],
       "publish_date": "2026-08-10",
       "publish_order": 39,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-10T08:23:30.196152+00:00"
     },
     {
       "slug": "what-is-moneyline-explained",
@@ -2727,7 +2728,8 @@
       "external_links": [],
       "publish_date": "2026-08-10",
       "publish_order": 40,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-10T08:23:30.196444+00:00"
     },
     {
       "slug": "what-is-spread-bet-explained",
