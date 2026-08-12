@@ -2835,7 +2835,8 @@
       "external_links": [],
       "publish_date": "2026-08-12",
       "publish_order": 43,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-12T08:11:30.866346+00:00"
     },
     {
       "slug": "best-sportsbook-nfl-new-jersey",
@@ -2882,7 +2883,8 @@
       "external_links": [],
       "publish_date": "2026-08-12",
       "publish_order": 44,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-12T08:11:30.866658+00:00"
     },
     {
       "slug": "best-sportsbook-nba-pennsylvania",
