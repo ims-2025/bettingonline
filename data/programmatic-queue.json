@@ -2931,7 +2931,8 @@
       "external_links": [],
       "publish_date": "2026-08-13",
       "publish_order": 45,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-13T08:14:56.848288+00:00"
     },
     {
       "slug": "best-sportsbook-mlb-michigan",
@@ -2978,7 +2979,8 @@
       "external_links": [],
       "publish_date": "2026-08-13",
       "publish_order": 46,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-13T08:14:56.848562+00:00"
     },
     {
       "slug": "best-sportsbook-parlays-colorado",
