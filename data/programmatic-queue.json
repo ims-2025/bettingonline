@@ -3027,7 +3027,8 @@
       "external_links": [],
       "publish_date": "2026-08-14",
       "publish_order": 47,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-14T08:09:24.828502+00:00"
     },
     {
       "slug": "best-sportsbook-college-football-ohio",
@@ -3074,7 +3075,8 @@
       "external_links": [],
       "publish_date": "2026-08-14",
       "publish_order": 48,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-14T08:09:24.828776+00:00"
     },
     {
       "slug": "best-sportsbook-props-illinois",
