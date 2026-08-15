@@ -3123,7 +3123,8 @@
       "external_links": [],
       "publish_date": "2026-08-15",
       "publish_order": 49,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-15T07:24:52.966275+00:00"
     },
     {
       "slug": "best-poker-site-new-jersey",
@@ -3176,7 +3177,8 @@
       "external_links": [],
       "publish_date": "2026-08-15",
       "publish_order": 50,
-      "published": false
+      "published": true,
+      "published_at": "2026-08-15T07:24:52.966566+00:00"
     }
   ],
   "start_date": "2026-07-22",
