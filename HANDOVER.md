@@ -140,13 +140,21 @@ The site currently promotes 13 brands across sports / casino / poker. Every CTA 
 
 Quickest replacement approach:
 ```bash
-# From the repo root
-grep -rl "record.betonlineaffiliates.ag/_CZzXr-5WlPe6tyDIijdDK2Nd7ZgqdRLk/2/" . \
-  --include="*.html" --include="*.json" --include="*.py" \
-  | xargs sed -i.bak 's|record.betonlineaffiliates.ag/_CZzXr-5WlPe6tyDIijdDK2Nd7ZgqdRLk/2/|YOUR-NEW-BETONLINE-SB-TRACKER-URL|g'
+# From the repo root — first find one tracker URL from any brand, then swap it sitewide
+# 1. Discover the existing tracker URL for a brand (grep for the brand slug's data-affiliate-brand attribute):
+grep -rE 'data-affiliate-brand="betonline-sportsbook"' . --include="*.html" | head -1
+# The href="..." in the same tag is the tracker URL to replace.
+
+# 2. Once you have the existing tracker URL, run a sitewide sed to swap it for yours:
+OLD_URL="<paste-the-existing-tracker-url-here>"
+NEW_URL="<your-new-tracker-url-here>"
+grep -rl "$OLD_URL" . --include="*.html" --include="*.json" --include="*.py" \
+  | xargs sed -i.bak "s|$OLD_URL|$NEW_URL|g"
 find . -name "*.bak" -delete
 ```
 Repeat once per brand with your new URLs. Commit and redeploy.
+
+Alternatively, the mapping is centralised in `scripts/programmatic-queue-build.py` and in the site's poker/sportsbook/casino builder scripts under `scripts/`. Updating those in one place, then regenerating the pages, is the maintainable long-term approach.
 
 ---
 

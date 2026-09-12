@@ -137,4 +137,4 @@ Under NDA, the following can be verified:
 
 ---
 
-**Contact:** onlineprojects@pm.me · **Prepared:** July 2026 · **Confidential — for evaluation only**
+**Contact:** available on request via broker · **Prepared:** July 2026 · **Confidential — for evaluation only**
