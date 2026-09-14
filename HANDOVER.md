@@ -1,8 +1,8 @@
 # BettingOnline.org — Buyer Handover Package
 
-**Prepared:** August 2026 · **For:** the new owner of bettingonline.org
+**For:** the new owner of bettingonline.org
 
-Welcome. This document walks you through everything you need to get the site running on your own infrastructure — including source, deployment, automation, affiliate accounts, and search-engine ownership.
+Welcome. This document walks you through everything you need to get the site running on your own infrastructure — domain transfer, hosting, search-engine ownership, affiliate re-attribution, and analytics.
 
 ---
 
@@ -12,29 +12,30 @@ Welcome. This document walks you through everything you need to get the site run
 bettingonline-org-handover.zip
 ├── HANDOVER.md                          ← this document
 ├── SEO-RECOVERY-PLAN.md                 ← current SEO status + recovery playbook
-├── LAUNCH-DAY.md                        ← existing runbook (pre-launch reference)
+├── SEO-PLAN.md                          ← earlier SEO planning notes
+├── LAUNCH-DAY.md                        ← operational runbook
 ├── DEPLOY.md                            ← deployment reference
-├── docs/                                ← strategy docs, valuation, outreach templates
-├── .git/                                ← full commit history (23+ years of asset development)
-├── .github/workflows/                   ← 3 GitHub Actions (news, programmatic, pokersites rollout)
-├── data/                                ← queues + config for automation
-├── scripts/                             ← Python automation (news gen, programmatic pages, etc.)
+├── DEPLOY-GITHUB-VERCEL-CLOUDFLARE.md   ← hosting-specific setup notes
+├── docs/PROGRAMMATIC-SEO-STRATEGY.md    ← content strategy notes
+├── .git/                                ← full commit history
+├── data/                                ← content data (queues, feeds, config)
 ├── assets/                              ← CSS, JS, images, icons
-├── {content directories}                ← all HTML content (sports, casino, poker, reviews, us, etc.)
+├── {content directories}                ← all HTML content (sports, casino, poker, reviews, us, news, guides, etc.)
 ├── vercel.json                          ← Vercel deployment config with redirects and headers
+├── _headers + _redirects                ← Netlify/Cloudflare Pages headers + redirects
 ├── sitemap.xml + news/sitemap.xml       ← current sitemaps
 └── manifest.json + robots.txt + favicons
 ```
 
-Total ~37 MB unpacked. ~3,400 files.
+Total ~19 MB compressed. ~4,470 files. 870 HTML pages published.
 
 ---
 
 ## Step 1 — Domain transfer
 
-The seller will initiate transfer of `bettingonline.org` at the registrar. You'll receive an EPP/auth code by email. Typical transfer takes 5-7 days.
+The seller initiates transfer of `bettingonline.org` at the registrar. You'll receive an EPP/auth code by email. Typical transfer takes 5-7 days.
 
-While transfer is pending, you can already start hosting setup — DNS will move over when the domain lands with you.
+While transfer is pending, you can already prepare hosting — DNS will move over once the domain lands with you.
 
 ---
 
@@ -42,11 +43,10 @@ While transfer is pending, you can already start hosting setup — DNS will move
 
 The `.git` directory in this package contains the full development history.
 
-**Option A: Push to your own GitHub organization** (recommended)
+**Option A: Push to your own GitHub organization (recommended)**
 ```bash
 unzip bettingonline-org-handover.zip -d bettingonline
 cd bettingonline
-# Rename remote to your new repo
 git remote remove origin
 git remote add origin git@github.com:YOUR-ORG/bettingonline.git
 git push -u origin main
@@ -55,22 +55,14 @@ git push -u origin main
 **Option B: Use as-is without git history**
 Delete the `.git/` directory. The site will still work — you'll just be starting a fresh git history.
 
-The three GitHub Actions workflows under `.github/workflows/` will run automatically once the repo is on GitHub:
-
-- `daily-news.yml` — publishes 2 news articles every Tuesday + Friday at 06:00 UTC
-- `programmatic-daily.yml` — publishes 2 pages/day from `data/programmatic-queue.json` at 07:00 UTC (48 pages remaining in queue)
-- `pokersites-rollout.yml` — one-shot editorial link additions (see notes at bottom)
-
-If you don't want these running, delete the workflow files or disable them in GitHub Actions settings.
-
 ---
 
 ## Step 3 — Hosting (Vercel recommended)
 
-The site is a static-HTML build optimized for Vercel. `vercel.json` in the root contains:
+The site is a static-HTML build. `vercel.json` in the root contains:
 - 34 URL redirects (301s handling legacy WordPress URLs)
 - Cache-Control headers for assets, HTML, sitemap
-- Security headers (CSP, X-Frame-Options, etc.)
+- Security headers (CSP, X-Frame-Options, HSTS, etc.)
 
 **To deploy on Vercel:**
 1. Create a new project at vercel.com
@@ -83,21 +75,23 @@ The site is a static-HTML build optimized for Vercel. `vercel.json` in the root 
 Once your custom domain is added and DNS points to Vercel, the site is live.
 
 **Alternative hosts** — the site is plain static HTML with no runtime dependencies. It runs anywhere:
-- Netlify: same import flow
-- Cloudflare Pages: same
-- Any web server (nginx / apache): copy the files to the doc root; the `vercel.json` redirects need to be translated to your webserver's rewrite rules
+- **Netlify:** `_headers` and `_redirects` are included in the package for their format
+- **Cloudflare Pages:** same import flow as Vercel
+- **Any web server (nginx / apache):** copy the files to the doc root; the `vercel.json` redirects need to be translated to your webserver's rewrite rules
+
+See `DEPLOY-GITHUB-VERCEL-CLOUDFLARE.md` for platform-specific notes.
 
 ---
 
-## Step 4 — Google Search Console + Bing
+## Step 4 — Google Search Console + Bing Webmaster Tools
 
 The site has an active Search Console history you'll want ownership of.
 
 **Path A (recommended): DNS verification transfer**
-1. Sign in to Search Console at search.google.com/search-console
+1. Sign in to Search Console at `search.google.com/search-console`
 2. Add property → **Domain** → `bettingonline.org`
 3. Google gives you a TXT record; add it to your DNS at the registrar
-4. Verify — Google will retain historical data and now show it to you as the verified owner
+4. Verify — Google retains historical data and now shows it to you as the verified owner
 
 **Path B: Request access from the seller**
 The seller can add your Google account as a verified owner without you touching DNS. Ask for that if easier.
@@ -105,8 +99,8 @@ The seller can add your Google account as a verified owner without you touching 
 **Bing Webmaster Tools** — same principle. Add domain, DNS TXT record, verify.
 
 **Existing GSC configuration to preserve:**
-- Two active sitemap submissions: `sitemap.xml` and `news/sitemap.xml`
-- 489+ pages indexed as of package date
+- Two sitemap submissions: `sitemap.xml` and `news/sitemap.xml`
+- ~489 pages indexed as of package date
 - Zero manual actions, zero security issues (verified)
 
 ---
@@ -122,45 +116,44 @@ The site currently promotes 13 brands across sports / casino / poker. Every CTA 
 
 **The 13 brand slugs and their networks:**
 
-| Brand slug | Network | Tracker URL to replace |
-|---|---|---|
-| `betonline-sportsbook` | BetOnline Affiliates | ends `/2/` |
-| `sportsbetting-sportsbook` | Sportsbetting Affiliates | ends `/2/` |
-| `betus-sportsbook` | Revmasters | ends `/2/` |
-| `betonline-casino` | BetOnline Affiliates | ends `/3/` (casino) |
-| `sportsbetting-casino` | BetOnline Affiliates | ends `/3/` |
-| `betus-casino` | Revmasters | ends `/2/` (casino) |
-| `black-chip-poker` | Winning Poker Network | `wpnaffiliates.com` |
-| `acr-poker` | Winning Poker Network | `wpnaffiliates.com` |
-| `ya-poker` | Winning Poker Network | `wpnaffiliates.com` |
-| `true-poker` | Winning Poker Network | `wpnaffiliates.com` |
-| `betonline-poker` | BetOnline Affiliates | ends `/3/` (poker) |
-| `tigergaming-poker` | BetOnline Affiliates | ends `/3/` |
-| `sportsbetting-poker` | BetOnline Affiliates | ends `/3/` |
+| Brand slug | Network |
+|---|---|
+| `betonline-sportsbook` | BetOnline Affiliates |
+| `sportsbetting-sportsbook` | Sportsbetting Affiliates |
+| `betus-sportsbook` | Revmasters |
+| `betonline-casino` | BetOnline Affiliates (casino) |
+| `sportsbetting-casino` | BetOnline Affiliates (casino) |
+| `betus-casino` | Revmasters (casino) |
+| `black-chip-poker` | Winning Poker Network (wpnaffiliates.com) |
+| `acr-poker` | Winning Poker Network |
+| `ya-poker` | Winning Poker Network |
+| `true-poker` | Winning Poker Network |
+| `betonline-poker` | BetOnline Affiliates (poker) |
+| `tigergaming-poker` | BetOnline Affiliates (poker) |
+| `sportsbetting-poker` | BetOnline Affiliates (poker) |
 
-Quickest replacement approach:
+**Quickest replacement approach:**
+
 ```bash
-# From the repo root — first find one tracker URL from any brand, then swap it sitewide
-# 1. Discover the existing tracker URL for a brand (grep for the brand slug's data-affiliate-brand attribute):
+# 1. Discover the existing tracker URL for a brand:
 grep -rE 'data-affiliate-brand="betonline-sportsbook"' . --include="*.html" | head -1
-# The href="..." in the same tag is the tracker URL to replace.
+# The href="..." in the same tag is the tracker URL currently in place.
 
 # 2. Once you have the existing tracker URL, run a sitewide sed to swap it for yours:
 OLD_URL="<paste-the-existing-tracker-url-here>"
 NEW_URL="<your-new-tracker-url-here>"
-grep -rl "$OLD_URL" . --include="*.html" --include="*.json" --include="*.py" \
+grep -rl "$OLD_URL" . --include="*.html" --include="*.json" \
   | xargs sed -i.bak "s|$OLD_URL|$NEW_URL|g"
 find . -name "*.bak" -delete
 ```
-Repeat once per brand with your new URLs. Commit and redeploy.
 
-Alternatively, the mapping is centralised in `scripts/programmatic-queue-build.py` and in the site's poker/sportsbook/casino builder scripts under `scripts/`. Updating those in one place, then regenerating the pages, is the maintainable long-term approach.
+Repeat once per brand with your new URLs. Commit and redeploy.
 
 ---
 
 ## Step 6 — Analytics wiring (optional but recommended)
 
-The `data-affiliate-brand` attribute is on every affiliate CTA — this is the hook to wire clicks into GA4 or GTM.
+The `data-affiliate-brand` attribute is present on every affiliate CTA on the site. This is the hook to wire clicks into GA4 or GTM.
 
 Sample GA4 event listener (drop into `assets/js/main.js` or fire via GTM):
 ```javascript
@@ -178,26 +171,11 @@ document.addEventListener('click', function(e) {
 
 ---
 
-## Step 7 — Automation (understand what's running)
-
-### `.github/workflows/daily-news.yml`
-Runs Tuesday + Friday at 06:00 UTC. Executes `scripts/generate-daily-news.py` which auto-produces 2 news articles per run, updates `news/index.html` + homepage + RSS + JSON feed, commits, pushes. Vercel auto-deploys.
-
-To disable: delete the workflow file, or set `on:` to only `workflow_dispatch`.
-
-### `.github/workflows/programmatic-daily.yml`
-Runs daily at 07:00 UTC. Executes `scripts/programmatic-publish.py` which reads `data/programmatic-queue.json`, publishes the next 2 queued pages under `/compare/` or `/guides/` folders, updates sitemap, commits, pushes. Queue has 48 pages remaining as of package date.
-
-### `.github/workflows/pokersites-rollout.yml`
-Runs daily at 06:15 UTC. Self-guards on date — becomes a no-op after both scheduled additions have fired (2026-08-04 and 2026-08-11). You can delete this workflow safely.
-
----
-
-## Step 8 — Content refresh conventions
+## Step 7 — Content freshness stamps
 
 The site uses an auto-updating month/year mechanism. Any HTML element with `data-current-month` gets its content replaced with the current month/year on page load — so freshness stamps stay current without manual editing.
 
-Example already in the homepage:
+Example on the homepage:
 ```html
 <span data-current-month>July 2026</span>
 ```
@@ -205,41 +183,35 @@ The text `July 2026` is the fallback for no-JS visitors; the JS overwrites it wi
 
 ---
 
-## Step 9 — SEO status (important context)
+## Step 8 — SEO status (important context)
 
 The site is mid-recovery from Google's March 2024 Site Reputation Abuse / Helpful Content Update. Full history and forward plan is in `SEO-RECOVERY-PLAN.md`. Summary:
 
-- Phases 1-3 (technical fixes, content depth, E-E-A-T, original data content) shipped
-- GSC impressions rising +80% quarter-over-quarter as of July 2026
-- 489 pages indexed, 549 not indexed — Coverage report in GSC has the detail
-- 4-week pokersites.org authority-link rollout scheduled through August 2026
+- Phase 1-3 recovery work has shipped (technical fixes, deepened state pages, E-E-A-T infrastructure, original data content)
+- GSC impressions were rising quarter-over-quarter as of the last snapshot
+- 489 pages indexed, 549 not-indexed — Coverage report in GSC has the specifics
+- Zero manual actions
 
 Recommended read-order for the new owner:
 1. This file (HANDOVER.md)
 2. `SEO-RECOVERY-PLAN.md` — SEO status + roadmap
-3. `docs/PROGRAMMATIC-SEO-STRATEGY.md` — content pipeline strategy
-4. `docs/BettingOnline-org-Valuation-Sheet.md` — asset breakdown
+3. `SEO-PLAN.md` — earlier planning notes
+4. `docs/PROGRAMMATIC-SEO-STRATEGY.md` — content strategy notes
 
 ---
 
-## Step 10 — Support quick-reference
+## Site quick reference
 
 **Domain:** bettingonline.org (registered 2003)
 **Vertical:** online gambling affiliate (sports betting, casino, poker)
-**Content architecture:** pillar-and-cluster with automation
-**Live pages:** ~800
-**Backlinks:** 7,500 across 442 referring domains (as of last audit)
-
-**Files worth reading first:**
-- `SEO-RECOVERY-PLAN.md` — where the site is in its recovery cycle
-- `docs/PROGRAMMATIC-SEO-STRATEGY.md` — content strategy adapted from Zapier's 2026 programmatic playbook
-- `LAUNCH-DAY.md` — original launch checklist (still useful as an operational reference)
-- `DEPLOY.md` — deployment specifics
-- `docs/pokersites-week4-outreach.md` — pending outreach template for the pokersites.org cross-linking work
+**Content architecture:** pillar-and-cluster
+**Live pages:** ~870 HTML files
+**Backlinks:** substantial profile — see Ahrefs / Semrush for current numbers
+**Stack:** static HTML, ready to deploy on any modern host
 
 ---
 
-## Post-transfer to-do list (in order)
+## Post-transfer checklist (in order)
 
 1. [ ] Complete domain transfer at registrar
 2. [ ] Push code to your GitHub org
@@ -249,9 +221,8 @@ Recommended read-order for the new owner:
 6. [ ] Open affiliate accounts at each of the 13 brands' networks
 7. [ ] Replace tracker URLs in codebase, commit, redeploy
 8. [ ] Wire GA4 / GTM to `data-affiliate-brand` click events
-9. [ ] Decide which GitHub Actions to keep, disable, or delete
-10. [ ] Read SEO-RECOVERY-PLAN.md and decide next content investments
+9. [ ] Read SEO-RECOVERY-PLAN.md and decide next content investments
 
 ---
 
-**Best of luck with the site.** The historical backlink profile and modern rebuild give you a strong foundation; the recovery trajectory documented in GSC is what makes the acquisition thesis work. If you have questions on any specific piece of the codebase, the commit history in `.git/` documents the reasoning behind essentially every architectural decision.
+**Best of luck with the site.** The historical backlink profile and modern rebuild give you a strong foundation. If you have questions on any specific piece of the codebase, the commit history in `.git/` documents the reasoning behind essentially every architectural decision.
