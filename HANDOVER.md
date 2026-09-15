@@ -17,7 +17,6 @@ bettingonline-org-handover.zip
 ├── DEPLOY.md                            ← deployment reference
 ├── DEPLOY-GITHUB-VERCEL-CLOUDFLARE.md   ← hosting-specific setup notes
 ├── docs/PROGRAMMATIC-SEO-STRATEGY.md    ← content strategy notes
-├── .git/                                ← full commit history
 ├── data/                                ← content data (queues, feeds, config)
 ├── assets/                              ← CSS, JS, images, icons
 ├── {content directories}                ← all HTML content (sports, casino, poker, reviews, us, news, guides, etc.)
@@ -41,19 +40,20 @@ While transfer is pending, you can already prepare hosting — DNS will move ove
 
 ## Step 2 — Git + code hosting
 
-The `.git` directory in this package contains the full development history.
+This package ships as source files only (no `.git/` directory). Initialize a fresh git repository and push to your own GitHub organization:
 
-**Option A: Push to your own GitHub organization (recommended)**
 ```bash
-unzip bettingonline-org-handover.zip -d bettingonline
-cd bettingonline
-git remote remove origin
+unzip bettingonline-org-handover.zip
+cd "Dev BettingOnline"        # or rename the folder to whatever you prefer
+git init
+git add .
+git commit -m "Initial import from seller handover"
+git branch -M main
 git remote add origin git@github.com:YOUR-ORG/bettingonline.git
 git push -u origin main
 ```
 
-**Option B: Use as-is without git history**
-Delete the `.git/` directory. The site will still work — you'll just be starting a fresh git history.
+The site is a static build — no runtime dependencies, no environment variables to migrate, no database to restore. Once the files are in your repo, they're ready to deploy.
 
 ---
 
@@ -225,4 +225,4 @@ Recommended read-order for the new owner:
 
 ---
 
-**Best of luck with the site.** The historical backlink profile and modern rebuild give you a strong foundation. If you have questions on any specific piece of the codebase, the commit history in `.git/` documents the reasoning behind essentially every architectural decision.
+**Best of luck with the site.** The historical backlink profile and modern rebuild give you a strong foundation. The SEO recovery documentation in this package explains the reasoning behind the current site architecture and what's been prioritized.
